@@ -23,15 +23,17 @@ import java.util.List;
  */
 public class GetTestFromPages extends DefaultHandler {
 
-    List<Article> readData(List<URL> links) throws ParserConfigurationException, SAXException, IOException, InterruptedException {
+   public List<Article> readData(List<URL> links) throws ParserConfigurationException, SAXException, IOException, InterruptedException {
         List<Article> articles = new ArrayList<Article>();
 
         for (URL link : links) {
             Article article = new Article();
             Document doc = Jsoup.connect(link.toString()).get();
+            
             article.setText(doc.select("div.content").first().text());
             article.setTitle(doc.select("h1").first().text());
             article.setLink(link);
+
             articles.add(article);
             Thread.sleep(1000);
         }

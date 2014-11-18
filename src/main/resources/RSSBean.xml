@@ -11,4 +11,9 @@
     <context:annotation-config/>
     <!-- bean definitions go here -->
 
+    <bean id="rssLinksBean" class="com.dinio.core.RssLinks"/>
+
+    <bean id="articleBean" class="com.dinio.core.Article">
+
+    </bean>
 </beans>

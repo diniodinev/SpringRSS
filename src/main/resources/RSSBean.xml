@@ -9,11 +9,10 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config/>
+    <context:component-scan base-package="com.dinio.core"/>
     <!-- bean definitions go here -->
+
 
     <bean id="rssLinksBean" class="com.dinio.core.RssLinks"/>
 
-    <bean id="articleBean" class="com.dinio.core.Article">
-
-    </bean>
 </beans>

@@ -23,6 +23,7 @@ import java.util.List;
  */
 public class GetTestFromPages extends DefaultHandler {
 
+
    public List<Article> readData(List<URL> links) throws ParserConfigurationException, SAXException, IOException, InterruptedException {
         List<Article> articles = new ArrayList<Article>();
 

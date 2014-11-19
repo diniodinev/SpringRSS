@@ -1,7 +1,10 @@
 package com.dinio.core;
 
+import org.springframework.stereotype.Component;
+
 import java.net.URL;
 
+@Component
 public class Article {
     private String title;
     private String text;

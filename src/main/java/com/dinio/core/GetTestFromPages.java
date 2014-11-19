@@ -29,7 +29,7 @@ public class GetTestFromPages extends DefaultHandler {
         for (URL link : links) {
             Article article = new Article();
             Document doc = Jsoup.connect(link.toString()).get();
-            
+
             article.setText(doc.select("div.content").first().text());
             article.setTitle(doc.select("h1").first().text());
             article.setLink(link);

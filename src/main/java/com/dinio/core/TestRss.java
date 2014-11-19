@@ -1,6 +1,7 @@
 package com.dinio.core;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.xml.sax.SAXException;
 
@@ -17,13 +18,11 @@ public class TestRss   {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
         RssLinks links = context.getBean("rssLinksBean", RssLinks.class);
-
-
-        GetTestFromPages textFromPagesHandler = new GetTestFromPages();
+        GetTestFromPages textFromPagesHandler = context.getBean("getTestFromPages", GetTestFromPages.class);
 
         links.readData(COMPUTER_WORLD_RSS_LINK);
-        List<Article> articles = textFromPagesHandler.readData(links.getLinks());
-        for(Article article:articles){
+        List<IArticle> articles = textFromPagesHandler.readData(links.getLinks());
+        for(IArticle article:articles){
             System.out.println(article);
         }
     }

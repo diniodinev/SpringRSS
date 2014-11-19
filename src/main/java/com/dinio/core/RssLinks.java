@@ -11,6 +11,7 @@ package com.dinio.core;
   * Created by dinyo.dinev on 2014.
  */
 
+import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

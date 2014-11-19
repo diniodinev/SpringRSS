@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 
 @Component
-public class Article {
+public class Article implements IArticle {
     private String title;
     private String text;
     private URL link;

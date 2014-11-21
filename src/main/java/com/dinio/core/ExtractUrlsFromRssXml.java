@@ -28,7 +28,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ExtractUrlsFromRssXml extends DefaultHandler {
     private List<URL> links = new ArrayList<URL>();
 

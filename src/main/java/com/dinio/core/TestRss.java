@@ -15,8 +15,7 @@ public class TestRss   {
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException, InterruptedException {
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
         ExtractUrlsFromRssXml links = context.getBean("extractUrlsFromRssXmlBean", ExtractUrlsFromRssXml.class);
-        GetTestFromPages textFromPagesHandler = context.getBean("getTestFromPages", GetTestFromPages.class);
-
+        GetTestFromPages textFromPagesHandler = context.getBean("getTextFromPagesBean", GetTestFromPages.class);
         //links.readData();
         List<IArticle> articles = textFromPagesHandler.readData(links.getLinks());
         for(IArticle article:articles){

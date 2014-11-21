@@ -7,7 +7,8 @@
     <version>1.0</version>
 
     <properties>
-        <spring.version>3.0.5.RELEASE</spring.version>
+        <spring.version>4.1.1.RELEASE</spring.version>
+        <aspectj.version>1.8.0</aspectj.version>
     </properties>
 
     <dependencies>
@@ -33,6 +34,14 @@
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 </project>
 

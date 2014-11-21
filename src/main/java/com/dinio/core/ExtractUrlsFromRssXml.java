@@ -11,12 +11,14 @@ package com.dinio.core;
   * Created by dinyo.dinev on 2014.
  */
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import javax.annotation.PostConstruct;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -26,12 +28,21 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class RssLinks extends DefaultHandler {
+
+public class ExtractUrlsFromRssXml extends DefaultHandler {
     private List<URL> links = new ArrayList<URL>();
+
     private StringBuilder text;
 
-    void readData(String sourceUrl) throws ParserConfigurationException, SAXException, IOException {
+    private String sourceUrl;
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+    }
+
+
+    @PostConstruct
+    public void readData() throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
         parser.parse(new InputSource(new URL(sourceUrl).openStream()), this);

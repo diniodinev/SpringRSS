@@ -10,6 +10,15 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="com.dinio.core"/>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="placeholders/rss_urls.properties"/>
+    </bean>
     <!-- bean definitions go here -->
+
+    <bean id="extractUrlsFromRssXmlBean" class="com.dinio.core.ExtractUrlsFromRssXml">
+        <property name="sourceUrl" value="${url.computerWorld}"/>
+    </bean>
+
 
 </beans>

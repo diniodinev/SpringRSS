@@ -35,10 +35,15 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
 
     private String sourceUrl;
 
+    private String linkTag;
+
     public void setSourceUrl(String sourceUrl) {
         this.sourceUrl = sourceUrl;
     }
 
+    public void setLinkTag(String linkTag) {
+        this.linkTag = linkTag;
+    }
 
     @PostConstruct
     public void readData() throws ParserConfigurationException, SAXException, IOException {
@@ -54,7 +59,7 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName,
                              String qName, Attributes attributes) {
-        if (qName.equalsIgnoreCase("feedburner:origLink")) {
+        if (qName.equalsIgnoreCase(linkTag)) {//feedburner:origLink
             text = new StringBuilder();
         }
     }

@@ -20,12 +20,14 @@
     <!-- bean definitions go here -->
 
     <bean id="extractUrlsFromRssXmlBean" class="com.dinio.core.ExtractUrlsFromRssXml">
-        <property name="sourceUrl" value="${url.computerWorld}"/>
+        <property name="sourceUrl" value="${url.technews}"/>
+        <property name="linkTag" value="${rss.linkTag.technews}"/>
     </bean>
 
     <bean id="getTextFromPagesBean" class="com.dinio.core.GetTestFromPages">
-        <property name="tagForTextSelection" value="${textTag.computerWorld}"/>
-        <property name="tagForTitleSelection" value="${titleTag.computerWorld}"/>
+        <property name="tagForTextSelection" value="${textTag.technews}"/>
+        <property name="tagForTitleSelection" value="${titleTag.technews}"/>
+
 
     </bean>
 

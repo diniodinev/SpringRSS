@@ -40,6 +40,7 @@ public class GetTestFromPages {
 
     private void extractArticleText(URL link) throws IOException, InterruptedException {
         Document doc = Jsoup.connect(link.toString()).userAgent("Mozilla").get();
+        System.out.println(doc.select(tagForTitleSelection).first().text());
         System.out.println(doc.select(tagForTextSelection).first().text());
         article.setText(doc.select(tagForTextSelection).first().text());
         article.setTitle(doc.select(tagForTitleSelection).first().text());

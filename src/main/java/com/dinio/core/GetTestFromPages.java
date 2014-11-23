@@ -32,7 +32,7 @@ public class GetTestFromPages {
 
         for (URL link : links) {
 
-            extractArticleText(link);
+           // extractArticleText(link);
         }
         return articles;
     }

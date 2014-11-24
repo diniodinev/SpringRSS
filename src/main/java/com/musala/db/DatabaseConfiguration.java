@@ -13,6 +13,7 @@ package com.musala.db;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import java.sql.Connection;
@@ -21,7 +22,9 @@ import java.sql.SQLException;
 
 public class DatabaseConfiguration {
     @Autowired
-    SimpleDriverDataSource dataSource;
+    private SimpleDriverDataSource dataSource;
+
+    private JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
     public Connection createConnection() {
         Connection connection = null;
@@ -32,4 +35,25 @@ public class DatabaseConfiguration {
         }
         return connection;
     }
+
+    public int getCount() {
+        String sql = "Select count(*) from articles";
+        jdbcTemplate.setDataSource(dataSource);
+        return jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
+    }
+
+//    public void getCircleName(){
+//        String sql = "Select count(*) from articles";
+//        jdbcTemplate.setDataSource(dataSource);
+//        return jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
+//    }
+
+    public void setDataSource(SimpleDriverDataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
 }

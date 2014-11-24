@@ -55,6 +55,7 @@ public class TestMem {
 
         ResultSet rs = stmt.executeQuery("SELECT URL,ARTICLE_TEXT from articles");
 
+        System.out.println("Count="+dbConfiguration.getCount());
         while (rs.next()) {
             System.out.println(rs.getString("URL"));
             System.out.println(rs.getString("ARTICLE_TEXT"));

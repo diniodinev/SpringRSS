@@ -37,7 +37,6 @@
     </bean>
 
     <bean id="databaseConfigurationBean" class="com.musala.db.DatabaseConfiguration">
-
     </bean>
 
 </beans>

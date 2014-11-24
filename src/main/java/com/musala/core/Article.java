@@ -1,4 +1,4 @@
-package com.dinio.core;
+package com.musala.core;
 
 import org.springframework.stereotype.Component;
 

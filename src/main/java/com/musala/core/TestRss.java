@@ -1,4 +1,4 @@
-package com.dinio.core;
+package com.musala.core;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

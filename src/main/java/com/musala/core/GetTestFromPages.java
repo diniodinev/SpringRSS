@@ -1,9 +1,8 @@
-package com.dinio.core;
+package com.musala.core;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,7 +31,7 @@ public class GetTestFromPages {
 
         for (URL link : links) {
 
-           // extractArticleText(link);
+            extractArticleText(link);
         }
         return articles;
     }

@@ -1,4 +1,4 @@
-package com.dinio.core; 
+package com.musala.core;
  /*
  * Copyright 2013 the original author or authors.
  *

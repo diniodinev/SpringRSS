@@ -12,7 +12,7 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     <aop:config proxy-target-class="true"/>
     <context:annotation-config/>
-    <context:component-scan base-package="com.dinio"/>
+    <context:component-scan base-package="com.musala"/>
 
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -20,18 +20,24 @@
     </bean>
     <!-- bean definitions go here -->
 
-    <bean id="extractUrlsFromRssXmlBean" class="com.dinio.core.ExtractUrlsFromRssXml">
+    <bean id="extractUrlsFromRssXmlBean" class="com.musala.core.ExtractUrlsFromRssXml">
         <property name="sourceUrl" value="${url.technews}"/>
         <property name="linkTag" value="${rss.linkTag.technews}"/>
     </bean>
 
-    <bean id="getTextFromPagesBean" class="com.dinio.core.GetTestFromPages">
+    <bean id="getTextFromPagesBean" class="com.musala.core.GetTestFromPages">
         <property name="tagForTextSelection" value="${textTag.technews}"/>
         <property name="tagForTitleSelection" value="${titleTag.technews}"/>
     </bean>
 
-    <bean id="appConfigAspect" class="com.dinio.aspect.AppConfig"/>
 
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:mem:test;MODE=MSSQLServer;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"/>
+    </bean>
 
+    <bean id="databaseConfigurationBean" class="com.musala.db.DatabaseConfiguration">
+
+    </bean>
 
 </beans>

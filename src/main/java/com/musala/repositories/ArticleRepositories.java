@@ -13,7 +13,15 @@ package com.musala.repositories;
 
 
 import com.musala.core.Article;
+import org.h2.engine.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
 
 public interface ArticleRepositories extends JpaRepository<Article, Long> {
+    @Override
+    @Transactional(timeout = 10)
+    public List<Article> findAll();
 }

@@ -50,12 +50,13 @@ public class TestMem {
 
         //conn.createStatement().execute("create table test(id int)");
 
-        conn.createStatement().execute("CREATE TABLE articles ( URL VARCHAR(120) NOT NULL,ARTICLE_TEXT VARCHAR(4200) NOT NULL)");
-        conn.createStatement().execute("insert into articles(URL, ARTICLE_TEXT) values ('asd', 'text')");
+        conn.createStatement().execute("CREATE TABLE articles ( ID int IDENTITY(1,1) NOT NULL, TITLE VARCHAR(500), ARTICLE_TEXT VARCHAR(4200) NOT NULL, URL VARCHAR(120) NOT NULL)");
+        conn.createStatement().execute("insert into articles ( TITLE, URL, ARTICLE_TEXT) values ('title1', 'http://www.google.bg','article_text 1')");
 
-        ResultSet rs = stmt.executeQuery("SELECT URL,ARTICLE_TEXT from articles");
+        ResultSet rs = stmt.executeQuery("SELECT URL, ARTICLE_TEXT from articles");
 
-        System.out.println("Count="+dbConfiguration.getCount());
+        System.out.println("Count=" + dbConfiguration.getCount());
+        System.out.println("Text="+dbConfiguration.getArticleTextName("title1"));
         while (rs.next()) {
             System.out.println(rs.getString("URL"));
             System.out.println(rs.getString("ARTICLE_TEXT"));

@@ -43,7 +43,7 @@ public class GetTestFromPages {
         System.out.println(doc.select(tagForTextSelection).first().text());
         article.setText(doc.select(tagForTextSelection).first().text());
         article.setTitle(doc.select(tagForTitleSelection).first().text());
-        article.setLink(link);
+        article.setLink(link.toString());
 
         articles.add(article);
     }

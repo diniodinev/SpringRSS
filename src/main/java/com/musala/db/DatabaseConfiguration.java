@@ -12,6 +12,7 @@ package com.musala.db;
  */
 
 
+import com.musala.core.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -42,11 +43,11 @@ public class DatabaseConfiguration {
         return jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
     }
 
-//    public void getCircleName(){
-//        String sql = "Select count(*) from articles";
-//        jdbcTemplate.setDataSource(dataSource);
-//        return jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
-//    }
+    public Article getArticleTextName(String title) {
+        String sql = "select * from articles where TITLE= ?";
+        jdbcTemplate.setDataSource(dataSource);
+        return jdbcTemplate.queryForObject(sql, new Object[]{title}, new ArticleMapper() );
+    }
 
     public void setDataSource(SimpleDriverDataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);

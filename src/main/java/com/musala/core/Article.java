@@ -2,6 +2,7 @@ package com.musala.core;
 
 import org.springframework.stereotype.Component;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 @Component
@@ -30,12 +31,20 @@ public class Article implements IArticle {
         return link;
     }
 
-    public void setLink(URL link) {
-        this.link = link;
+    public void setLink(String url) {
+        try {
+            this.link = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public String toString() {
-        return title + "\n" + text;
+        return "Article{" +
+                "title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", link=" + link +
+                '}';
     }
 }

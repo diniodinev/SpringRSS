@@ -1,4 +1,4 @@
-package com.musala.core;
+package com.musala.repositories; 
  /*
  * Copyright 2013 the original author or authors.
  *
@@ -12,12 +12,8 @@ package com.musala.core;
  */
 
 
+import com.musala.core.Article;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IArticle {
-
-    public void setTitle(String title);
-
-    public void setText(String text);
-
-    public void setLink(String url);
+public interface ArticleRepositories extends JpaRepository<Article, Long> {
 }

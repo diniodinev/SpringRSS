@@ -15,11 +15,13 @@ package com.musala.repositories;
 import com.musala.core.Article;
 import org.h2.engine.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+@Transactional
+@Repository
 public interface ArticleRepositories extends JpaRepository<Article, Long> {
     @Override
     @Transactional(timeout = 10)

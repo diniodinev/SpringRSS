@@ -12,12 +12,14 @@ package com.musala.db;
  */
 
 
+import java.io.Serializable;
 import java.net.URL;
 import javax.persistence.*;
 
 @Entity
 @Table(name="ARTICLE")
-public class ArticleEntity {
+public class ArticleEntity implements Serializable {
+    private static final long serialVersionUID = 8645213321324478L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="ARTICLE_ID")

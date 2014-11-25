@@ -45,20 +45,18 @@
     <bean id="databaseConfigurationBean" class="com.musala.db.DatabaseConfiguration">
     </bean>
 
-    <!--Database -->
+    <!--Transaction Manager -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
 
     <!--Entity Manager -->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="persistenceUnitName" value="persistenceUnit"/>
         <property name="persistenceXmlLocation">
             <value>classpath:META-INF/persistance.xml</value>
         </property>
-    </bean>
-
-    <!--Transaction Manager -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
     <!-- JPA Repositories -->

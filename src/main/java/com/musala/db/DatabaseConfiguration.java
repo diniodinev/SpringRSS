@@ -14,6 +14,7 @@ package com.musala.db;
 
 import com.musala.core.Article;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
@@ -21,6 +22,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+@EnableAutoConfiguration
 public class DatabaseConfiguration {
     @Autowired
     private SimpleDriverDataSource dataSource;

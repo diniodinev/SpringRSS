@@ -13,9 +13,9 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/jdbc
-    http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+   http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
     http://www.springframework.org/schema/data/jpa
-    http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd>">
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <aop:config proxy-target-class="true"/>
     <context:annotation-config/>
     <context:component-scan base-package="com.musala"/>
@@ -45,17 +45,18 @@
     <bean id="databaseConfigurationBean" class="com.musala.db.DatabaseConfiguration">
     </bean>
 
-    <!--Database -->
+    <!--Transaction Manager -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
 
     <!--Entity Manager -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="persistenceUnitName" value="persistenceUnit"/>
-    </bean>
-
-    <!--Transaction Manager -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <property name="persistenceXmlLocation">
+            <value>classpath:META-INF/persistance.xml</value>
+        </property>
     </bean>
 
     <!-- JPA Repositories -->

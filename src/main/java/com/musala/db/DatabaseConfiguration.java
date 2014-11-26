@@ -23,7 +23,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-@EnableAutoConfiguration
+
 public class DatabaseConfiguration {
     @Autowired
     private SimpleDriverDataSource dataSource;

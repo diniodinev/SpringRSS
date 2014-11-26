@@ -13,17 +13,17 @@ package com.musala.repositories;
 
 
 import com.musala.core.Article;
+import com.musala.db.ArticleEntity;
 import org.h2.engine.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional
 @Repository
-public interface ArticleRepositories extends JpaRepository<Article, Long> {
-    @Override
-    @Transactional(timeout = 10)
-    public List<Article> findAll();
+public interface ArticleRepositories extends CrudRepository<ArticleEntity, Long> {
+
 }

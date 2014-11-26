@@ -36,7 +36,6 @@
         <property name="tagForTitleSelection" value="${titleTag.technews}"/>
     </bean>
 
-
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="org.h2.Driver"/>
         <property name="url" value="jdbc:h2:mem:test;MODE=MSSQLServer;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"/>
@@ -61,6 +60,5 @@
 
     <!-- JPA Repositories -->
     <jpa:repositories base-package="com.musala.repositories"></jpa:repositories>
-
 
 </beans>

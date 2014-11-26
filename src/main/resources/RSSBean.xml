@@ -51,7 +51,7 @@
     </bean>
 
     <!--Entity Manager -->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="persistenceUnitName" value="persistenceUnit"/>
         <property name="persistenceXmlLocation">
@@ -60,7 +60,7 @@
     </bean>
 
     <!-- JPA Repositories -->
-    <jpa:repositories base-package="com.musala.repositories"></jpa:repositories>
+    <jpa:repositories base-package="com.musala.repositories"/>
 
 
 </beans>

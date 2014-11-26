@@ -2,7 +2,7 @@ package com.musala.core;
 
 
 import com.musala.db.ArticleEntity;
-import com.musala.repositories.ArticleRepositories;
+import com.musala.repository.ArticleRepositories;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,9 @@ public class ArticleTest {
     @Test
     public void test() throws MalformedURLException {
         ArticleEntity article = new ArticleEntity();
-        article.setText("some text");
+        article.setArticleText("some text");
         article.setTitle("some title");
-        article.setLink(new URL("http://www.google.bg"));
+        article.setLink("http://www.google.bg");
 
         repository.save(article);
 

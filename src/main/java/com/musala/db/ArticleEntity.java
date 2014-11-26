@@ -14,6 +14,7 @@ package com.musala.db;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.sql.Date;
 import javax.persistence.*;
 
 @Entity
@@ -25,14 +26,24 @@ public class ArticleEntity implements Serializable {
     @Column(name="ARTICLE_ID")
     private long id;
 
+    @Column(name="FULL_LINK")
+    private String link;
+
+    @Column(name="ARTICLE_TEXT")
+    private String articleText;
+
     @Column(name="TITLE")
     private String title;
 
-    @Column(name="ARTICLE_TEXT")
-    private String text;
+    @Column(name="DATE")
+    private Date date;
 
-    @Column(name="LINK")
-    private URL link;
+    @Column(name="SITE_NAME")
+    private String siteName;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public long getId() {
         return id;
@@ -40,6 +51,22 @@ public class ArticleEntity implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getArticleText() {
+        return articleText;
+    }
+
+    public void setArticleText(String articleText) {
+        this.articleText = articleText;
     }
 
     public String getTitle() {
@@ -50,19 +77,19 @@ public class ArticleEntity implements Serializable {
         this.title = title;
     }
 
-    public String getText() {
-        return text;
+    public Date getDate() {
+        return date;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public URL getLink() {
-        return link;
+    public String getSiteName() {
+        return siteName;
     }
 
-    public void setLink(URL link) {
-        this.link = link;
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
     }
 }

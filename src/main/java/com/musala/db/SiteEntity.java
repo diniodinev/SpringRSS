@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Component
 @Entity
 @Table(name = "SITE")
 public class SiteEntity implements Serializable {
@@ -36,7 +37,6 @@ public class SiteEntity implements Serializable {
     private static final long serialVersionUID = -123141221324478L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "SITE_NAME")
     private String siteName;
 
@@ -55,7 +55,7 @@ public class SiteEntity implements Serializable {
     @Column(name = "ARTICLE_ID")
     private long articleId;
 
-    @OneToMany(mappedBy = "site")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "site")
     private List<ArticleEntity> articlesFromCite = new ArrayList<ArticleEntity>();
 
     public String getSiteName() {

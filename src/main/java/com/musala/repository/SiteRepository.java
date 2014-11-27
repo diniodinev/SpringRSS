@@ -15,9 +15,10 @@ package com.musala.repository;
 import com.musala.db.ArticleEntity;
 import com.musala.db.SiteEntity;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ArticleRepositories extends CrudRepository<SiteEntity, Long> {
+public interface SiteRepository extends CrudRepository<SiteEntity, String> {
 
 }

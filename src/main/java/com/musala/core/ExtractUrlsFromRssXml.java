@@ -11,6 +11,8 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
+import com.musala.db.SiteEntity;
+import com.musala.repository.SiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
@@ -19,6 +21,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.Entity;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -28,28 +31,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class ExtractUrlsFromRssXml extends DefaultHandler {
     private List<URL> links = new ArrayList<URL>();
 
+    @Autowired
+    private SiteRepository siteRepository;
+
     private StringBuilder text;
-
-    private String sourceUrl;
-
-    private String linkTag;
-
-    public void setSourceUrl(String sourceUrl) {
-        this.sourceUrl = sourceUrl;
-    }
-
-    public void setLinkTag(String linkTag) {
-        this.linkTag = linkTag;
-    }
-
     @PostConstruct
     public void readData() throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
-        parser.parse(new InputSource(new URL(sourceUrl).openStream()), this);
+        parser.parse(new InputSource(new URL( siteRepository.findOne("technews.bg").getRssLink()).openStream()), this);
     }
 
     @Override
@@ -59,7 +53,7 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName,
                              String qName, Attributes attributes) {
-        if (qName.equalsIgnoreCase(linkTag)) {//feedburner:origLink
+        if (qName.equalsIgnoreCase(siteRepository.findOne("technews.bg").getRssTag())) {//feedburner:origLink
             text = new StringBuilder();
         }
     }

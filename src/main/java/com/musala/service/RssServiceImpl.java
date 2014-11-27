@@ -12,26 +12,18 @@ package com.musala.service;
  */
 
 
-import com.musala.core.ExtractUrlsFromRssXml;
-import com.musala.core.GetTestFromPages;
-import com.musala.db.ArticleEntity;
 import com.musala.db.SiteEntity;
-import com.musala.repository.ArticleRepositories;
+import com.musala.repository.SiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.xml.sax.SAXException;
-
-import javax.persistence.Entity;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 
 @Component
 @Qualifier("rssServiceImpl")
 public class RssServiceImpl {
 
     @Autowired
-    private ArticleRepositories articleRepositories;
+    private SiteRepository siteRepository;
 
 // @Autowired
 // GetTestFromPages getTestFromPages;
@@ -39,21 +31,28 @@ public class RssServiceImpl {
 // @Autowired
 // ExtractUrlsFromRssXml extractUrlsFromRssXml;
 
-    public void populateSiteInfo() {
-        SiteEntity siteEntity = new SiteEntity();
-        siteEntity.setRssLink("http://technews.bg/feed");
-        siteEntity.setRssTag("link");
-        siteEntity.setTitleTag("h1");
-        siteEntity.setTextContentTag("div.entry-content");
-        siteEntity.setSiteName("technews.bg");
+    public void populateSiteInformation() {
+        final String[] technews = {"technews.bg","http://technews.bg/feed","link","h1","div.entry-content"};
+        final String[] computerWorld = {"computerworld.bg","http://feeds.feedburner.com/computerworldbgnews?format=xml","feedburner:origLink","h1","div.article_text"};
 
-        articleRepositories.save(siteEntity);
-        articleRepositories.save(siteEntity);
-        articleRepositories.save(siteEntity);
-        articleRepositories.save(siteEntity);
-
-        System.out.println(articleRepositories.count());
+        populateSiteInfo(technews);
+        populateSiteInfo(computerWorld);
     }
+
+    public void populateSiteInfo(String[] siteInformation) {
+        SiteEntity siteEntity = new SiteEntity();
+        siteEntity.setSiteName(siteInformation[0]);
+        siteEntity.setRssLink(siteInformation[1]);
+        siteEntity.setRssTag(siteInformation[2]);
+        siteEntity.setTitleTag(siteInformation[3]);
+        siteEntity.setTextContentTag(siteInformation[4]);
+
+        siteRepository.save(siteEntity);
+
+        System.out.println(siteRepository.count());
+        System.out.println(siteRepository.findOne("technews.bg"));
+    }
+
 
 // public void populateArticles() throws InterruptedException, ParserConfigurationException, SAXException, IOException {
 //

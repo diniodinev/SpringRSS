@@ -29,11 +29,11 @@ public class TestMem {
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
         RssServiceImpl rssService = context.getBean("rssServiceImpl",RssServiceImpl.class);
 
-        rssService.populateSiteInfo();
+        rssService.populateSiteInformation();
 
 
 
-        Server server = Server.createTcpServer("-tcpPort", "9999").start();
+        Server server = Server.createTcpServer().start();
 
 
 

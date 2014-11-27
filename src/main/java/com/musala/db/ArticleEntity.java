@@ -12,34 +12,39 @@ package com.musala.db;
  */
 
 
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 import java.net.URL;
 import java.sql.Date;
+import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-@Table(name="ARTICLE")
+@Table(name = "ARTICLE")
 public class ArticleEntity implements Serializable {
     private static final long serialVersionUID = 8645213321324478L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="ARTICLE_ID")
+    @Column(name = "ARTICLE_ID")
     private long id;
 
-    @Column(name="FULL_LINK")
+    @Column(name = "FULL_LINK")
     private String link;
 
-    @Column(name="ARTICLE_TEXT")
+    @Column(name = "ARTICLE_TEXT")
     private String articleText;
 
-    @Column(name="TITLE")
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(name="DATE")
+    @Column(name = "DATE")
     private Date date;
 
-    @Column(name="SITE_NAME")
-    private String siteName;
+   @ManyToOne
+   @JoinColumn(name="SITE_NAME")
+   private SiteEntity site;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -85,11 +90,26 @@ public class ArticleEntity implements Serializable {
         this.date = date;
     }
 
-    public String getSiteName() {
-        return siteName;
+    public SiteEntity getSite() {
+        return site;
     }
 
-    public void setSiteName(String siteName) {
-        this.siteName = siteName;
+    public void setSite(SiteEntity site) {
+        this.site = site;
+    }
+
+    @Override
+    public String toString() {
+        return "ArticleEntity{" +
+                "id=" + id +
+                ", link='" + link + '\'' +
+                ", articleText='" + articleText + '\'' +
+                ", title='" + title + '\'' +
+                ", date=" + date +
+                ", site=" + site +
+                '}';
+    }
+
+    public ArticleEntity() {
     }
 }

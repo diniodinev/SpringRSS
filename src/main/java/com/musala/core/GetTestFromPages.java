@@ -1,8 +1,10 @@
 package com.musala.core;
 
+import com.musala.db.ArticleEntity;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,9 +15,8 @@ import java.util.List;
 
 
 public class GetTestFromPages {
-    @Autowired
-    IArticle article;
-    List<IArticle> articles = new ArrayList<IArticle>();
+    ArticleEntity article;
+    List<ArticleEntity> articles = new ArrayList<ArticleEntity>();
     private String tagForTextSelection;
     private String tagForTitleSelection;
 
@@ -27,7 +28,7 @@ public class GetTestFromPages {
         this.tagForTitleSelection = tagForTitleSelection;
     }
 
-    public List<IArticle> readData(List<URL> links) throws ParserConfigurationException, SAXException, IOException, InterruptedException {
+    public List<ArticleEntity> readData(List<URL> links) throws ParserConfigurationException, SAXException, IOException, InterruptedException {
 
         for (URL link : links) {
 
@@ -41,7 +42,7 @@ public class GetTestFromPages {
         Document doc = Jsoup.connect(link.toString()).userAgent("Mozilla").get();
         System.out.println(doc.select(tagForTitleSelection).first().text());
         System.out.println(doc.select(tagForTextSelection).first().text());
-        article.setText(doc.select(tagForTextSelection).first().text());
+        article.setArticleText(doc.select(tagForTextSelection).first().text());
         article.setTitle(doc.select(tagForTitleSelection).first().text());
         article.setLink(link.toString());
 

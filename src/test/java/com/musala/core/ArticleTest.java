@@ -27,10 +27,10 @@ public class ArticleTest {
         article.setTitle("some title");
         article.setLink("http://www.google.bg");
 
-        repository.save(article);
-
-        ArticleEntity getArticle = repository.findOne(article.getId());
-        System.out.println(getArticle.getTitle());
+//        repository.save(article);
+//
+//        ArticleEntity getArticle = repository.findOne(article.getId());
+//        System.out.println(getArticle.getTitle());
 
 
     }

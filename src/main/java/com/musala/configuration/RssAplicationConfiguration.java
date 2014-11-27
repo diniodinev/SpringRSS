@@ -26,8 +26,10 @@ import org.h2.Driver;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -39,9 +41,10 @@ import java.sql.SQLException;
 public class RssAplicationConfiguration {
 
     @Bean(name = "dataSource")
-    public DataSource dataSource() throws SQLException {
+    public DataSource dataSource() throws SQLException{
         DataSource dataSource = createDataSource();
         DatabasePopulatorUtils.execute(createDatabasePopulator(), dataSource);
+        System.out.println(dataSource.toString());
         return dataSource;
 
 //        System.out.println("-------------->");
@@ -54,6 +57,7 @@ public class RssAplicationConfiguration {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
         databasePopulator.setContinueOnError(true);
         databasePopulator.addScript(new ClassPathResource("sql/rss-schema.ddl"));
+        databasePopulator.addScript(new ClassPathResource("sql/test-data.sql"));
         return databasePopulator;
     }
 
@@ -78,4 +82,11 @@ public class RssAplicationConfiguration {
 
         return factory.getObject();
     }
+
+//    @Bean
+//    public PlatformTransactionManager transactionManager() throws SQLException {
+//        JpaTransactionManager txManager = new JpaTransactionManager();
+//        txManager.setEntityManagerFactory(entityManagerFactory());
+//        return txManager;
+//    }
 }

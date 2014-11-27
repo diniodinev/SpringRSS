@@ -14,6 +14,7 @@ package com.musala.core;
 
 import java.sql.*;
 
+import com.musala.service.RssServiceImpl;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -25,16 +26,21 @@ public class TestMem {
 
     public static void main(String... args) throws Exception {
 
-        // open the in-memory database within a VM
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
+        RssServiceImpl rssService = context.getBean("rssServiceImpl",RssServiceImpl.class);
+
+        rssService.populateSiteInfo();
 
 
-        Server server = Server.createTcpServer().start();
+
+        Server server = Server.createTcpServer("-tcpPort", "9999").start();
 
 
 
         // now start the H2 Console here or in another process using
         // java org.h2.tools.Console -web -browser
+
+        System.out.println("URL: jdbc:h2:" + server.getURL() + "/mem:test");
 
         System.out.println("Press [Enter] to stop.");
         System.in.read();

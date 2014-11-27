@@ -5,7 +5,7 @@ create table ARTICLE (
     TITLE varchar(512),
     DATE DATETIME NULL,
     SITE_NAME varchar(256) NOT NULL,
-    primary key (ARTICLE_ID,SITE_NAME)
+    primary key (ARTICLE_ID)
 );
 
 create table SITE (
@@ -14,8 +14,9 @@ create table SITE (
     RSS_TAG varchar(64) NOT NULL,
     TITLE_TAG varchar(64) NULL,
     TEXT_CONTENT_TAG varchar(64) NOT NULL,
+    ARTICLE_ID bigint NOT NULL,
     primary key (SITE_NAME),
-    FOREIGN KEY(SITE_NAME) REFERENCES ARTICLE(SITE_NAME)
+    FOREIGN KEY(ARTICLE_ID) REFERENCES ARTICLE(ARTICLE_ID)
 );
 
 

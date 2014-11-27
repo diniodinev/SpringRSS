@@ -18,7 +18,7 @@
     http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
     <aop:config proxy-target-class="true"/>
     <context:annotation-config/>
-    <context:component-scan base-package="com.musala.configuration, com.musala.core, com.musala.repository"/>
+    <context:component-scan base-package="com.musala.configuration, com.musala.core, com.musala.repository, com.musala.service"/>
 
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

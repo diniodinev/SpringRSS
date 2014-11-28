@@ -12,26 +12,30 @@ package com.musala.core;
  */
 
 
+import com.musala.db.ArticleEntity;
+import com.musala.repository.ArticleRepository;
 import org.h2.tools.Server;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestMem {
-
-
     public static void main(String... args) throws Exception {
+
+
 
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
         //RssServiceImpl rssService = context.getBean("rssServiceImpl",RssServiceImpl.class);
-        ExtractUrlsFromRssXml extractUrlsFromRssXml = context.getBean("extractUrlsFromRssXml",ExtractUrlsFromRssXml.class);
+        ExtractUrlsFromRssXml extractUrlsFromRssXml = context.getBean("extractUrlsFromRssXml", ExtractUrlsFromRssXml.class);
         System.out.println(extractUrlsFromRssXml.getLinks());
-        GetTextFromPages getTextFromPages = context.getBean("getTextFromPages",GetTextFromPages.class);
+        GetTextFromPages getTextFromPages = context.getBean("getTextFromPages", GetTextFromPages.class);
         getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
 
-
+        for(ArticleEntity e:getTextFromPages.getArticleRepository().findAll() ){
+            System.out.println(e);
+        }
 
         Server server = Server.createTcpServer().start();
-
 
 
         // now start the H2 Console here or in another process using

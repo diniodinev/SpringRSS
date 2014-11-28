@@ -18,22 +18,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
-@Qualifier("rssServiceImpl")
-public class RssServiceImpl {
+@Qualifier("populateData")
+public class PopulateData {
 
     @Autowired
     private SiteRepository siteRepository;
 
-// @Autowired
-// GetTestFromPages getTestFromPages;
-//
-// @Autowired
-// ExtractUrlsFromRssXml extractUrlsFromRssXml;
-
+    @PostConstruct
     public void populateSiteInformation() {
-        final String[] technews = {"technews.bg","http://technews.bg/feed","link","h1","div.entry-content"};
-        final String[] computerWorld = {"computerworld.bg","http://feeds.feedburner.com/computerworldbgnews?format=xml","feedburner:origLink","h1","div.article_text"};
+        final String[] technews = {"technews.bg", "http://technews.bg/feed", "link", "h1", "div.entry-content"};
+        final String[] computerWorld = {"computerworld.bg", "http://feeds.feedburner.com/computerworldbgnews?format=xml", "feedburner:origLink", "h1", "div.article_text"};
 
         populateSiteInfo(technews);
         populateSiteInfo(computerWorld);
@@ -50,7 +47,6 @@ public class RssServiceImpl {
         siteRepository.save(siteEntity);
 
         System.out.println(siteRepository.count());
-        System.out.println(siteRepository.findOne("technews.bg"));
     }
 
 

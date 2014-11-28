@@ -1,1 +1,2 @@
-insert into ARTICLE(FULL_LINK,ARTICLE_TEXT,TITLE,SITE_NAME)VALUES ('google.bg','ArticleTEXTTT','TITLEEE','SITENAMEEE')
+insert into SITE(SITE_NAME,RSS_LINK,RSS_TAG,TITLE_TAG,TEXT_CONTENT_TAG) values('technews.bgg','http://technews.bg/feed','link', 'h1', 'div.entry-content');
+

@@ -12,14 +12,9 @@ package com.musala.core;
  */
 
 
-import java.sql.*;
-
-import com.musala.service.RssServiceImpl;
 import org.h2.tools.Server;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 public class TestMem {
 
@@ -27,9 +22,11 @@ public class TestMem {
     public static void main(String... args) throws Exception {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
-        RssServiceImpl rssService = context.getBean("rssServiceImpl",RssServiceImpl.class);
-
-        rssService.populateSiteInformation();
+        //RssServiceImpl rssService = context.getBean("rssServiceImpl",RssServiceImpl.class);
+        ExtractUrlsFromRssXml extractUrlsFromRssXml = context.getBean("extractUrlsFromRssXml",ExtractUrlsFromRssXml.class);
+        System.out.println(extractUrlsFromRssXml.getLinks());
+        GetTextFromPages getTextFromPages = context.getBean("getTextFromPages",GetTextFromPages.class);
+        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
 
 
 

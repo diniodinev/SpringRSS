@@ -26,15 +26,15 @@
     </bean>
     <!-- bean definitions go here -->
 
-    <bean id="extractUrlsFromRssXmlBean" class="com.musala.core.ExtractUrlsFromRssXml">
+  <!--  <bean id="extractUrlsFromRssXmlBean" class="com.musala.core.ExtractUrlsFromRssXml">
         <property name="sourceUrl" value="${url.technews}"/>
         <property name="linkTag" value="${rss.linkTag.technews}"/>
-    </bean>
+    </bean> -->
 
-    <bean id="getTextFromPagesBean" class="com.musala.core.GetTestFromPages">
+   <!-- <bean id="getTextFromPagesBean" class="com.musala.core.GetTextFromPages">
         <property name="tagForTextSelection" value="${textTag.technews}"/>
         <property name="tagForTitleSelection" value="${titleTag.technews}"/>
-    </bean>
+    </bean> -->
 
 
    <!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">

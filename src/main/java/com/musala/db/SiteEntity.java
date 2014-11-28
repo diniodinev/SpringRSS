@@ -29,7 +29,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Component
 @Entity
 @Table(name = "SITE")
 public class SiteEntity implements Serializable {

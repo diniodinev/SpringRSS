@@ -33,7 +33,7 @@ public class ArticleEntity implements Serializable {
     @Column(name = "FULL_LINK")
     private String link;
 
-    @Column(name = "ARTICLE_TEXT",length = 8096)
+    @Column(name = "ARTICLE_TEXT",length = 32768)
     private String articleText;
 
     @Column(name = "TITLE")

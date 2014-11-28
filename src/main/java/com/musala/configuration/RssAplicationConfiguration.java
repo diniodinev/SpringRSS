@@ -41,21 +41,16 @@ import java.sql.SQLException;
 public class RssAplicationConfiguration {
 
     @Bean(name = "dataSource")
-    public DataSource dataSource() throws SQLException{
+    public DataSource dataSource() throws SQLException {
         DataSource dataSource = createDataSource();
         DatabasePopulatorUtils.execute(createDatabasePopulator(), dataSource);
         System.out.println(dataSource.toString());
         return dataSource;
-
-//        System.out.println("-------------->");
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName("org.h2.Driver");
-//        dataSource.setUrl("jdbc:h2:mem:test;MODE=MSSQLServer;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
     }
 
     private DatabasePopulator createDatabasePopulator() {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
-        databasePopulator.setContinueOnError(true);
+        databasePopulator.setContinueOnError(false);
         databasePopulator.addScript(new ClassPathResource("sql/rss-schema.ddl"));
         databasePopulator.addScript(new ClassPathResource("sql/test-data.sql"));
         return databasePopulator;
@@ -68,7 +63,7 @@ public class RssAplicationConfiguration {
         return simpleDriverDataSource;
     }
 
-    @Bean(name="entityManagerFactory")
+    @Bean(name = "entityManagerFactory")
     public EntityManagerFactory entityManagerFactory() throws SQLException {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
@@ -76,6 +71,7 @@ public class RssAplicationConfiguration {
         factory.setDataSource(dataSource());
         factory.setPackagesToScan("com.musala.db");
         factory.setPersistenceXmlLocation("classpath:META-INF/persistance.xml");
+
         factory.setPersistenceUnitName("persistenceUnit");
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.afterPropertiesSet();
@@ -83,10 +79,10 @@ public class RssAplicationConfiguration {
         return factory.getObject();
     }
 
-//    @Bean
-//    public PlatformTransactionManager transactionManager() throws SQLException {
-//        JpaTransactionManager txManager = new JpaTransactionManager();
-//        txManager.setEntityManagerFactory(entityManagerFactory());
-//        return txManager;
-//    }
+    @Bean
+    public PlatformTransactionManager transactionManager() throws SQLException {
+        JpaTransactionManager txManager = new JpaTransactionManager();
+        txManager.setEntityManagerFactory(entityManagerFactory());
+        return txManager;
+    }
 }

@@ -23,30 +23,22 @@ public class TestMem {
     public static void main(String... args) throws Exception {
 
 
-
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
-        //RssServiceImpl rssService = context.getBean("rssServiceImpl",RssServiceImpl.class);
-        ExtractUrlsFromRssXml extractUrlsFromRssXml = context.getBean("extractUrlsFromRssXml", ExtractUrlsFromRssXml.class);
-        System.out.println(extractUrlsFromRssXml.getLinks());
-        GetTextFromPages getTextFromPages = context.getBean("getTextFromPages", GetTextFromPages.class);
-        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
 
-        for(ArticleEntity e:getTextFromPages.getArticleRepository().findAll() ){
-            System.out.println(e);
-        }
-
-        Server server = Server.createTcpServer().start();
-
-
-        // now start the H2 Console here or in another process using
-        // java org.h2.tools.Console -web -browser
-
-        System.out.println("URL: jdbc:h2:" + server.getURL() + "/mem:test");
-
-        System.out.println("Press [Enter] to stop.");
-        System.in.read();
-
-        System.out.println("Stopping server and closing the connection");
-        server.stop();
+//        ExtractUrlsFromRssXml extractUrlsFromRssXml = context.getBean("extractUrlsFromRssXml", ExtractUrlsFromRssXml.class);
+//        GetTextFromPages getTextFromPages = context.getBean("getTextFromPages", GetTextFromPages.class);
+//
+//        extractUrlsFromRssXml.setSiteNameKey("computerworld.bg");
+//        getTextFromPages.setSiteName("computerworld.bg");
+//
+//
+//        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
+//
+//
+//        for (ArticleEntity e : getTextFromPages.getArticleRepository().findAll()) {
+//            System.out.println(e);
+//        }
+        RssController rssController = context.getBean("rssController",RssController.class);
+        rssController.initiatePopulation();
     }
 }

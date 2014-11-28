@@ -12,13 +12,22 @@ package com.musala.service;
  */
 
 
+import com.musala.core.ExtractUrlsFromRssXml;
+import com.musala.core.GetTextFromPages;
+import com.musala.db.ArticleEntity;
 import com.musala.db.SiteEntity;
 import com.musala.repository.SiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
+import org.xml.sax.SAXException;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 @Component
 @Qualifier("populateData")
@@ -48,12 +57,4 @@ public class PopulateData {
 
         System.out.println(siteRepository.count());
     }
-
-
-// public void populateArticles() throws InterruptedException, ParserConfigurationException, SAXException, IOException {
-//
-//  for(ArticleEntity e:getTestFromPages.readData(extractUrlsFromRssXml.getLinks())){
-//   System.out.println(e);
-//  };
-// }
 }

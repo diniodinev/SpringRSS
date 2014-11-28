@@ -23,9 +23,18 @@ public class GetTextFromPages {
     @Autowired
     private ArticleRepository articleRepository;
 
+    private String siteName;
 
     ArticleEntity article;
     List<ArticleEntity> articles = new ArrayList<ArticleEntity>();
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
 
     public List<ArticleEntity> readData(List<URL> links) throws ParserConfigurationException, SAXException, IOException, InterruptedException {
 
@@ -40,13 +49,15 @@ public class GetTextFromPages {
     private void extractArticleText(URL link) throws IOException, InterruptedException {
         article = new ArticleEntity();
         Document doc = Jsoup.connect(link.toString()).userAgent("Mozilla").get();
-        //System.out.println(doc.select(siteRepository.findOne("technews.bg").getTitleTag()).first().text());
-        //System.out.println(doc.select(siteRepository.findOne("technews.bg").getTextContentTag()).first().text());
-        article.setArticleText(doc.select(siteRepository.findOne("technews.bg").getTextContentTag()).first().text());
-        article.setTitle(doc.select(siteRepository.findOne("technews.bg").getTitleTag()).first().text());
+        System.out.println(doc.select(siteRepository.findOne(siteName).getTitleTag()).first().text());
+        System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
+        article.setArticleText(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
+        article.setTitle(doc.select(siteRepository.findOne(siteName).getTitleTag()).first().text());
         article.setLink(link.toString());
 
+        //TODO: Remove List return statement
         articleRepository.save(article);
+        System.out.println();
         articles.add(article);
     }
 

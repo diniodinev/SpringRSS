@@ -14,7 +14,7 @@ create table SITE (
     RSS_TAG varchar(64) NOT NULL,
     TITLE_TAG varchar(64) NULL,
     TEXT_CONTENT_TAG varchar(64) NOT NULL,
-    ARTICLE_ID bigint NOT NULL,
+    ARTICLE_ID bigint NULL,
     primary key (SITE_NAME),
     FOREIGN KEY(ARTICLE_ID) REFERENCES ARTICLE(ARTICLE_ID)
 );

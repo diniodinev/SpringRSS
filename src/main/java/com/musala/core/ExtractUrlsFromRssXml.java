@@ -41,10 +41,21 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
 
     private StringBuilder text;
 
+    private String siteNameKey;
+
+    public String getSiteNameKey() {
+        return siteNameKey;
+    }
+
+    public void setSiteNameKey(String siteNameKey) {
+        this.siteNameKey = siteNameKey;
+    }
+
     public void readData() throws ParserConfigurationException, SAXException, IOException {
+        links.clear();
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
-        parser.parse(new InputSource(new URL(siteRepository.findOne("technews.bg").getRssLink()).openStream()), this);
+        parser.parse(new InputSource(new URL(siteRepository.findOne(siteNameKey).getRssLink()).openStream()), this);
     }
 
     @Override
@@ -54,7 +65,7 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName,
                              String qName, Attributes attributes) {
-        if (qName.equalsIgnoreCase(siteRepository.findOne("technews.bg").getRssTag())) {//feedburner:origLink
+        if (qName.equalsIgnoreCase(siteRepository.findOne(siteNameKey).getRssTag())) {
             text = new StringBuilder();
         }
     }
@@ -89,26 +100,25 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
         return links;
     }
 
-    //@PostConstruct
-    public void populateSiteInformation() {
-        final String[] technews = {"technews.bg","http://technews.bg/feed","link","h1","div.entry-content"};
-        final String[] computerWorld = {"computerworld.bg","http://feeds.feedburner.com/computerworldbgnews?format=xml","feedburner:origLink","h1","div.article_text"};
-
-        populateSiteInfo(technews);
-        populateSiteInfo(computerWorld);
-    }
-
-    public void populateSiteInfo(String[] siteInformation) {
-        SiteEntity siteEntity = new SiteEntity();
-        siteEntity.setSiteName(siteInformation[0]);
-        siteEntity.setRssLink(siteInformation[1]);
-        siteEntity.setRssTag(siteInformation[2]);
-        siteEntity.setTitleTag(siteInformation[3]);
-        siteEntity.setTextContentTag(siteInformation[4]);
-
-        siteRepository.save(siteEntity);
-
-        System.out.println(siteRepository.count());
-        System.out.println(siteRepository.findOne("technews.bg"));
-    }
+//    public void populateSiteInformation() {
+//        final String[] technews = {"technews.bg", "http://technews.bg/feed", "link", "h1", "div.entry-content"};
+//        final String[] computerWorld = {"computerworld.bg", "http://feeds.feedburner.com/computerworldbgnews?format=xml", "feedburner:origLink", "h1", "div.article_text"};
+//
+//        populateSiteInfo(technews);
+//        populateSiteInfo(computerWorld);
+//    }
+//
+//    public void populateSiteInfo(String[] siteInformation) {
+//        SiteEntity siteEntity = new SiteEntity();
+//        siteEntity.setSiteName(siteInformation[0]);
+//        siteEntity.setRssLink(siteInformation[1]);
+//        siteEntity.setRssTag(siteInformation[2]);
+//        siteEntity.setTitleTag(siteInformation[3]);
+//        siteEntity.setTextContentTag(siteInformation[4]);
+//
+//        siteRepository.save(siteEntity);
+//
+//        System.out.println(siteRepository.count());
+//        System.out.println(siteRepository.findOne("technews.bg"));
+//    }
 }

@@ -51,9 +51,6 @@ public class SiteEntity implements Serializable {
     @Column(name = "TEXT_CONTENT_TAG")
     private String textContentTag;
 
-    @Column(name = "ARTICLE_ID")
-    private long articleId;
-
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "site")
     private List<ArticleEntity> articlesFromCite = new ArrayList<ArticleEntity>();
 
@@ -97,21 +94,12 @@ public class SiteEntity implements Serializable {
         this.textContentTag = textContentTag;
     }
 
-    public long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(long articleId) {
-        this.articleId = articleId;
-    }
-
     public SiteEntity(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, long articleId) {
         this.siteName = siteName;
         this.rssLink = rssLink;
         this.rssTag = rssTag;
         this.titleTag = titleTag;
         this.textContentTag = textContentTag;
-        this.articleId = articleId;
     }
 
     public SiteEntity() {
@@ -133,7 +121,6 @@ public class SiteEntity implements Serializable {
                 ", rssTag='" + rssTag + '\'' +
                 ", titleTag='" + titleTag + '\'' +
                 ", textContentTag='" + textContentTag + '\'' +
-                ", articleId=" + articleId +
                 ", articlesFromCite=" + articlesFromCite +
                 '}';
     }

@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.persistence.Entity;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -33,8 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+//@DependsOn({"rssController", "dataSource"})
 public class ExtractUrlsFromRssXml extends DefaultHandler {
     private List<URL> links = new ArrayList<URL>();
+    //tag level is for removing root page from the links results
+    private int tagLevel = 0;
 
     @Autowired
     private SiteRepository siteRepository;
@@ -55,6 +59,7 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
         links.clear();
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
+
         parser.parse(new InputSource(new URL(siteRepository.findOne(siteNameKey).getRssLink()).openStream()), this);
     }
 
@@ -65,6 +70,7 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName,
                              String qName, Attributes attributes) {
+        ++tagLevel;
         if (qName.equalsIgnoreCase(siteRepository.findOne(siteNameKey).getRssTag())) {
             text = new StringBuilder();
         }
@@ -77,7 +83,7 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
 
     @Override
     public void characters(char ch[], int start, int length) {
-        if (text != null) {
+        if (text != null  && tagLevel >= 5) {
             text.append(ch, start, length);
             try {
                 links.add(new URL(text.toString()));

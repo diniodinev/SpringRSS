@@ -44,7 +44,7 @@ public class RssAplicationConfiguration {
     public DataSource dataSource() throws SQLException {
         DataSource dataSource = createDataSource();
         DatabasePopulatorUtils.execute(createDatabasePopulator(), dataSource);
-        System.out.println(dataSource.toString());
+        System.out.println(dataSource.getConnection());
         return dataSource;
     }
 

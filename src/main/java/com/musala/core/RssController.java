@@ -13,6 +13,8 @@ package com.musala.core;
 
 
 import com.musala.db.ArticleEntity;
+import com.musala.db.SiteEntity;
+import com.musala.repository.SiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -22,10 +24,14 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.net.URL;
 
 @Component
 @Qualifier("rssController")
 public class RssController {
+
+    @Autowired
+    SiteRepository siteRepository;
 
     @Autowired
     ExtractUrlsFromRssXml extractUrlsFromRssXml;
@@ -34,18 +40,23 @@ public class RssController {
     GetTextFromPages getTextFromPages;
 
     public void initiatePopulation() throws InterruptedException, ParserConfigurationException, SAXException, IOException {
-        extractUrlsFromRssXml.setSiteNameKey("computerworld.bg");
-        getTextFromPages.setSiteName("computerworld.bg");
+//        extractUrlsFromRssXml.setSiteNameKey("computerworld.bg");
+//        getTextFromPages.setSiteName("computerworld.bg");
+//        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
+//
+//        extractUrlsFromRssXml.setSiteNameKey("technews.bg");
+//        getTextFromPages.setSiteName("technews.bg");
+//        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
 
-        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
+//        extractUrlsFromRssXml.setSiteNameKey("lentata.com");
+//        getTextFromPages.setSiteName("lentata.com");
+//
+//        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
 
-        extractUrlsFromRssXml.setSiteNameKey("technews.bg");
-        getTextFromPages.setSiteName("technews.bg");
-
-        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
-
-        for (ArticleEntity e : getTextFromPages.getArticleRepository().findAll()) {
-            System.out.println(e);
+        for (SiteEntity rssFeedSite : siteRepository.findAll()) {
+            extractUrlsFromRssXml.setSiteNameKey(rssFeedSite.getSiteName());
+            getTextFromPages.setSiteName(rssFeedSite.getSiteName());
+            getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
         }
     }
 }

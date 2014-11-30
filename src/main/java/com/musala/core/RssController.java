@@ -15,6 +15,7 @@ package com.musala.core;
 import com.musala.db.ArticleEntity;
 import com.musala.db.SiteEntity;
 import com.musala.repository.SiteRepository;
+import com.musala.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,7 @@ import java.net.URL;
 public class RssController {
 
     @Autowired
-    SiteRepository siteRepository;
+    SiteService siteService;
 
     @Autowired
     ExtractUrlsFromRssXml extractUrlsFromRssXml;
@@ -41,7 +42,7 @@ public class RssController {
 
     public void initiatePopulation() throws InterruptedException, ParserConfigurationException, SAXException, IOException {
 
-        for (SiteEntity rssFeedSite : siteRepository.findAll()) {
+        for (SiteEntity rssFeedSite : siteService.findAll()) {
             extractUrlsFromRssXml.setSiteNameKey(rssFeedSite.getSiteName());
             getTextFromPages.setSiteName(rssFeedSite.getSiteName());
             getTextFromPages.readData(extractUrlsFromRssXml.getLinks());

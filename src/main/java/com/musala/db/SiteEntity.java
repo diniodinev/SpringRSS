@@ -10,16 +10,6 @@ package com.musala.db;
  *
   * Created by dinyo.dinev on 2014.
  */
-
-//SITE_NAME varchar(256) NOT NULL,
-// RSS_LINK varchar(256) NOT NULL,
-// RSS_TAG varchar(64) NOT NULL,
-// TITLE_TAG varchar(64) NULL,
-// TEXT_CONTENT_TAG varchar(64) NOT NULL,
-// ARTICLE_ID bigint NOT NULL,
-// primary key (SITE_NAME),
-// FOREIGN KEY(ARTICLE_ID) REFERENCES ARTICLE(ARTICLE_ID)
-
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;

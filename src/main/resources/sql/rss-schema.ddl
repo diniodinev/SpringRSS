@@ -4,8 +4,7 @@ create table SITE (
     RSS_TAG varchar(64) NOT NULL,
     TITLE_TAG varchar(64) NULL,
     TEXT_CONTENT_TAG varchar(64) NOT NULL,
-    primary key (SITE_NAME)
-
+    PRIMARY KEY (SITE_NAME)
 );
 
 create table ARTICLE (
@@ -15,15 +14,23 @@ create table ARTICLE (
     TITLE varchar(10),
     DATE DATETIME NULL,
     SITE_NAME varchar(256) NOT NULL,
-    primary key (ARTICLE_ID),
+    PRIMARY KEY (ARTICLE_ID),
     FOREIGN KEY (SITE_NAME) REFERENCES SITE(SITE_NAME)
     );
 
+create table CATEGORY (
+  CATEGORY_ID bigint IDENTITY(1,1) NOT NULL,
+  CATEGORY_NAME varchar(64) NULL,
+  PRIMARY KEY (CATEGORY_ID)
+);
 
-
-
-
-
+create table ARTICLE_CATEGORY (
+  ARTICLE_ID bigint NOT NULL,
+  CATEGORY_ID bigint NOT NULL,
+  PRIMARY KEY (ARTICLE_ID, CATEGORY_ID),
+  FOREIGN KEY (ARTICLE_ID) REFERENCES ARTICLE(ARTICLE_ID),
+  FOREIGN KEY (CATEGORY_ID) REFERENCES Category(CATEGORY_ID)
+);
 
 
 

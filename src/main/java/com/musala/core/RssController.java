@@ -40,18 +40,6 @@ public class RssController {
     GetTextFromPages getTextFromPages;
 
     public void initiatePopulation() throws InterruptedException, ParserConfigurationException, SAXException, IOException {
-//        extractUrlsFromRssXml.setSiteNameKey("computerworld.bg");
-//        getTextFromPages.setSiteName("computerworld.bg");
-//        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
-//
-//        extractUrlsFromRssXml.setSiteNameKey("technews.bg");
-//        getTextFromPages.setSiteName("technews.bg");
-//        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
-
-//        extractUrlsFromRssXml.setSiteNameKey("lentata.com");
-//        getTextFromPages.setSiteName("lentata.com");
-//
-//        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
 
         for (SiteEntity rssFeedSite : siteRepository.findAll()) {
             extractUrlsFromRssXml.setSiteNameKey(rssFeedSite.getSiteName());

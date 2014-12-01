@@ -17,4 +17,8 @@ public class SiteService {
     public Iterable<SiteEntity> findAll() {
         return siteRepository.findAll();
     }
+
+    public SiteEntity findOne(String id) {
+        return siteRepository.findOne(id);
+    }
 }

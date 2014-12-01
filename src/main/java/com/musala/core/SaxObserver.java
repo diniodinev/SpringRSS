@@ -16,4 +16,6 @@ public abstract class SaxObserver {
     protected RssExtractorSubject subject;
 
     public abstract void update(String element);
+    public abstract void updateAll();
+
 }

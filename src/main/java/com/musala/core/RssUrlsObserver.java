@@ -39,6 +39,10 @@ public class RssUrlsObserver extends SaxObserver {
                 e.printStackTrace();
             }
         }
+    }
 
+    @Override
+    public void updateAll() {
+        
     }
 }

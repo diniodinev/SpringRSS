@@ -31,5 +31,9 @@ public class CategoryObserver extends SaxObserver {
             System.out.println("Observer category is called and is added category" + category);
         }
     }
-    s
+
+    @Override
+    public void updateAll() {
+
+    }
 }

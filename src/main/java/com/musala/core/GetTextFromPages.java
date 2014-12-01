@@ -47,7 +47,7 @@ public class GetTextFromPages {
     private void extractArticleText(URL link) throws IOException, InterruptedException {
         article = new ArticleEntity();
         Document doc = Jsoup.connect(link.toString()).userAgent("Mozilla").get();
-        //System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
+        System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
         article.setSite(siteRepository.findOne(siteName));
         article.setArticleText(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
         article.setTitle(doc.select(siteRepository.findOne(siteName).getTitleTag()).first().text());

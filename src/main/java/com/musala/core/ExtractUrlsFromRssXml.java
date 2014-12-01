@@ -74,7 +74,6 @@ public class ExtractUrlsFromRssXml extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName,
                              String qName, Attributes attributes) {
-        System.out.println(qName);
         ++tagLevel;
         if (qName.equalsIgnoreCase(siteRepository.findOne(siteNameKey).getRssTag())) {
             text = new StringBuilder();

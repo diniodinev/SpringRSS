@@ -17,13 +17,16 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.net.URL;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ARTICLE")
 public class ArticleEntity implements Serializable {
-    private static final long serialVersionUID = 8645213321324478L;
+
+    private static final long serialVersionUID = 3325224652693856531L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,6 +44,16 @@ public class ArticleEntity implements Serializable {
 
     @Column(name = "DATE")
     private Date date;
+
+
+
+    @ManyToMany
+    @JoinTable(
+            name="ARTICLE_CATEGORY",
+            joinColumns={@JoinColumn(name="ART_ID", referencedColumnName="ARTICLE_ID")},
+            inverseJoinColumns={@JoinColumn(name="CATEG_ID", referencedColumnName="CATEGORY_ID")})
+   private List<CategoryEntity>  categories = new ArrayList<CategoryEntity>();
+
 
    @ManyToOne
    @JoinColumn(name="SITE_NAME")

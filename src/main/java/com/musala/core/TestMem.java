@@ -25,6 +25,10 @@ public class TestMem {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
 
+        Server server = Server.createTcpServer().start();
+        System.out.println("Server started and connection is open.");
+        System.out.println("URL: jdbc:h2:" + server.getURL() + "/mem:test");
+
 //        ExtractUrlsFromRssXml extractUrlsFromRssXml = context.getBean("extractUrlsFromRssXml", ExtractUrlsFromRssXml.class);
 //        GetTextFromPages getTextFromPages = context.getBean("getTextFromPages", GetTextFromPages.class);
 //

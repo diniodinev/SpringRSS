@@ -36,4 +36,11 @@ public class CategoryEntity implements Serializable{
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+
+    public CategoryEntity(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public CategoryEntity() {
+    }
 }

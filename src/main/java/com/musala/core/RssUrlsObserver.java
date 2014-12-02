@@ -12,37 +12,53 @@ package com.musala.core;
  */
 
 
+import com.musala.db.CategoryEntity;
 import org.apache.commons.validator.routines.UrlValidator;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RssUrlsObserver extends SaxObserver {
 
-    private List<URL> links = new ArrayList<URL>();
+    private URL currentLink;
 
-    public RssUrlsObserver(RssExtractorSubject subject) {
+    private Map<URL, Set<String>> articles = new HashMap<>();
+
+    GetTextFromPages getTextFromPages;
+
+    public RssUrlsObserver(RssExtractorSubject subject, GetTextFromPages getTextFromPages) {
         this.subject = subject;
         subject.attach(this);
+        this.getTextFromPages = getTextFromPages;
     }
 
     @Override
-    public void update(String url) {
-        UrlValidator defaultValidator = new UrlValidator();
-        if (defaultValidator.isValid(url)) {
-            try {
-                links.add(new URL(url));
-                System.out.println("Addes url in RsUrlsobserver " +url);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+    public void updateAll(String elementTag, TagContent tagContent) {
+        if (tagContent == TagContent.CATEGORY) {
+            if (elementTag != null && !elementTag.isEmpty() && currentLink != null) {
+                Set<String> currentCategories = new HashSet<>(articles.get(currentLink));
+                currentCategories.add(elementTag);
+                articles.put(currentLink, currentCategories);
+            }
+        }
+        if (tagContent == TagContent.LINK) {
+            UrlValidator defaultValidator = new UrlValidator();
+            if (defaultValidator.isValid(elementTag)) {
+                try {
+                    currentLink = new URL(elementTag);
+                    articles.put(currentLink, new HashSet<String>());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     @Override
     public void updateAll() {
-        
+        System.out.println("URL observer write to db:");
+        //Fill article's data
+        getTextFromPages.readData(articles);
     }
 }

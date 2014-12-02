@@ -47,7 +47,7 @@ public class ArticleEntity implements Serializable {
 
 
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name="ARTICLE_CATEGORY",
             joinColumns={@JoinColumn(name="ART_ID", referencedColumnName="ARTICLE_ID")},
@@ -109,6 +109,14 @@ public class ArticleEntity implements Serializable {
 
     public void setSite(SiteEntity site) {
         this.site = site;
+    }
+
+    public List<CategoryEntity> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryEntity> categories) {
+        this.categories = categories;
     }
 
     @Override

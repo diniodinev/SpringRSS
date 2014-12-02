@@ -12,12 +12,23 @@ package com.musala.core;
  */
 
 
-public class ObserverMain {
-    public static void main(String[] args) {
-        RssExtractorSubject subject = new RssExtractorSubject();
-        new CategoryObserver(subject);
-        new RssUrlsObserver(subject);
+import com.musala.db.SiteEntity;
+import com.musala.service.SiteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
-        subject.addNewElement("Added element");
+
+public class ObserverMain {
+    @Autowired
+    static SiteService siteService;
+
+    public static void main(String[] args) {
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
+
+
     }
+
 }

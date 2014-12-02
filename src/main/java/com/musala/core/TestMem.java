@@ -14,6 +14,7 @@ package com.musala.core;
 
 import com.musala.db.ArticleEntity;
 import com.musala.repository.ArticleRepository;
+import com.musala.service.CategoryService;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -24,6 +25,11 @@ public class TestMem {
 
 
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
+
+        RssController rssController = context.getBean("rssController",RssController.class);
+        rssController.initiatePopulation();
+
+
 
         Server server = Server.createTcpServer().start();
         System.out.println("Server started and connection is open.");
@@ -42,7 +48,7 @@ public class TestMem {
 //        for (ArticleEntity e : getTextFromPages.getArticleRepository().findAll()) {
 //            System.out.println(e);
 //        }
-        RssController rssController = context.getBean("rssController",RssController.class);
-        rssController.initiatePopulation();
+
+
     }
 }

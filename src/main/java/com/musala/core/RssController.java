@@ -15,6 +15,8 @@ package com.musala.core;
 import com.musala.db.ArticleEntity;
 import com.musala.db.SiteEntity;
 import com.musala.repository.SiteRepository;
+import com.musala.service.ArticleService;
+import com.musala.service.CategoryService;
 import com.musala.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,17 +37,27 @@ public class RssController {
     SiteService siteService;
 
     @Autowired
-    ExtractUrlsFromRssXml extractUrlsFromRssXml;
+    CategoryService categoryService;
+
+    @Autowired
+    ArticleService articleService;
+
+    @Autowired
+    RssExtractorSubject subject;
 
     @Autowired
     GetTextFromPages getTextFromPages;
 
-    public void initiatePopulation() throws InterruptedException, ParserConfigurationException, SAXException, IOException {
 
+    public void initiatePopulation() {
         for (SiteEntity rssFeedSite : siteService.findAll()) {
-            extractUrlsFromRssXml.setSiteNameKey(rssFeedSite.getSiteName());
+            System.out.println("In RSSController Main" + rssFeedSite.getSiteName());
             getTextFromPages.setSiteName(rssFeedSite.getSiteName());
-            getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
+            subject.setSiteNameKey(rssFeedSite.getSiteName());
+            new CategoryObserver(subject, categoryService);
+            new RssUrlsObserver(subject, getTextFromPages);
+            subject.addItemsToObservers();
         }
+
     }
 }

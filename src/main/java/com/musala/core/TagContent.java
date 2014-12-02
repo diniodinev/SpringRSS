@@ -11,12 +11,15 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
+import org.springframework.stereotype.Component;
 
-public abstract class SaxObserver {
-    protected RssExtractorSubject subject;
+public enum TagContent {
 
-    public abstract void updateAll();
+    LINK("link"), CATEGORY("category");
 
-    public abstract void updateAll(String tagElement, TagContent tagContent);
+    private String name;
 
+    TagContent(String name) {
+        this.name = name;
+    }
 }

@@ -1,6 +1,7 @@
 package com.musala.core;
 
 import com.musala.db.ArticleEntity;
+import com.musala.db.CategoryEntity;
 import com.musala.repository.ArticleRepository;
 import com.musala.repository.SiteRepository;
 import org.jsoup.Jsoup;
@@ -14,6 +15,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Component
 public class GetTextFromPages {
@@ -28,6 +31,10 @@ public class GetTextFromPages {
     ArticleEntity article;
     List<ArticleEntity> articles = new ArrayList<ArticleEntity>();
 
+
+
+    private Map<URL, Set<String>> articlesCategories;
+
     public String getSiteName() {
         return siteName;
     }
@@ -36,9 +43,18 @@ public class GetTextFromPages {
         this.siteName = siteName;
     }
 
-    public List<ArticleEntity> readData(List<URL> links) throws ParserConfigurationException, SAXException, IOException, InterruptedException {
-        for (URL link : links) {
+    public List<ArticleEntity> readData(Map<URL, Set<String>> articlesCategories) {
+
+        this.articlesCategories = articlesCategories;
+
+        for (URL link : articlesCategories.keySet()) {
+            try {
                 extractArticleText(link);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return articles;
     }
@@ -52,6 +68,14 @@ public class GetTextFromPages {
         article.setArticleText(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
         article.setTitle(doc.select(siteRepository.findOne(siteName).getTitleTag()).first().text());
         article.setLink(link.toString());
+
+        List<CategoryEntity> cat = new ArrayList<CategoryEntity>();
+        for (String category : articlesCategories.get(link)) {
+            cat.add(new CategoryEntity(category));
+        }
+        article.setCategories(cat);
+        //TODO: Add category to the article
+        //article.setCategories(categoryList);
 
         //TODO: Remove List return statement
         articleRepository.save(article);

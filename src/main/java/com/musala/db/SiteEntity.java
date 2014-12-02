@@ -103,15 +103,4 @@ public class SiteEntity implements Serializable {
         this.articlesFromCite = articlesFromCite;
     }
 
-    @Override
-    public String toString() {
-        return "SiteEntity{" +
-                "siteName='" + siteName + '\'' +
-                ", rssLink='" + rssLink + '\'' +
-                ", rssTag='" + rssTag + '\'' +
-                ", titleTag='" + titleTag + '\'' +
-                ", textContentTag='" + textContentTag + '\'' +
-                ", articlesFromCite=" + articlesFromCite +
-                '}';
-    }
 }

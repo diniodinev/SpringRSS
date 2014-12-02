@@ -12,28 +12,63 @@ package com.musala.core;
  */
 
 
-import java.util.ArrayList;
-import java.util.List;
+import com.musala.db.CategoryEntity;
+import com.musala.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Component
 public class CategoryObserver extends SaxObserver {
 
-    private List<String> categories = new ArrayList<String>();
+    private Set<String> categories = new HashSet<String>();
 
-    public CategoryObserver(RssExtractorSubject subject) {
+    private CategoryService categoryService;
+
+    public CategoryObserver(RssExtractorSubject subject, CategoryService categoryService) {
         this.subject = subject;
         subject.attach(this);
+        this.categoryService = categoryService;
     }
 
-    @Override
     public void update(String category) {
         if (category != null && !category.isEmpty()) {
             categories.add(category);
-            System.out.println("Observer category is called and is added category" + category);
+        }
+    }
+
+
+    //Do it at the end
+    @Override
+    public void updateAll() {
+        for (String category : categories) {
+            System.out.println("Save category" + category);
+            System.out.println(categoryService);
+            categoryService.save(new CategoryEntity(category));
         }
     }
 
     @Override
-    public void updateAll() {
+    public void updateAll(String category, TagContent tagContent) {
+        if(tagContent==TagContent.CATEGORY){
+            if (category != null && !category.isEmpty()) {
+                categories.add(category);
+            }
+        }
+    }
 
+    public CategoryObserver() {
+    }
+
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 }

@@ -1,4 +1,4 @@
-package com.musala.core; 
+package com.musala.repository; 
  /*
  * Copyright 2013 the original author or authors.
  *
@@ -12,11 +12,11 @@ package com.musala.core;
  */
 
 
-public abstract class SaxObserver {
-    protected RssExtractorSubject subject;
+import com.musala.db.CategoryEntity;
+import com.musala.db.SiteEntity;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-    public abstract void updateAll();
-
-    public abstract void updateAll(String tagElement, TagContent tagContent);
-
+@Repository
+public interface CategoryRepository extends CrudRepository<CategoryEntity, Long> {
 }

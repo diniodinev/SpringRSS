@@ -11,9 +11,7 @@ package com.musala.service;
   * Created by dinyo.dinev on 2014.
  */
 
-import com.musala.db.CategoryEntity;
-import com.musala.db.SiteEntity;
-import com.musala.repository.ArticleRepository;
+import com.musala.db.Category;
 import com.musala.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +22,28 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public CategoryEntity findOne(Long id) {
+    public Category findOne(Long id) {
         return categoryRepository.findOne(id);
     }
 
-    public CategoryEntity save(CategoryEntity category) {
+    public Category save(Category category) {
         return categoryRepository.save(category);
     }
 
+    /**
+     * Searches for presence of <b>categoryName</b> in CategoryRepository. If it is  not part
+     * of the repository, new Category entity is created and saved to CategoryRepository.
+     * Otherwise already existing Category entity object will be returned.
+     *
+     * @param categoryName
+     * @return
+     */
+    public Category finadCategory(String categoryName) {
+        for (Category category : categoryRepository.findAll()) {
+            if (category.getCategoryName().equals(categoryName)) {
+                return category;
+            }
+        }
+        return categoryRepository.save(new Category(categoryName));
+    }
 }

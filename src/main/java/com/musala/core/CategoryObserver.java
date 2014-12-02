@@ -12,14 +12,11 @@ package com.musala.core;
  */
 
 
-import com.musala.db.CategoryEntity;
+import com.musala.db.Category;
 import com.musala.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -48,7 +45,7 @@ public class CategoryObserver extends SaxObserver {
         for (String category : categories) {
             System.out.println("Save category" + category);
             System.out.println(categoryService);
-            categoryService.save(new CategoryEntity(category));
+            categoryService.save(new Category(category));
         }
     }
 

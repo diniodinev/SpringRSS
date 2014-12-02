@@ -12,7 +12,6 @@ package com.musala.core;
  */
 
 
-import com.musala.db.CategoryEntity;
 import org.apache.commons.validator.routines.UrlValidator;
 
 import java.net.MalformedURLException;
@@ -37,7 +36,7 @@ public class RssUrlsObserver extends SaxObserver {
     public void updateAll(String elementTag, TagContent tagContent) {
         if (tagContent == TagContent.CATEGORY) {
             if (elementTag != null && !elementTag.isEmpty() && currentLink != null) {
-                Set<String> currentCategories = new HashSet<>(articles.get(currentLink));
+                Set<String> currentCategories = new HashSet<String>(articles.get(currentLink));
                 currentCategories.add(elementTag);
                 articles.put(currentLink, currentCategories);
             }

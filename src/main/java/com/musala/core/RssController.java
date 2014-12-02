@@ -12,22 +12,13 @@ package com.musala.core;
  */
 
 
-import com.musala.db.ArticleEntity;
-import com.musala.db.SiteEntity;
-import com.musala.repository.SiteRepository;
+import com.musala.db.Site;
 import com.musala.service.ArticleService;
 import com.musala.service.CategoryService;
 import com.musala.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.xml.sax.SAXException;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URL;
 
 @Component
 @Qualifier("rssController")
@@ -50,7 +41,7 @@ public class RssController {
 
 
     public void initiatePopulation() {
-        for (SiteEntity rssFeedSite : siteService.findAll()) {
+        for (Site rssFeedSite : siteService.findAll()) {
             System.out.println("In RSSController Main" + rssFeedSite.getSiteName());
             getTextFromPages.setSiteName(rssFeedSite.getSiteName());
             subject.setSiteNameKey(rssFeedSite.getSiteName());

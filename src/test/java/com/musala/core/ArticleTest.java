@@ -1,7 +1,7 @@
 package com.musala.core;
 
 
-import com.musala.db.ArticleEntity;
+import com.musala.db.Article;
 import com.musala.repository.SiteRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ public class ArticleTest {
 
     @Test
     public void test() throws MalformedURLException {
-        ArticleEntity article = new ArticleEntity();
+        Article article = new Article();
         article.setArticleText("some text");
         article.setTitle("some title");
         article.setLink("http://www.google.bg");

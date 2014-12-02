@@ -12,13 +12,11 @@ package com.musala.repository;
  */
 
 
-import com.musala.db.ArticleEntity;
-import com.musala.db.SiteEntity;
+import com.musala.db.Site;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SiteRepository extends CrudRepository<SiteEntity, String> {
+public interface SiteRepository extends CrudRepository<Site, String> {
 
 }

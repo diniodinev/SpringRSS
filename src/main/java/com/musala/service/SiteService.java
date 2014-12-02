@@ -1,12 +1,10 @@
 package com.musala.service;
 
 
-import com.musala.db.SiteEntity;
+import com.musala.db.Site;
 import com.musala.repository.SiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class SiteService {
@@ -14,11 +12,11 @@ public class SiteService {
     @Autowired
     private SiteRepository siteRepository;
 
-    public Iterable<SiteEntity> findAll() {
+    public Iterable<Site> findAll() {
         return siteRepository.findAll();
     }
 
-    public SiteEntity findOne(String id) {
+    public Site findOne(String id) {
         return siteRepository.findOne(id);
     }
 }

@@ -1,16 +1,14 @@
 package com.musala.core;
 
-import com.musala.db.ArticleEntity;
-import com.musala.db.CategoryEntity;
+import com.musala.db.Article;
+import com.musala.db.Category;
 import com.musala.repository.ArticleRepository;
 import com.musala.repository.SiteRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,8 +26,8 @@ public class GetTextFromPages {
 
     private String siteName;
 
-    ArticleEntity article;
-    List<ArticleEntity> articles = new ArrayList<ArticleEntity>();
+    Article article;
+    List<Article> articles = new ArrayList<Article>();
 
 
 
@@ -43,7 +41,7 @@ public class GetTextFromPages {
         this.siteName = siteName;
     }
 
-    public List<ArticleEntity> readData(Map<URL, Set<String>> articlesCategories) {
+    public List<Article> readData(Map<URL, Set<String>> articlesCategories) {
 
         this.articlesCategories = articlesCategories;
 
@@ -61,7 +59,7 @@ public class GetTextFromPages {
 
 
     private void extractArticleText(URL link) throws IOException, InterruptedException {
-        article = new ArticleEntity();
+        article = new Article();
         Document doc = Jsoup.connect(link.toString()).userAgent("Mozilla").get();
         System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
         article.setSite(siteRepository.findOne(siteName));
@@ -69,9 +67,9 @@ public class GetTextFromPages {
         article.setTitle(doc.select(siteRepository.findOne(siteName).getTitleTag()).first().text());
         article.setLink(link.toString());
 
-        List<CategoryEntity> cat = new ArrayList<CategoryEntity>();
+        List<Category> cat = new ArrayList<Category>();
         for (String category : articlesCategories.get(link)) {
-            cat.add(new CategoryEntity(category));
+            cat.add(new Category(category));
         }
         article.setCategories(cat);
         //TODO: Add category to the article

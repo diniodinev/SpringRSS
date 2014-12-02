@@ -12,11 +12,7 @@ package com.musala.core;
  */
 
 
-import com.musala.db.ArticleEntity;
-import com.musala.repository.ArticleRepository;
-import com.musala.service.CategoryService;
 import org.h2.tools.Server;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -12,11 +12,11 @@ package com.musala.repository;
  */
 
 
-import com.musala.db.CategoryEntity;
-import com.musala.db.SiteEntity;
+import com.musala.db.Category;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoryRepository extends CrudRepository<CategoryEntity, Long> {
+public interface CategoryRepository extends CrudRepository<Category, Long> {
+    Category finadCategory(String categoryName);
 }

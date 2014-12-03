@@ -71,7 +71,7 @@ public class GetTextFromPages {
             //todo ako e null praim now
             Category category = categoryServiceImpl.findByCategoryName(categoryName);
             if (categoryName == null) {
-                category = categoryServiceImpl.save(category);
+                category = categoryServiceImpl.save(new Category(categoryName));
             }
             category.getArticles().add(article);
             article.getCategories().add(category);

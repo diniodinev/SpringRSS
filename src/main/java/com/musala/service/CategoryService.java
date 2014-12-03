@@ -15,6 +15,7 @@ import com.musala.db.Category;
 import com.musala.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CategoryService {
@@ -38,7 +39,9 @@ public class CategoryService {
      * @param categoryName
      * @return
      */
-    public Category finadCategory(String categoryName) {
+    @Transactional
+    public Category findByCategoryName(String categoryName) {
+        //TODO: fix
         for (Category category : categoryRepository.findAll()) {
             if (category.getCategoryName().equals(categoryName)) {
                 return category;

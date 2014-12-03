@@ -37,6 +37,14 @@ public class Category implements Serializable{
         this.categoryName = categoryName;
     }
 
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
+
     public Category(String categoryName) {
         this.categoryName = categoryName;
     }

@@ -43,8 +43,6 @@ public class CategoryObserver extends SaxObserver {
     @Override
     public void updateAll() {
         for (String category : categories) {
-            System.out.println("Save category" + category);
-            System.out.println(categoryService);
             categoryService.save(new Category(category));
         }
     }

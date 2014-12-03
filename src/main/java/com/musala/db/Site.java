@@ -38,7 +38,7 @@ public class Site implements Serializable {
     @Column(name = "TEXT_CONTENT_TAG")
     private String textContentTag;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "site")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "site")
     private List<Article> articlesFromCite = new ArrayList<Article>();
 
     public String getSiteName() {

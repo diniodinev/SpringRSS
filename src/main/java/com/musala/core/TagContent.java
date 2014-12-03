@@ -11,8 +11,6 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
-import org.springframework.stereotype.Component;
-
 public enum TagContent {
 
     LINK("link"), CATEGORY("category");

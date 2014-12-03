@@ -12,7 +12,7 @@ package com.musala.core;
  */
 
 
-import com.musala.service.SiteService;
+import com.musala.service.SiteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
@@ -34,7 +34,7 @@ public class RssExtractorSubject extends DefaultHandler {
     private List<SaxObserver> observers = new ArrayList<SaxObserver>();
 
     @Autowired
-    SiteService siteService;
+    SiteServiceImpl siteServiceImpl;
 
     private StringBuilder text = new StringBuilder();
 
@@ -98,7 +98,7 @@ public class RssExtractorSubject extends DefaultHandler {
                              String qName, Attributes attributes) {
         text.setLength(0);
         //TODO rename RssTag ot RssLinkTag
-        if (qName.equalsIgnoreCase(siteService.findOne(siteNameKey).getRssTag())) {
+        if (qName.equalsIgnoreCase(siteServiceImpl.findOne(siteNameKey).getRssTag())) {
             CURRECT_TAG = TagContent.LINK;
 
         }
@@ -130,7 +130,7 @@ public class RssExtractorSubject extends DefaultHandler {
 
         try {
             parser = factory.newSAXParser();
-            parser.parse(new InputSource(new URL(siteService.findOne(siteNameKey).getRssLink()).openStream()), this);
+            parser.parse(new InputSource(new URL(siteServiceImpl.findOne(siteNameKey).getRssLink()).openStream()), this);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {

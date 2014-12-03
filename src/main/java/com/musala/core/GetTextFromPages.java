@@ -4,9 +4,8 @@ import com.musala.db.Article;
 import com.musala.db.Category;
 import com.musala.db.Site;
 import com.musala.repository.ArticleRepository;
-import com.musala.repository.CategoryRepository;
 import com.musala.repository.SiteRepository;
-import com.musala.service.CategoryService;
+import com.musala.service.CategoryServiceImpl;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,7 +26,7 @@ public class GetTextFromPages {
     private ArticleRepository articleRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryServiceImpl categoryServiceImpl;
 
     private String siteName;
 
@@ -60,8 +55,6 @@ public class GetTextFromPages {
     }
 
     private void extractArticleText(URL link) throws IOException {
-        //article = articleRepository.save(new Article());
-
         Document doc = Jsoup.connect(link.toString()).userAgent("Mozilla").get();
 
         System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
@@ -70,18 +63,15 @@ public class GetTextFromPages {
         String articleText = doc.select(site.getTextContentTag()).first().text();
         String articleTitle = doc.select(site.getTitleTag()).first().text();
 
-//        article.setSite(siteRepository.findOne(siteName));
-//        article.setArticleText(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
-//        article.setTitle(doc.select(siteRepository.findOne(siteName).getTitleTag()).first().text());
-//        article.setLink(link.toString());
-
+        //Create article without categories
         Article article = new Article(link.toString(), articleText, articleTitle, null, site);
         articleRepository.save(article);
 
         for (String categoryName : articlesCategories.get(link)) {
-            Category category = categoryRepository.findByCategoryName(categoryName);
+            //todo ako e null praim now
+            Category category = categoryServiceImpl.findByCategoryName(categoryName);
             if (categoryName == null) {
-                category = categoryRepository.save(category);
+                category = categoryServiceImpl.save(category);
             }
             category.getArticles().add(article);
             article.getCategories().add(category);
@@ -90,8 +80,6 @@ public class GetTextFromPages {
 
         //TODO: Add categorytag to the article table
         //article.setCategories(categoryList);
-
-        //TODO: Remove List return statement
 
     }
 

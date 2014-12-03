@@ -13,6 +13,10 @@
         <hibernate.validator.version>5.1.1.Final</hibernate.validator.version>
         <downloadSources>true</downloadSources>
         <downloadJavadocs>true</downloadJavadocs>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <checkstyle.config.location>${basedir}/src/main/resources/checkstyle/checkstyle.xml</checkstyle.config.location>
+        <checkstyle.header.location>${basedir}/src/main/resources/checkstyle/LICENSE.txt</checkstyle.header.location>
     </properties>
 
 
@@ -270,6 +274,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <configLocation>${checkstyle.config.location}</configLocation>
+                    <headerLocation>${checkstyle.header.location}</headerLocation>
+                    <enableRulesSummary>false</enableRulesSummary>
+                </configuration>
             </plugin>
         </plugins>
     </build>

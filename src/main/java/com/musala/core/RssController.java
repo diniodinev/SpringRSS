@@ -13,9 +13,9 @@ package com.musala.core;
 
 
 import com.musala.db.Site;
-import com.musala.service.ArticleService;
-import com.musala.service.CategoryService;
-import com.musala.service.SiteService;
+import com.musala.service.ArticleServiceImpl;
+import com.musala.service.CategoryServiceImpl;
+import com.musala.service.SiteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -25,13 +25,13 @@ import org.springframework.stereotype.Component;
 public class RssController {
 
     @Autowired
-    SiteService siteService;
+    SiteServiceImpl siteServiceImpl;
 
     @Autowired
-    CategoryService categoryService;
+    CategoryServiceImpl categoryServiceImpl;
 
     @Autowired
-    ArticleService articleService;
+    ArticleServiceImpl articleServiceImpl;
 
     @Autowired
     RssExtractorSubject subject;
@@ -41,11 +41,10 @@ public class RssController {
 
 
     public void initiatePopulation() {
-        for (Site rssFeedSite : siteService.findAll()) {
-            System.out.println("In RSSController Main" + rssFeedSite.getSiteName());
+        for (Site rssFeedSite : siteServiceImpl.findAll()) {
             getTextFromPages.setSiteName(rssFeedSite.getSiteName());
             subject.setSiteNameKey(rssFeedSite.getSiteName());
-            new CategoryObserver(subject, categoryService);
+            new CategoryObserver(subject, categoryServiceImpl);
             new RssUrlsObserver(subject, getTextFromPages);
             subject.addItemsToObservers();
         }

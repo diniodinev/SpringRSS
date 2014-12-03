@@ -12,7 +12,7 @@ package com.musala.core;
  */
 
 
-import com.musala.service.SiteService;
+import com.musala.service.SiteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -20,7 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ObserverMain {
     @Autowired
-    static SiteService siteService;
+    static SiteServiceImpl siteServiceImpl;
 
     public static void main(String[] args) {
 

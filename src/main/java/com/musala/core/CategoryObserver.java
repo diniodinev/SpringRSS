@@ -1,4 +1,4 @@
-package com.musala.core; 
+package com.musala.core;
  /*
  * Copyright 2013 the original author or authors.
  *
@@ -13,7 +13,7 @@ package com.musala.core;
 
 
 import com.musala.db.Category;
-import com.musala.service.CategoryService;
+import com.musala.service.CategoryServiceImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -24,15 +24,15 @@ public class CategoryObserver extends SaxObserver {
 
     private Set<String> categories = new HashSet<String>();
 
-    private CategoryService categoryService;
+    private CategoryServiceImpl categoryServiceImpl;
 
-    public CategoryObserver(RssExtractorSubject subject, CategoryService categoryService) {
+    public CategoryObserver(final RssExtractorSubject subject, final CategoryServiceImpl categoryServiceImpl) {
         this.subject = subject;
         subject.attach(this);
-        this.categoryService = categoryService;
+        this.categoryServiceImpl = categoryServiceImpl;
     }
 
-    public void update(String category) {
+    public void update(final String category) {
         if (category != null && !category.isEmpty()) {
             categories.add(category);
         }
@@ -43,13 +43,13 @@ public class CategoryObserver extends SaxObserver {
     @Override
     public void updateAll() {
         for (String category : categories) {
-            categoryService.save(new Category(category));
+            categoryServiceImpl.save(new Category(category));
         }
     }
 
     @Override
-    public void updateAll(String category, TagContent tagContent) {
-        if(tagContent==TagContent.CATEGORY){
+    public void updateAll(final String category, final TagContent tagContent) {
+        if (tagContent == TagContent.CATEGORY) {
             if (category != null && !category.isEmpty()) {
                 categories.add(category);
             }
@@ -59,11 +59,11 @@ public class CategoryObserver extends SaxObserver {
     public CategoryObserver() {
     }
 
-    public CategoryService getCategoryService() {
-        return categoryService;
+    public CategoryServiceImpl getCategoryServiceImpl() {
+        return categoryServiceImpl;
     }
 
-    public void setCategoryService(CategoryService categoryService) {
-        this.categoryService = categoryService;
+    public void setCategoryServiceImpl(final CategoryServiceImpl categoryServiceImpl) {
+        this.categoryServiceImpl = categoryServiceImpl;
     }
 }

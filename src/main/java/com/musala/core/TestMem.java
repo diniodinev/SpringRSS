@@ -22,9 +22,8 @@ public class TestMem {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("RSSBean.xml");
 
-        RssController rssController = context.getBean("rssController",RssController.class);
+        RssController rssController = context.getBean("rssController", RssController.class);
         rssController.initiatePopulation();
-
 
 
         Server server = Server.createTcpServer().start();

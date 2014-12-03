@@ -16,7 +16,10 @@ import org.apache.commons.validator.routines.UrlValidator;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class RssUrlsObserver extends SaxObserver {
 

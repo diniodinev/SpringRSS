@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "CATEGORY")
-public class Category implements Serializable{
+public class Category implements Serializable {
     private static final long serialVersionUID = 75986582104478L;
 
     @Id
@@ -18,7 +18,7 @@ public class Category implements Serializable{
     @Column(name = "CATEGORY_NAME")
     private String categoryName;
 
-    @ManyToMany(mappedBy="categories")
+    @ManyToMany(mappedBy = "categories")
     private List<Article> articles = new ArrayList<Article>();
 
     public long getCategoryId() {

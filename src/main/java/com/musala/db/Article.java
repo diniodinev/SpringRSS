@@ -12,11 +12,11 @@ package com.musala.db;
  */
 
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "ARTICLE")
@@ -32,7 +32,7 @@ public class Article implements Serializable {
     @Column(name = "FULL_LINK")
     private String link;
 
-    @Column(name = "ARTICLE_TEXT",length = 32768)
+    @Column(name = "ARTICLE_TEXT", length = 32768)
     private String articleText;
 
     @Column(name = "TITLE")
@@ -42,18 +42,17 @@ public class Article implements Serializable {
     private Date date;
 
 
-
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
-            name="ARTICLE_CATEGORY",
-            joinColumns={@JoinColumn(name="ART_ID", referencedColumnName="ARTICLE_ID")},
-            inverseJoinColumns={@JoinColumn(name="CATEG_ID", referencedColumnName="CATEGORY_ID")})
-   private List<Category>  categories = new ArrayList<Category>();
+            name = "ARTICLE_CATEGORY",
+            joinColumns = {@JoinColumn(name = "ART_ID", referencedColumnName = "ARTICLE_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "CATEG_ID", referencedColumnName = "CATEGORY_ID")})
+    private List<Category> categories = new ArrayList<Category>();
 
 
-   @ManyToOne
-   @JoinColumn(name="SITE_NAME")
-   private Site site;
+    @ManyToOne
+    @JoinColumn(name = "SITE_NAME")
+    private Site site;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

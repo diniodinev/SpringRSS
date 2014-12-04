@@ -104,7 +104,8 @@ public class RssExtractorSubject extends DefaultHandler {
 
         }
         //TODO add category property in the site table
-        if (qName == siteServiceImpl.findOne(siteNameKey).getCategoryTag()) {
+
+        if (qName.equalsIgnoreCase(siteServiceImpl.findOne(siteNameKey).getCategoryTag())) {
             CURRECT_TAG = TagContent.CATEGORY;
         }
     }
@@ -138,9 +139,5 @@ public class RssExtractorSubject extends DefaultHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 }

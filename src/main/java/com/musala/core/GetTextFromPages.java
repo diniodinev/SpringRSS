@@ -27,7 +27,7 @@ public class GetTextFromPages {
     private ArticleRepository articleRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryServiceImpl categoryServiceImpl;
 
     private String siteName;
 
@@ -58,6 +58,7 @@ public class GetTextFromPages {
                 e.printStackTrace();
             }
         }
+        articlesCategories.clear();
     }
 
     private void extractArticleText(URL link) throws IOException {
@@ -78,19 +79,18 @@ public class GetTextFromPages {
         articleRepository.save(article);
 
         for (String categoryName : articlesCategories.get(link)) {
-            Category category = categoryRepository.findByCategoryName(categoryName);
+            Category category = categoryServiceImpl.findByCategoryName(categoryName);
             if (categoryName == null) {
-                category = categoryRepository.save(new Category(categoryName));
+                category = categoryServiceImpl.save(new Category(categoryName));
             }
             category.getArticles().add(article);
             article.getCategories().add(category);
         }
-
-
         //TODO: Add categorytag to the article table
         //article.setCategories(categoryList);
-
     }
+
+
 
     public ArticleRepository getArticleRepository() {
         return articleRepository;

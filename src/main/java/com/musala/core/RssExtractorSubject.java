@@ -12,6 +12,7 @@ package com.musala.core;
  */
 
 
+import com.musala.repository.CategoryRepository;
 import com.musala.service.SiteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -75,7 +76,7 @@ public class RssExtractorSubject extends DefaultHandler {
 
     public void notifyAllObservers(String tagElement, TagContent tagContent) {
         for (SaxObserver observer : observers) {
-            observer.updateAll(tagElement, tagContent);
+            observer.update(tagElement, tagContent);
         }
     }
 
@@ -103,10 +104,9 @@ public class RssExtractorSubject extends DefaultHandler {
 
         }
         //TODO add category property in the site table
-        if (qName.equalsIgnoreCase("category")) {
+        if (qName == siteServiceImpl.findOne(siteNameKey).getCategoryTag()) {
             CURRECT_TAG = TagContent.CATEGORY;
         }
-
     }
 
     @Override

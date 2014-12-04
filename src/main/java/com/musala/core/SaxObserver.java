@@ -11,12 +11,10 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
-
 public abstract class SaxObserver {
     protected RssExtractorSubject subject;
 
     public abstract void updateAll();
 
-    public abstract void updateAll(String tagElement, TagContent tagContent);
-
+    public abstract void update(String tagElement, TagContent tagContent);
 }

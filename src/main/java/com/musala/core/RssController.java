@@ -43,6 +43,7 @@ public class RssController {
     public void initiatePopulation() {
         for (Site rssFeedSite : siteServiceImpl.findAll()) {
             getTextFromPages.setSiteName(rssFeedSite.getSiteName());
+
             subject.setSiteNameKey(rssFeedSite.getSiteName());
             new CategoryObserver(subject, categoryServiceImpl);
             new RssUrlsObserver(subject, getTextFromPages);

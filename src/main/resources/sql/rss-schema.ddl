@@ -4,6 +4,7 @@ create table SITE (
     RSS_TAG varchar(64) NOT NULL,
     TITLE_TAG varchar(64) NULL,
     TEXT_CONTENT_TAG varchar(64) NOT NULL,
+    CATEGORY_TAG varchar(128) NULL,
     PRIMARY KEY (SITE_NAME)
 );
 

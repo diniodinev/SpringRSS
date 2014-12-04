@@ -38,6 +38,9 @@ public class Site implements Serializable {
     @Column(name = "TEXT_CONTENT_TAG")
     private String textContentTag;
 
+    @Column(name = "CATEGORY_TAG")
+    private String categoryTag;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "site")
     private List<Article> articlesFromCite = new ArrayList<Article>();
 
@@ -79,6 +82,14 @@ public class Site implements Serializable {
 
     public void setTextContentTag(String textContentTag) {
         this.textContentTag = textContentTag;
+    }
+
+    public String getCategoryTag() {
+        return categoryTag;
+    }
+
+    public void setCategoryTag(String categoryTag) {
+        this.categoryTag = categoryTag;
     }
 
     public Site(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, long articleId) {

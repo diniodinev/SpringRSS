@@ -36,7 +36,7 @@ public class RssUrlsObserver extends SaxObserver {
     }
 
     @Override
-    public void updateAll(String elementTag, TagContent tagContent) {
+    public void update(String elementTag, TagContent tagContent) {
         if (tagContent == TagContent.CATEGORY) {
             if (elementTag != null && !elementTag.isEmpty() && currentLink != null) {
                 Set<String> currentCategories = new HashSet<String>(articles.get(currentLink));
@@ -62,5 +62,6 @@ public class RssUrlsObserver extends SaxObserver {
         System.out.println("URL observer write to db:");
         //Fill article's data
         getTextFromPages.readData(articles);
+        articles= new HashMap<>()
     }
 }

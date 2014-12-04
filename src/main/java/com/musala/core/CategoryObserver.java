@@ -32,14 +32,6 @@ public class CategoryObserver extends SaxObserver {
         this.categoryServiceImpl = categoryServiceImpl;
     }
 
-    public void update(final String category) {
-        if (category != null && !category.isEmpty()) {
-            categories.add(category);
-        }
-    }
-
-
-    //Do it at the end
     @Override
     public void updateAll() {
         for (String category : categories) {
@@ -48,7 +40,7 @@ public class CategoryObserver extends SaxObserver {
     }
 
     @Override
-    public void updateAll(final String category, final TagContent tagContent) {
+    public void update(final String category, final TagContent tagContent) {
         if (tagContent == TagContent.CATEGORY) {
             if (category != null && !category.isEmpty()) {
                 categories.add(category);

@@ -4,6 +4,7 @@ import com.musala.db.Article;
 import com.musala.db.Category;
 import com.musala.db.Site;
 import com.musala.repository.ArticleRepository;
+import com.musala.repository.CategoryRepository;
 import com.musala.repository.SiteRepository;
 import com.musala.service.CategoryServiceImpl;
 import org.jsoup.Jsoup;
@@ -26,7 +27,7 @@ public class GetTextFromPages {
     private ArticleRepository articleRepository;
 
     @Autowired
-    private CategoryServiceImpl categoryServiceImpl;
+    private CategoryRepository categoryRepository;
 
     private String siteName;
 
@@ -45,6 +46,11 @@ public class GetTextFromPages {
 
         this.articlesCategories = articlesCategories;
 
+        System.out.println("------------------------------>All urls");
+
+        for (URL link : articlesCategories.keySet()) {
+            System.out.println("Links " + link);
+        }
         for (URL link : articlesCategories.keySet()) {
             try {
                 extractArticleText(link);
@@ -57,6 +63,10 @@ public class GetTextFromPages {
     private void extractArticleText(URL link) throws IOException {
         Document doc = Jsoup.connect(link.toString()).userAgent("Mozilla").get();
 
+        System.out.println("URL:" + link.toString());
+        System.out.println("Site name--->" + siteName);
+        System.out.println("siteRepository.findOne(siteName)--->" + siteRepository.findOne(siteName));
+        System.out.println("siteRepository.findOne(siteName).getTextContentTag()--->" + siteRepository.findOne(siteName).getTextContentTag());
         System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
 
         Site site = siteRepository.findOne(siteName);
@@ -68,10 +78,9 @@ public class GetTextFromPages {
         articleRepository.save(article);
 
         for (String categoryName : articlesCategories.get(link)) {
-            //todo ako e null praim now
-            Category category = categoryServiceImpl.findByCategoryName(categoryName);
+            Category category = categoryRepository.findByCategoryName(categoryName);
             if (categoryName == null) {
-                category = categoryServiceImpl.save(new Category(categoryName));
+                category = categoryRepository.save(new Category(categoryName));
             }
             category.getArticles().add(article);
             article.getCategories().add(category);

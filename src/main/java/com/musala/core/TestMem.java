@@ -30,20 +30,5 @@ public class TestMem {
         System.out.println("Server started and connection is open.");
         System.out.println("URL: jdbc:h2:" + server.getURL() + "/mem:test");
 
-//        ExtractUrlsFromRssXml extractUrlsFromRssXml = context.getBean("extractUrlsFromRssXml", ExtractUrlsFromRssXml.class);
-//        GetTextFromPages getTextFromPages = context.getBean("getTextFromPages", GetTextFromPages.class);
-//
-//        extractUrlsFromRssXml.setSiteNameKey("computerworld.bg");
-//        getTextFromPages.setSiteName("computerworld.bg");
-//
-//
-//        getTextFromPages.readData(extractUrlsFromRssXml.getLinks());
-//
-//
-//        for (ArticleEntity e : getTextFromPages.getArticleRepository().findAll()) {
-//            System.out.println(e);
-//        }
-
-
     }
 }

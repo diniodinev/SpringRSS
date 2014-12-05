@@ -46,11 +46,6 @@ public class GetTextFromPages {
 
         this.articlesCategories = articlesCategories;
 
-        System.out.println("------------------------------>All urls");
-
-        for (URL link : articlesCategories.keySet()) {
-            System.out.println("Links " + link);
-        }
         for (URL link : articlesCategories.keySet()) {
             try {
                 extractArticleText(link);
@@ -58,16 +53,11 @@ public class GetTextFromPages {
                 e.printStackTrace();
             }
         }
-        articlesCategories.clear();
     }
 
     private void extractArticleText(URL link) throws IOException {
         Document doc = Jsoup.connect(link.toString()).userAgent("Mozilla").get();
 
-        System.out.println("URL:" + link.toString());
-        System.out.println("Site name--->" + siteName);
-        System.out.println("siteRepository.findOne(siteName)--->" + siteRepository.findOne(siteName));
-        System.out.println("siteRepository.findOne(siteName).getTextContentTag()--->" + siteRepository.findOne(siteName).getTextContentTag());
         System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
 
         Site site = siteRepository.findOne(siteName);
@@ -86,16 +76,11 @@ public class GetTextFromPages {
             category.getArticles().add(article);
             article.getCategories().add(category);
         }
-        //TODO: Add categorytag to the article table
-        //article.setCategories(categoryList);
     }
-
-
 
     public ArticleRepository getArticleRepository() {
         return articleRepository;
     }
-
 }
 
 

@@ -49,6 +49,5 @@ public class RssController {
             new RssUrlsObserver(subject, getTextFromPages);
             subject.addItemsToObservers();
         }
-
     }
 }

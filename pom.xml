@@ -14,6 +14,7 @@
         <downloadSources>true</downloadSources>
         <downloadJavadocs>true</downloadJavadocs>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <guava.version>18.0</guava.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <checkstyle.config.location>${basedir}/src/main/resources/checkstyle/checkstyle.xml</checkstyle.config.location>
         <checkstyle.header.location>${basedir}/src/main/resources/checkstyle/LICENSE.txt</checkstyle.header.location>
@@ -129,6 +130,14 @@
             <version>1.5.4</version>
         </dependency>
 
+        <!-- utils -->
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>org.spockframework</groupId>
@@ -144,12 +153,18 @@
             <scope>test</scope>
         </dependency>
 
+
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit-dep</artifactId>
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+
+
+
+
 
 
     </dependencies>
@@ -161,7 +176,6 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.5.10.201208310627</version>
                 <configuration>
-                    <skip>${maven.test.skip}</skip>
                     <output>file</output>
                     <append>true</append>
                 </configuration>

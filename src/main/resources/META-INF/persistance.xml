@@ -1,4 +1,4 @@
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+<!--<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
     <persistence-unit name="persistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
@@ -9,3 +9,5 @@
         </properties>
     </persistence-unit>
 </persistence>
+
+                -->

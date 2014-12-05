@@ -11,10 +11,9 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
-
-import com.musala.repository.CategoryRepository;
 import com.musala.service.SiteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -41,7 +40,7 @@ public class RssExtractorSubject extends DefaultHandler {
 
     private String siteNameKey;
 
-    private TagContent CURRECT_TAG;
+    private TagContent CURRENT_TAG;
 
     public StringBuilder getText() {
         return text;
@@ -60,7 +59,7 @@ public class RssExtractorSubject extends DefaultHandler {
     }
 
     /**
-     * Attach oserver to this subject
+     * Attach observer to this subject
      *
      * @param observer
      */
@@ -82,7 +81,6 @@ public class RssExtractorSubject extends DefaultHandler {
 
     public void addItemsToObservers() {
         readData();
-
     }
 
     @Override
@@ -100,22 +98,20 @@ public class RssExtractorSubject extends DefaultHandler {
         text.setLength(0);
         //TODO rename RssTag ot RssLinkTag
         if (qName.equalsIgnoreCase(siteServiceImpl.findOne(siteNameKey).getRssTag())) {
-            CURRECT_TAG = TagContent.LINK;
-
+            CURRENT_TAG = TagContent.LINK;
         }
-        //TODO add category property in the site table
 
         if (qName.equalsIgnoreCase(siteServiceImpl.findOne(siteNameKey).getCategoryTag())) {
-            CURRECT_TAG = TagContent.CATEGORY;
+            CURRENT_TAG = TagContent.CATEGORY;
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) {
-        if (CURRECT_TAG != null) {
-            notifyAllObservers(text.toString(), CURRECT_TAG);
+        if (CURRENT_TAG != null) {
+            notifyAllObservers(text.toString(), CURRENT_TAG);
         }
-        CURRECT_TAG = null;
+        CURRENT_TAG = null;
     }
 
     @Override

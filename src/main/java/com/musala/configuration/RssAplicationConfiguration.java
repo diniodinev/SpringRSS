@@ -11,13 +11,16 @@ package com.musala.configuration;
   * Created by dinyo.dinev on 2014.
  */
 
-
+import com.google.common.base.Preconditions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -30,12 +33,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.musala.repository")
 @ComponentScan(basePackages = {"com.musala.core"})
+@PropertySource({"classpath:persistence-h2.properties"})
 public class RssAplicationConfiguration {
+
+    @Autowired
+    private Environment env;
 
     @Bean(name = "dataSource")
     public DataSource dataSource() throws SQLException {
@@ -53,11 +61,11 @@ public class RssAplicationConfiguration {
         return databasePopulator;
     }
 
-    private SimpleDriverDataSource createDataSource() {
-        SimpleDriverDataSource simpleDriverDataSource = new SimpleDriverDataSource();
-        simpleDriverDataSource.setDriverClass(org.h2.Driver.class);
-        simpleDriverDataSource.setUrl("jdbc:h2:mem:test;MODE=MSSQLServer;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
-        return simpleDriverDataSource;
+    private DataSource createDataSource() {
+        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(Preconditions.checkNotNull(env.getProperty("jdbc.driverClassName")));
+        dataSource.setUrl(Preconditions.checkNotNull(env.getProperty("jdbc.url")));
+        return dataSource;
     }
 
     @Bean(name = "entityManagerFactory")
@@ -67,13 +75,23 @@ public class RssAplicationConfiguration {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(dataSource());
         factory.setPackagesToScan("com.musala.db");
-        factory.setPersistenceXmlLocation("classpath:META-INF/persistance.xml");
 
         factory.setPersistenceUnitName("persistenceUnit");
         factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setJpaProperties(additionalProperties());
         factory.afterPropertiesSet();
 
         return factory.getObject();
+    }
+
+    final Properties additionalProperties() {
+        final Properties hibernateProperties = new Properties();
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        hibernateProperties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        hibernateProperties.setProperty("hibernate.hbm2ddl.import_files", env.getProperty("hibernate.hbm2ddl.import_files"));
+
+        return hibernateProperties;
     }
 
     @Bean

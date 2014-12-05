@@ -11,7 +11,6 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
-
 import com.musala.db.Category;
 import com.musala.service.CategoryServiceImpl;
 import org.springframework.stereotype.Component;

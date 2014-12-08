@@ -7,6 +7,7 @@ import com.musala.repository.ArticleRepository;
 import com.musala.repository.CategoryRepository;
 import com.musala.repository.SiteRepository;
 import com.musala.service.CategoryServiceImpl;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class GetTextFromPages {
     }
 
     private void extractArticleText(String link) throws IOException {
-        Document doc = Jsoup.connect(link).userAgent("Mozilla").get();
+        Document doc = getDocument(link);
 
         System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
 
@@ -69,6 +70,14 @@ public class GetTextFromPages {
             category.getArticles().add(article);
             article.getCategories().add(category);
         }
+    }
+
+    private Document getDocument(String link) throws IOException {
+        if (!new UrlValidator().isValid(link)) {
+            //TODO ADD CUstom exception
+            throw new RuntimeException("Invalid URL " + link);
+        }
+        return Jsoup.connect(link).userAgent("Mozilla").get();
     }
 
     public ArticleRepository getArticleRepository() {

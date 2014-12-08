@@ -3,6 +3,8 @@ package com.musala.core
 import com.musala.db.Site
 import com.musala.repository.SiteRepository
 import com.musala.testutils.DatabaseTestConfiguration
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,24 +35,31 @@ class GetTextFromPagesTest extends Specification {
 
     SiteRepository siteRepository
     Site siteWithArticle
+    Document document
 
     @BeforeTransaction
-    def 'insert tuple in Site table'(){
+    def 'insert tuple in Site table'() {
 
 
     }
 
-    def setup(){
-        siteWithArticle = Stub(Site){
-            getTextContentTag()>>"div.content"
-            getTitleTag()>>"h1"
+    def setup() {
+        siteWithArticle = Stub(Site) {
+            getTextContentTag() >> "div.content"
+            getTitleTag() >> "h1"
 
         }
 
-        siteRepository = Stub(SiteRepository){
-            findOne(_)>>siteWithArticle
+        siteRepository = Stub(SiteRepository) {
+            findOne(_) >> siteWithArticle
         }
+
+//        document = Stub(GetTextFromPages) {
+//            getDocument(_ as String)>> Jsoup.parse(_ as String)
+//        }
+
     }
+
     def 'test extractArticleText()'() {
         given:
         File createdFolder = tempFolder.newFolder("newfolder")
@@ -72,9 +81,9 @@ class GetTextFromPagesTest extends Specification {
 </body>
 </html>
 """)
-            URL localUrl = createdFile.toURI().toURL();
+
             when:
-            getTextFromPages.extractArticleText(localUrl)
+            getTextFromPages.extractArticleText(createdFile.getText('UTF-8'))
 
         }
 

@@ -33,14 +33,6 @@ public class GetTextFromPages {
 
     private Map<URL, Set<String>> articlesCategories;
 
-    public String getSiteName() {
-        return siteName;
-    }
-
-    public void setSiteName(String siteName) {
-        this.siteName = siteName;
-    }
-
     @Transactional
     public void readData(Map<URL, Set<String>> articlesCategories) {
 
@@ -48,15 +40,15 @@ public class GetTextFromPages {
 
         for (URL link : articlesCategories.keySet()) {
             try {
-                extractArticleText(link);
+                extractArticleText(link.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void extractArticleText(URL link) throws IOException {
-        Document doc = Jsoup.connect(link.toString()).userAgent("Mozilla").get();
+    private void extractArticleText(String link) throws IOException {
+        Document doc = Jsoup.connect(link).userAgent("Mozilla").get();
 
         System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
 
@@ -65,7 +57,7 @@ public class GetTextFromPages {
         String articleTitle = doc.select(site.getTitleTag()).first().text();
 
         //Create article without categories
-        Article article = new Article(link.toString(), articleText, articleTitle, null, site);
+        Article article = new Article(link, articleText, articleTitle, null, site);
         articleRepository.save(article);
 
         for (String categoryName : articlesCategories.get(link)) {
@@ -80,6 +72,14 @@ public class GetTextFromPages {
 
     public ArticleRepository getArticleRepository() {
         return articleRepository;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
     }
 }
 

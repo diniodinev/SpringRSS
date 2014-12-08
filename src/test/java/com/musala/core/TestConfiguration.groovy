@@ -1,9 +1,16 @@
 package com.musala.core
 
-import com.musala.configuration.RssAplicationConfiguration
+import com.musala.testutils.DatabaseTestConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.PropertySource
+import org.springframework.core.env.Environment
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.transaction.annotation.Transactional
+import spock.lang.Specification
+
+import javax.sql.DataSource
 
 /*
  * Copyright 2013 the original author or authors.
@@ -17,29 +24,30 @@ import org.springframework.test.context.ContextConfiguration
   * Created by dinyo.dinev on 2014.
  */
 
-
-import javax.annotation.Resource
-import spock.lang.*
-
-import javax.persistence.EntityManagerFactory
-
-//@ContextConfiguration(locations = "classpath*:/RSSBean.xml")
-
-@ContextConfiguration(classes =RssAplicationConfiguration)
+@ContextConfiguration(classes = [DatabaseTestConfiguration.class])
+@PropertySource("classpath:persistence-h2.properties")
+@Transactional
 class TestConfiguration extends Specification {
-//    @Autowired
-//
-//    @Resource
-
+    @Autowired
+    private Environment env;
 
     @Autowired
-    EntityManagerFactory factory
+    DataSource dataSource
 
-    def 'check entityManagerFactory() method properties'() {
-//        given:
-//        EntityManagerFactory factory = context.getBean("entityManagerFactory",EntityManagerFactory.class);
+    private ApplicationContext applicationContext;
 
+
+    def 'check checkDataSource() initialzation'() {
+        given:
+        Map<String, Object> properties = dataSource.getProperties()
         expect:
-        factory != null
+        dataSource != null
+
+        and:
+        properties.get("driverClassName") == env.getProperty("jdbc.driverClassName")
+        properties.get("url") == env.getProperty("jdbc.url")
     }
+
+
+
 }

@@ -127,6 +127,7 @@ public class RssExtractorSubject extends DefaultHandler {
 
         try {
             parser = factory.newSAXParser();
+            System.out.println(siteServiceImpl.findOne(siteNameKey).getRssLink());
             parser.parse(new InputSource(new URL(siteServiceImpl.findOne(siteNameKey).getRssLink()).openStream()), this);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();

@@ -60,7 +60,8 @@ public class GetTextFromPages {
         Article article = new Article(link, articleText, articleTitle, null, site);
         articleRepository.save(article);
 
-        for (String categoryName : articlesCategories.get(link)) {
+
+        for (String categoryName : articlesCategories.get(new URL(link))) {
             Category category = categoryServiceImpl.findByCategoryName(categoryName);
             if (categoryName == null) {
                 category = categoryServiceImpl.save(new Category(categoryName));

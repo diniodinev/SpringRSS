@@ -39,7 +39,7 @@ class TestConfiguration extends Specification {
 
     def 'check checkDataSource() initialzation'() {
         given:
-        Map<String, Object> properties = dataSource.getProperties()
+        def properties = dataSource.getProperties()
         expect:
         dataSource != null
 
@@ -47,7 +47,4 @@ class TestConfiguration extends Specification {
         properties.get("driverClassName") == env.getProperty("jdbc.driverClassName")
         properties.get("url") == env.getProperty("jdbc.url")
     }
-
-
-
 }

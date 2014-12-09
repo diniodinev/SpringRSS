@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Set;
@@ -32,14 +33,16 @@ public class GetTextFromPages {
 
     private String siteName;
 
-    private Map<URL, Set<String>> articlesCategories;
+    private Map<String, Set<String>> articlesCategories;
+
+    private Document doc;
 
     @Transactional
-    public void readData(Map<URL, Set<String>> articlesCategories) {
+    public void readData(Map<String, Set<String>> articlesCategories) {
 
         this.articlesCategories = articlesCategories;
 
-        for (URL link : articlesCategories.keySet()) {
+        for (String link : articlesCategories.keySet()) {
             try {
                 extractArticleText(link.toString());
             } catch (IOException e) {
@@ -48,21 +51,18 @@ public class GetTextFromPages {
         }
     }
 
-    private void extractArticleText(String link) throws IOException {
-        Document doc = getDocument(link);
+    protected void extractArticleText(String link) throws IOException {
+        doc = getDocument(link);
 
+        Article article = createArticleWithoutCategories(link);
         System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
-
-        Site site = siteRepository.findOne(siteName);
-        String articleText = doc.select(site.getTextContentTag()).first().text();
-        String articleTitle = doc.select(site.getTitleTag()).first().text();
-
-        //Create article without categories
-        Article article = new Article(link, articleText, articleTitle, null, site);
         articleRepository.save(article);
 
+        addCategoriesToArticle(link, article);
+    }
 
-        for (String categoryName : articlesCategories.get(new URL(link))) {
+    protected Article addCategoriesToArticle(String link, Article article) throws MalformedURLException {
+        for (String categoryName : articlesCategories.get(link)) {
             Category category = categoryServiceImpl.findByCategoryName(categoryName);
             if (categoryName == null) {
                 category = categoryServiceImpl.save(new Category(categoryName));
@@ -70,12 +70,31 @@ public class GetTextFromPages {
             category.getArticles().add(article);
             article.getCategories().add(category);
         }
+        return article;
     }
 
+    private Article createArticleWithoutCategories(String link) {
+        System.out.println(siteRepository.findOne(siteName));
+        Site site = siteRepository.findOne(siteName);
+        System.out.println(site.getTextContentTag());
+        String articleText = doc.select(site.getTextContentTag()).first().text();
+        String articleTitle = doc.select(site.getTitleTag()).first().text();
+
+        //Create article without categories
+        return new Article(link, articleText, articleTitle, null, site);
+    }
+
+    /**
+     * Return Document for the given link which has to be URL compatible, or
+     * html String page which will be transformed to Document.
+     *
+     * @param link
+     * @return
+     * @throws IOException
+     */
     private Document getDocument(String link) throws IOException {
         if (!new UrlValidator().isValid(link)) {
-            //TODO ADD CUstom exception
-            throw new RuntimeException("Invalid URL " + link);
+            return Jsoup.parse(link);
         }
         return Jsoup.connect(link).userAgent("Mozilla").get();
     }

@@ -23,9 +23,9 @@ import java.util.Set;
 
 public class RssUrlsObserver extends SaxObserver {
 
-    private URL currentLink;
+    private String currentLink;
 
-    private Map<URL, Set<String>> articles = new HashMap<>();
+    private Map<String, Set<String>> articles = new HashMap<>();
 
     GetTextFromPages getTextFromPages;
 
@@ -47,12 +47,8 @@ public class RssUrlsObserver extends SaxObserver {
         if (tagContent == TagContent.LINK) {
             UrlValidator defaultValidator = new UrlValidator();
             if (defaultValidator.isValid(elementTag)) {
-                try {
-                    currentLink = new URL(elementTag);
-                    articles.put(currentLink, new HashSet<String>());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                currentLink = elementTag;
+                articles.put(currentLink, new HashSet<String>());
             }
         }
     }

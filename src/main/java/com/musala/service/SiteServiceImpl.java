@@ -21,4 +21,12 @@ public class SiteServiceImpl implements SiteService {
     public Site findOne(String id) {
         return siteRepository.findOne(id);
     }
+
+    public SiteRepository getSiteRepository() {
+        return siteRepository;
+    }
+
+    public void setSiteRepository(SiteRepository siteRepository) {
+        this.siteRepository = siteRepository;
+    }
 }

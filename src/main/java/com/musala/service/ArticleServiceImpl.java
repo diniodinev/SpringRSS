@@ -14,4 +14,12 @@ public class ArticleServiceImpl implements ArticleService{
     public Iterable<Article> findAll() {
         return articleRepository.findAll();
     }
+
+    public ArticleRepository getArticleRepository() {
+        return articleRepository;
+    }
+
+    public void setArticleRepository(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
+    }
 }

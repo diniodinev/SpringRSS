@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = {"com.musala.core", "com.musala.repository"})
-public class GetTextFromPagesConfiguration {
+public class GetTextFromPagesTestConfiguration {
     @Autowired
     GetTextFromPages getTextFromPages;
 

@@ -3,7 +3,6 @@ package com.musala.core
 import com.musala.testutils.DatabaseTestConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
-import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.PropertySource
 import org.springframework.core.env.Environment
 import org.springframework.test.context.ContextConfiguration
@@ -27,7 +26,7 @@ import javax.sql.DataSource
 @ContextConfiguration(classes = [DatabaseTestConfiguration.class])
 @PropertySource("classpath:persistence-h2.properties")
 @Transactional
-class TestConfiguration extends Specification {
+class ConfigurationTest extends Specification {
     @Autowired
     private Environment env;
 

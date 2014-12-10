@@ -6,21 +6,11 @@ import com.musala.db.Site
 import com.musala.repository.ArticleRepository
 import com.musala.repository.SiteRepository
 import com.musala.service.CategoryServiceImpl
-import com.musala.testutils.DatabaseTestConfiguration
-import com.musala.testutils.GetTextFromPagesConfiguration
-import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
-import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.transaction.BeforeTransaction
 import spock.lang.Ignore
 import spock.lang.Specification
-
-import javax.annotation.PostConstruct
 
 /*
  * Copyright 2013 the original author or authors.
@@ -43,7 +33,7 @@ class GetTextFromPagesTest extends Specification {
     SiteRepository siteRepository
     ArticleRepository articleRepository
     CategoryServiceImpl categoryServiceImpl
-    Map<URL, Set<String>> articlesCategories = [:]
+    Map<String, Set<String>> articlesCategories = [:]
 
 
     Site siteWithArticle
@@ -83,20 +73,24 @@ class GetTextFromPagesTest extends Specification {
         }
     }
 
-    def 'test extractArticleText() method'() {
+    def 'check if extractArticleText() method gets text right'() {
         given:
+        String title = "Aliquam volutpat massa fermentum gravida auctor."
+        def paragraphs = ["Vestibulum et odio ipsum. In vitae dignissim magna. Morbi mollis metus mauris, ut porttitor odio convallis eget. Donec diam tortor, maximus sed auctor suscipit.",
+                          "Aliquam volutpat massa fermentum gravida auctor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+                          "Morbi in leo pharetra, luctus justo a, cursus nisl. Nulla facilisi. Nunc lacinia hendrerit ex, ac sagittis nisl bibendum id."]
         String htmlPageContent = """<!DOCTYPE html>
 <html>
 <body>
-
+<h1>${title}</h1>
 <div class="content">
 <div id="attachment_35772" class="wp-caption alignright"><img class="size-full wp-image-35772" src="http://example.com/img/imaginary.jpg" width="250" height="201" />
-<h1>Aliquam volutpat massa fermentum gravida auctor.</h1>
-<p><strong>Vestibulum et odio ipsum. In vitae dignissim magna. Morbi mollis metus mauris, ut porttitor odio convallis eget. </strong>Donec diam tortor, maximus sed auctor suscipit.</p>
 
-<p>Aliquam volutpat massa fermentum gravida auctor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+<p><strong>${paragraphs[0]}</strong></p>
 
-<p>Morbi in leo pharetra, luctus justo a, cursus nisl. Nulla facilisi. Nunc lacinia hendrerit ex, ac sagittis nisl bibendum id.</p>
+<p>${paragraphs[1]}</p>
+
+<p>${paragraphs[2]}</p>
 
 </body>
 </html>
@@ -108,40 +102,38 @@ class GetTextFromPagesTest extends Specification {
         when:
         siteRepository.findOne(_) >> exampleSite
         articleRepository.save(_) >> Mock(Article)
-        getTextUnderTest.addCategoriesToArticle(_ as String, Mock(Article)) >> [:]
 
-        getTextUnderTest.extractArticleText(htmlPageContent)
+        def article = getTextUnderTest.extractArticleText(htmlPageContent)
+
         then:
-        // assert article.toString() == "a"
-        'a' == 'a'
-
+        article.getTitle() == title
+        article.getCategories().size() == 0
+        article.getArticleText() == paragraphs.join(" ")
+        0 * getTextUnderTest._
     }
 
-    @Ignore
-    def 'test extractArticleText()'() {
+    def "check if categories are correct added to the Article entity "() {
         given:
-        String htmlPageContent = """<!DOCTYPE html>
-<html>
-<body>
+        String link = "www.example.com"
+        def categories = ["category1", "category2", "3"] as Set
+        getTextUnderTest.articlesCategories.put(link, categories)
+        Article article = new Article()
+        categories.each { it ->
+            def cat = new Category()
+            cat.setCategoryName(it)
+            categoryServiceImpl.findByCategoryName(_ as String) >> cat
+        }
 
-<div class="content">
-<div id="attachment_35772" class="wp-caption alignright"><img class="size-full wp-image-35772" src="http://example.com/img/imaginary.jpg" width="250" height="201" />
-<h1>Aliquam volutpat massa fermentum gravida auctor.</h1>
-<p><strong>Vestibulum et odio ipsum. In vitae dignissim magna. Morbi mollis metus mauris, ut porttitor odio convallis eget. </strong>Donec diam tortor, maximus sed auctor suscipit.</p>
-
-<p>Aliquam volutpat massa fermentum gravida auctor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-
-<p>Morbi in leo pharetra, luctus justo a, cursus nisl. Nulla facilisi. Nunc lacinia hendrerit ex, ac sagittis nisl bibendum id.</p>
-
-</body>
-</html>
-"""
         when:
-        getTextUnderTest.extractArticleText(htmlPageContent.toString())
+        getTextUnderTest.addCategoriesToArticle(link, article)
 
         then:
-        for (Article article : getTextUnderTest.getArticleRepository().findAll()) {
-            println article
+        article.getCategories().size() == 3
+        categories.each {
+            it in article.getCategories() == true
         }
+
+        getTextUnderTest.articlesCategories.size() == 1
+
     }
 }

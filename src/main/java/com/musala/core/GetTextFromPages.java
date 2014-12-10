@@ -44,22 +44,33 @@ public class GetTextFromPages {
 
         for (String link : articlesCategories.keySet()) {
             try {
-                extractArticleText(link.toString());
+                addCategoriesToArticle(link, extractArticleText(link.toString()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    protected void extractArticleText(String link) throws IOException {
+    protected Article extractArticleText(String link) throws IOException {
         doc = getDocument(link);
 
         Article article = createArticleWithoutCategories(link);
         System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
         articleRepository.save(article);
 
-        addCategoriesToArticle(link, article);
+        return article;
     }
+
+    /**
+     * For the given link from articlesCategories map get categories and check if they presents in the CATEGORIES
+     * table. If not, the missing category will be added to the database.
+     * All categories for the specified link will be added to <br>article<br/> object.
+     *
+     * @param link    from which categories will be searching
+     * @param article object to whom categories will be added
+     * @return input article object populated with corresponding categories
+     * @throws MalformedURLException
+     */
 
     protected Article addCategoriesToArticle(String link, Article article) throws MalformedURLException {
         for (String categoryName : articlesCategories.get(link)) {

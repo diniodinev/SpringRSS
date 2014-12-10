@@ -112,28 +112,54 @@ class GetTextFromPagesTest extends Specification {
         0 * getTextUnderTest._
     }
 
-    def "check if categories are correct added to the Article entity "() {
+    def "check if present in the DB categories are correct added to the Article entity"() {
         given:
-        String link = "www.example.com"
+        String linkOne = "www.example.com"
         def categories = ["category1", "category2", "3"] as Set
-        getTextUnderTest.articlesCategories.put(link, categories)
+        getTextUnderTest.articlesCategories.put(linkOne, categories)
         Article article = new Article()
+
         categories.each { it ->
-            def cat = new Category()
-            cat.setCategoryName(it)
-            categoryServiceImpl.findByCategoryName(_ as String) >> cat
+            def category = new Category()
+            category.setCategoryName(it)
+            categoryServiceImpl.findByCategoryName(_ as String) >> category
         }
 
         when:
-        getTextUnderTest.addCategoriesToArticle(link, article)
+        getTextUnderTest.addCategoriesToArticle(linkOne, article)
 
         then:
         article.getCategories().size() == 3
         categories.each {
             it in article.getCategories() == true
         }
-
         getTextUnderTest.articlesCategories.size() == 1
+    }
+
+    def "check if NOT present in the DB categories are correct added to the Article entity"() {
+        given:
+        String linkOne = "www.example.com"
+        def presentCategories = ["category1"] as Set
+        def nonPresentCategories = ["category2"] as Set
+        getTextUnderTest.articlesCategories.put(linkOne, presentCategories + nonPresentCategories)
+        Article article = new Article()
+
+        def findCategoryClosure = { categoryName, isNull ->
+            def category = new Category()
+            category.setCategoryName(categoryName)
+            categoryServiceImpl.findByCategoryName(_ as String) >> (isNull == null ? null : category)
+        }
+
+        presentCategories.each {
+            findCategoryClosure(it, " ")
+        }
+
+        nonPresentCategories.each {
+            findCategoryClosure(it, null)
+        }
+
+        expect:
+        categoryServiceImpl.findByCategoryName("category2").getCategoryName() == null
 
     }
 }

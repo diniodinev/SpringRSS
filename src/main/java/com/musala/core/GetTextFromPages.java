@@ -4,7 +4,6 @@ import com.musala.db.Article;
 import com.musala.db.Category;
 import com.musala.db.Site;
 import com.musala.repository.ArticleRepository;
-import com.musala.repository.CategoryRepository;
 import com.musala.repository.SiteRepository;
 import com.musala.service.CategoryServiceImpl;
 import org.apache.commons.validator.routines.UrlValidator;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +26,7 @@ public class GetTextFromPages {
     @Autowired
     private ArticleRepository articleRepository;
 
+    //TODO change with interface
     @Autowired
     private CategoryServiceImpl categoryServiceImpl;
 
@@ -73,11 +72,13 @@ public class GetTextFromPages {
      */
 
     protected Article addCategoriesToArticle(String link, Article article) throws MalformedURLException {
+        if (articlesCategories.get(link).size() == 0) {
+            articlesCategories.get(link).add("none");
+        }
         for (String categoryName : articlesCategories.get(link)) {
             Category category = categoryServiceImpl.findByCategoryName(categoryName);
-            if (categoryName == null) {
-                category = categoryServiceImpl.save(new Category(categoryName));
-            }
+            //TODO fix bug with sites without categories items
+
             category.getArticles().add(article);
             article.getCategories().add(category);
         }
@@ -85,9 +86,7 @@ public class GetTextFromPages {
     }
 
     private Article createArticleWithoutCategories(String link) {
-        System.out.println(siteRepository.findOne(siteName));
         Site site = siteRepository.findOne(siteName);
-        System.out.println(site.getTextContentTag());
         String articleText = doc.select(site.getTextContentTag()).first().text();
         String articleTitle = doc.select(site.getTitleTag()).first().text();
 

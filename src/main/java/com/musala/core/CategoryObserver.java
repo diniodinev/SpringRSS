@@ -29,6 +29,7 @@ public class CategoryObserver extends SaxObserver {
         this.subject = subject;
         subject.attach(this);
         this.categoryServiceImpl = categoryServiceImpl;
+        categories.add("none");
     }
 
     @Override

@@ -18,6 +18,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, Long> {
-    Category findByCategoryName (String categoryName);
-
+    Category findByCategoryName(String categoryName);
 }

@@ -38,7 +38,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.musala.repository")
-@ComponentScan(basePackages = {"com.musala.core"})
+@ComponentScan(basePackages = {"com.musala.service","com.musala.core"})
 @PropertySource({"classpath:persistence-h2.properties"})
 public class RssAplicationConfiguration {
 

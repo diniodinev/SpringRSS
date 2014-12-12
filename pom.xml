@@ -3,8 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dinio</groupId>
     <artifactId>RSSRead</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <version>1.0</version>
+    <name>rss</name>
 
     <properties>
         <spring.version>4.0.6.RELEASE</spring.version>
@@ -195,10 +196,26 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Spring rest -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>1.1.5.RELEASE</version>
+            <scope>provided</scope>
+        </dependency>
 
+        <!-- Spring MVC -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
-
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -224,34 +241,6 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.5.2</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <!-- Build doesn't fail if problems are found -->
-                    <failOnError>false</failOnError>
-                    <!-- Reports all bugs (other values are medium and max) -->
-                    <threshold>Low</threshold>
-                    <!-- Produces XML report -->
-                    <xmlOutput>true</xmlOutput>
-                    <!-- Configures the directory in which the XML report is created -->
-                    <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
-                </configuration>
-                <executions>
-                    <!--
-                        Ensures that FindBugs inspects source code when project is compiled.
-                    -->
-                    <execution>
-                        <id>analyze-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -335,7 +324,7 @@
                 </executions>
                 <configuration>
                     <configLocation>${checkstyle.config.location}</configLocation>
-                   <!-- <headerLocation>${checkstyle.header.location}</headerLocation> -->
+                    <!-- <headerLocation>${checkstyle.header.location}</headerLocation> -->
                     <enableRulesSummary>false</enableRulesSummary>
                     <failOnViolation>false</failOnViolation>
                     <failsOnError>false</failsOnError>
@@ -399,7 +388,9 @@
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
-                        <goals><goal>add-source</goal></goals>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
                         <configuration>
                             <sources>
                                 <source>src/test/groovy/com/musala/testutils/</source>
@@ -408,6 +399,36 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <port>9090</port>
+                    <path>/</path>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <port>9090</port>
+                    <path>/</path>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+                </configuration>
+                <version>2.4</version>
+            </plugin>
+
         </plugins>
     </build>
 

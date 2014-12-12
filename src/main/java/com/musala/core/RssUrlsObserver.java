@@ -58,5 +58,6 @@ public class RssUrlsObserver extends SaxObserver {
         System.out.println("URL observer write to db:");
         //Fill article's data
         getTextFromPages.readData(articles);
+        articles.clear();
     }
 }

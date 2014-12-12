@@ -136,7 +136,8 @@ class GetTextFromPagesTest extends Specification {
         getTextUnderTest.articlesCategories.size() == 1
     }
 
-    def "check if NOT present in the DB categories are correct added to the Article entity"() {
+    @Ignore
+    def "check if NOT present in the DB, categories are correct added to the Article entity"() {
         given:
         String linkOne = "www.example.com"
         def presentCategories = ["category1"] as Set
@@ -158,8 +159,16 @@ class GetTextFromPagesTest extends Specification {
             findCategoryClosure(it, null)
         }
 
-        expect:
-        categoryServiceImpl.findByCategoryName("category2").getCategoryName() == null
+        when:
+        getTextUnderTest.addCategoriesToArticle(linkOne, article)
 
+        then:
+        nonPresentCategories.each {
+            categoryServiceImpl.findByCategoryName(it).getCategoryName() == null
+        }
+        presentCategories.each {
+            categoryServiceImpl.findByCategoryName(it).getCategoryName() == it
+        }
+        article.getCategories().size() == 1
     }
 }

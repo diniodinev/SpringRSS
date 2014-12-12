@@ -1,4 +1,4 @@
-package com.musala.service; 
+package com.musala.service;
  /*
  * Copyright 2013 the original author or authors.
  *

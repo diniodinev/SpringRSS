@@ -1,4 +1,4 @@
-package com.musala.db; 
+package com.musala.db;
  /*
  * Copyright 2013 the original author or authors.
  *

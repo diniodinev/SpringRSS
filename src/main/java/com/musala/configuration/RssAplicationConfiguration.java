@@ -17,6 +17,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -29,21 +32,27 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Set;
 
 @Configuration
 @EnableTransactionManagement
+@EnableWebMvc
 @EnableJpaRepositories(basePackages = "com.musala.repository")
-@ComponentScan(basePackages = {"com.musala.service","com.musala.core"})
+@ComponentScan(basePackages = {"com.musala.service","com.musala.core", "com.musala.converter"})
 @PropertySource({"classpath:persistence-h2.properties"})
 public class RssAplicationConfiguration {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private Set<Converter<?, ?>> converters;
 
     @Bean(name = "dataSource")
     public DataSource dataSource() throws SQLException {
@@ -99,5 +108,13 @@ public class RssAplicationConfiguration {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(entityManagerFactory());
         return txManager;
+    }
+
+    @Bean
+    public ConversionService conversionService() {
+        ConversionServiceFactoryBean bean = new ConversionServiceFactoryBean();
+        bean.setConverters(converters);
+        bean.afterPropertiesSet();
+        return bean.getObject();
     }
 }

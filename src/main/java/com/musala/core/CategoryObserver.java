@@ -1,5 +1,5 @@
 package com.musala.core;
- /*
+/*
  * Copyright 2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,6 +12,7 @@ package com.musala.core;
  */
 
 import com.musala.db.Category;
+import com.musala.service.CategoryService;
 import com.musala.service.CategoryServiceImpl;
 import org.springframework.stereotype.Component;
 
@@ -23,19 +24,19 @@ public class CategoryObserver extends SaxObserver {
 
     private Set<String> categories = new HashSet<String>();
 
-    private CategoryServiceImpl categoryServiceImpl;
+    private CategoryService categoryService;
 
-    public CategoryObserver(final RssExtractorSubject subject, final CategoryServiceImpl categoryServiceImpl) {
+    public CategoryObserver(final RssExtractorSubject subject, final CategoryService categoryService) {
         this.subject = subject;
         subject.attach(this);
-        this.categoryServiceImpl = categoryServiceImpl;
+        this.categoryService = categoryService;
         categories.add("none");
     }
 
     @Override
     public void updateAll() {
         for (String category : categories) {
-            categoryServiceImpl.save(new Category(category));
+            categoryService.save(new Category(category));
         }
     }
 
@@ -51,11 +52,11 @@ public class CategoryObserver extends SaxObserver {
     public CategoryObserver() {
     }
 
-    public CategoryServiceImpl getCategoryServiceImpl() {
-        return categoryServiceImpl;
+    public CategoryService getCategoryService() {
+        return categoryService;
     }
 
-    public void setCategoryServiceImpl(final CategoryServiceImpl categoryServiceImpl) {
-        this.categoryServiceImpl = categoryServiceImpl;
+    public void setCategoryServiceImpl(final CategoryServiceImpl categoryService) {
+        this.categoryService = categoryService;
     }
 }

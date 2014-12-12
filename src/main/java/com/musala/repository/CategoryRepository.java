@@ -1,4 +1,4 @@
-package com.musala.repository; 
+package com.musala.repository;
  /*
  * Copyright 2013 the original author or authors.
  *

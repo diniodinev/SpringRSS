@@ -1,4 +1,4 @@
-package com.musala.core; 
+package com.musala.core;
  /*
  * Copyright 2013 the original author or authors.
  *
@@ -12,24 +12,43 @@ package com.musala.core;
  */
 
 
-import org.springframework.stereotype.Controller;
+import com.musala.db.Site;
+import com.musala.service.ArticleService;
+import com.musala.service.SiteService;
+import com.musala.view.SiteView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/movies")
+import java.util.Arrays;
+import java.util.List;
+
+@RestController
+@RequestMapping("/rss")
 public class NewsController {
 
-//    @Autowired
-//    ArticleService articleService;
+    @Autowired
+    ArticleService articleService;
 
-//    @Autowired
-//    private ConversionService conversionService;
+    @Autowired
+    SiteService siteService;
 
-    @RequestMapping(value = { "/", "" }, method = RequestMethod.GET)
+    @Autowired
+    private ConversionService conversionService;
+
+
+//    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
+//    @ResponseBody
+//    public String listArticles() {
+//        return "Tovaaa";
+//    }
+
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     @ResponseBody
-    public String listArticles() {
-        return "Tovaaa";
+    public List<SiteView> listSites() {
+        return Arrays.asList(conversionService.convert(siteService.findAll(), SiteView[].class));
     }
 }

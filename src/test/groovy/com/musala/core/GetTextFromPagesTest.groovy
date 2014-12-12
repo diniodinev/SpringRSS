@@ -47,7 +47,7 @@ class GetTextFromPagesTest extends Specification {
 
         getTextUnderTest.siteRepository = siteRepository
         getTextUnderTest.articleRepository = articleRepository
-        getTextUnderTest.categoryServiceImpl = categoryServiceImpl
+        getTextUnderTest.categoryService = categoryServiceImpl
         getTextUnderTest.articlesCategories = articlesCategories
     }
 

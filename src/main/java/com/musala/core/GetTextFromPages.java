@@ -5,7 +5,7 @@ import com.musala.db.Category;
 import com.musala.db.Site;
 import com.musala.repository.ArticleRepository;
 import com.musala.repository.SiteRepository;
-import com.musala.service.CategoryServiceImpl;
+import com.musala.service.CategoryService;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,9 +26,8 @@ public class GetTextFromPages {
     @Autowired
     private ArticleRepository articleRepository;
 
-    //TODO change with interface
     @Autowired
-    private CategoryServiceImpl categoryServiceImpl;
+    private CategoryService categoryService;
 
     private String siteName;
 
@@ -37,7 +36,7 @@ public class GetTextFromPages {
     private Document doc;
 
     @Transactional
-    public void readData(Map<String, Set<String>> articlesCategories) {
+    public void readData(final Map<String, Set<String>> articlesCategories) {
 
         this.articlesCategories = articlesCategories;
 
@@ -50,7 +49,7 @@ public class GetTextFromPages {
         }
     }
 
-    protected Article extractArticleText(String link) throws IOException {
+    protected Article extractArticleText(final String link) throws IOException {
         doc = getDocument(link);
 
         Article article = createArticleWithoutCategories(link);
@@ -71,12 +70,12 @@ public class GetTextFromPages {
      * @throws MalformedURLException
      */
 
-    protected Article addCategoriesToArticle(String link, Article article) throws MalformedURLException {
+    protected Article addCategoriesToArticle(final String link, final Article article) throws MalformedURLException {
         if (articlesCategories.get(link).size() == 0) {
             articlesCategories.get(link).add("none");
         }
         for (String categoryName : articlesCategories.get(link)) {
-            Category category = categoryServiceImpl.findByCategoryName(categoryName);
+            Category category = categoryService.findByCategoryName(categoryName);
             //TODO fix bug with sites without categories items
 
             category.getArticles().add(article);
@@ -85,7 +84,7 @@ public class GetTextFromPages {
         return article;
     }
 
-    private Article createArticleWithoutCategories(String link) {
+    private Article createArticleWithoutCategories(final String link) {
         Site site = siteRepository.findOne(siteName);
         String articleText = doc.select(site.getTextContentTag()).first().text();
         String articleTitle = doc.select(site.getTitleTag()).first().text();
@@ -102,7 +101,7 @@ public class GetTextFromPages {
      * @return
      * @throws IOException
      */
-    private Document getDocument(String link) throws IOException {
+    private Document getDocument(final String link) throws IOException {
         if (!new UrlValidator().isValid(link)) {
             return Jsoup.parse(link);
         }
@@ -117,7 +116,7 @@ public class GetTextFromPages {
         return siteName;
     }
 
-    public void setSiteName(String siteName) {
+    public void setSiteName(final String siteName) {
         this.siteName = siteName;
     }
 }

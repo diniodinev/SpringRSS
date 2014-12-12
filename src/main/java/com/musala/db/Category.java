@@ -1,5 +1,4 @@
 package com.musala.db;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;

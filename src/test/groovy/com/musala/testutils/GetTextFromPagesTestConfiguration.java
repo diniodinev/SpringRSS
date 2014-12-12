@@ -15,6 +15,7 @@ import com.musala.core.GetTextFromPages;
 import com.musala.repository.ArticleRepository;
 import com.musala.repository.CategoryRepository;
 import com.musala.repository.SiteRepository;
+import com.musala.service.ArticleService;
 import com.musala.service.ArticleServiceImpl;
 import com.musala.service.CategoryServiceImpl;
 import com.musala.service.SiteServiceImpl;
@@ -55,7 +56,7 @@ public class GetTextFromPagesTestConfiguration {
     }
 
     @Bean
-    public ArticleServiceImpl articleServiceImpl() {
+    public ArticleService articleService() {
         return new ArticleServiceImpl();
     }
 }

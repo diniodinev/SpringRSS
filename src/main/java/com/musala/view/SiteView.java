@@ -1,4 +1,4 @@
-package com.musala.db;
+package com.musala.view; 
  /*
  * Copyright 2013 the original author or authors.
  *
@@ -11,38 +11,24 @@ package com.musala.db;
   * Created by dinyo.dinev on 2014.
  */
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-@Entity
-@Table(name = "SITE")
-public class Site implements Serializable {
+public class SiteView {
 
-    private static final long serialVersionUID = -123141221324478L;
-
-    @Id
-    @Column(name = "SITE_NAME")
     private String siteName;
-
-    @Column(name = "RSS_LINK")
     private String rssLink;
-
-    @Column(name = "RSS_TAG")
     private String rssTag;
-
-    @Column(name = "TITLE_TAG")
     private String titleTag;
-
-    @Column(name = "TEXT_CONTENT_TAG")
     private String textContentTag;
-
-    @Column(name = "CATEGORY_TAG")
     private String categoryTag;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "site")
-    private List<Article> articlesFromCite = new ArrayList<Article>();
+    public SiteView(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag) {
+        this.siteName = siteName;
+        this.rssLink = rssLink;
+        this.rssTag = rssTag;
+        this.titleTag = titleTag;
+        this.textContentTag = textContentTag;
+        this.categoryTag = categoryTag;
+    }
 
     public String getSiteName() {
         return siteName;
@@ -91,24 +77,4 @@ public class Site implements Serializable {
     public void setCategoryTag(String categoryTag) {
         this.categoryTag = categoryTag;
     }
-
-    public Site(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, long articleId) {
-        this.siteName = siteName;
-        this.rssLink = rssLink;
-        this.rssTag = rssTag;
-        this.titleTag = titleTag;
-        this.textContentTag = textContentTag;
-    }
-
-    public Site() {
-    }
-
-    public List<Article> getArticlesFromCite() {
-        return articlesFromCite;
-    }
-
-    public void setArticlesFromCite(List<Article> articlesFromCite) {
-        this.articlesFromCite = articlesFromCite;
-    }
-
 }

@@ -1,4 +1,4 @@
-create table SITE (
+create table SITE ( --TODO change all word uppercase
     SITE_NAME varchar(256) NOT NULL,
     RSS_LINK varchar(256) NOT NULL,
     RSS_TAG varchar(64) NOT NULL,
@@ -11,9 +11,9 @@ create table SITE (
 create table ARTICLE (
     ARTICLE_ID bigint IDENTITY(1,1) NOT NULL,
     FULL_LINK varchar(256) NOT NULL,
-    ARTICLE_TEXT varchar(65536),
+    ARTICLE_TEXT varchar(65536),-- TODO change to clob
     TITLE varchar(512),
-    DATE DATETIME NULL,
+    DATE DATETIME NULL, --TODO change DATE time name
     SITE_NAME varchar(256) NOT NULL,
     PRIMARY KEY (ARTICLE_ID),
     FOREIGN KEY (SITE_NAME) REFERENCES SITE(SITE_NAME)

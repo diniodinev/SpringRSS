@@ -126,6 +126,7 @@ public class Article implements Serializable {
                 '}';
     }
 
+    //TODO move const
     public Article() {
     }
 

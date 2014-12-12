@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Set;
 
+//TODO: use autowire
 @Component
 public class CategoryObserver extends SaxObserver {
 
@@ -36,10 +37,11 @@ public class CategoryObserver extends SaxObserver {
     @Override
     public void updateAll() {
         for (String category : categories) {
-            categoryService.save(new Category(category));
+            categoryService.save(new Category(category));//TODO check if catefory exists
         }
     }
 
+    //TODO tagContent ->tagType rename
     @Override
     public void update(final String category, final TagContent tagContent) {
         if (tagContent == TagContent.CATEGORY) {

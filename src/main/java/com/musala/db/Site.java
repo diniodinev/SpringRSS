@@ -15,7 +15,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+//TODO add size(all information) ,take it form the ddl
 @Entity
 @Table(name = "SITE")
 public class Site implements Serializable {
@@ -41,6 +41,7 @@ public class Site implements Serializable {
     @Column(name = "CATEGORY_TAG")
     private String categoryTag;
 
+    //TODO change EAGER to LAZY
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "site")
     private List<Article> articlesFromCite = new ArrayList<Article>();
 
@@ -92,6 +93,7 @@ public class Site implements Serializable {
         this.categoryTag = categoryTag;
     }
 
+    //TODO move it at the begining
     public Site(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, long articleId) {
         this.siteName = siteName;
         this.rssLink = rssLink;

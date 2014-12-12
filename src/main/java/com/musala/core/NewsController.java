@@ -26,6 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 
+//TODO make separate controllers
+//TODO change modifuers
+//TODO change name rss to site
 @RestController
 @RequestMapping("/rss")
 public class NewsController {

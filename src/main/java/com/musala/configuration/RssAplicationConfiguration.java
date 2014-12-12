@@ -85,7 +85,8 @@ public class RssAplicationConfiguration {
         factory.setDataSource(dataSource());
         factory.setPackagesToScan("com.musala.db");
 
-        factory.setPersistenceUnitName("persistenceUnit");
+
+        factory.setPersistenceUnitName("persistenceUnit");//TODO check why use it
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setJpaProperties(additionalProperties());
         factory.afterPropertiesSet();

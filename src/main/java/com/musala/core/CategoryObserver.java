@@ -14,45 +14,74 @@ package com.musala.core;
 import com.musala.db.Category;
 import com.musala.service.CategoryService;
 import com.musala.service.CategoryServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.Set;
 
 //TODO: use autowire
 @Component
-public class CategoryObserver extends SaxObserver {
+public class CategoryObserver implements ArticleObserver {
 
-    private Set<String> categories = new HashSet<String>();
+    private RssProcessor rssProcessor;
 
+    //private Set<String> categories = new HashSet<String>();
+
+    @Autowired
     private CategoryService categoryService;
-
-    public CategoryObserver(final RssExtractorSubject subject, final CategoryService categoryService) {
-        this.subject = subject;
-        subject.attach(this);
-        this.categoryService = categoryService;
-        categories.add("none");
-    }
-
-    @Override
-    public void updateAll() {
-        for (String category : categories) {
-            categoryService.save(new Category(category));//TODO check if catefory exists
-        }
-    }
-
-    //TODO tagContent ->tagType rename
-    @Override
-    public void update(final String category, final TagContent tagContent) {
-        if (tagContent == TagContent.CATEGORY) {
-            if (category != null && !category.isEmpty()) {
-                categories.add(category);
-            }
-        }
-    }
 
     public CategoryObserver() {
     }
+
+    @Override
+    public void update() {
+        ArticleInfo articleInfo;
+        if (rssProcessor != null) {
+            articleInfo = rssProcessor.getUpdate();
+            if (articleInfo.getTagType() == TagType.CATEGORY) {
+                if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty()) {
+                    categoryService.save(articleInfo.getCategoryName());
+                }
+            }
+        } else {
+            new RuntimeException(ErrorMessages.UPDATE_ON_NULL_OBSERVER_NOT_ALLOW);
+        }
+    }
+
+    @Override
+    public void setSubject(RssProcessor rssProcessor) {
+        this.rssProcessor = rssProcessor;
+    }
+
+    @PostConstruct
+    private void addDefaultCategory() {
+        categoryService.save(new Category("none"));
+    }
+    //    public CategoryObserver(final RssProcessorImpl subject, final CategoryService categoryService) {
+//        this.subject = subject;
+//        subject.attach(this);
+//        this.categoryService = categoryService;
+//        categories.add("none");
+//    }
+
+//    @Override
+//    public void updateAll() {
+//        for (String category : categories) {
+//            categoryService.save(new Category(category));//TODO check if catefory exists
+//        }
+//    }
+//
+//    @Override
+//    public void update(final ArticleInfo articleInfo) {
+//        if (articleInfo.getTagType() == TagType.CATEGORY) {
+//            if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty()) {
+//                categories.add(articleInfo.getCategoryName());
+//            }
+//        }
+//    }
+
 
     public CategoryService getCategoryService() {
         return categoryService;

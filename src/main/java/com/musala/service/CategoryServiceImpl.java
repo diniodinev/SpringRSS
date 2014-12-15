@@ -32,6 +32,15 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.save(category);
     }
 
+    @Override
+    public Category save(String categoryName) {
+        Category category = categoryRepository.findByCategoryName(categoryName);
+        if (category == null) {
+            return categoryRepository.save(new Category(categoryName));
+        }
+        return category;
+    }
+
     /**
      * Searches for presence of <b>categoryName</b> in CategoryRepository. If it is  not part
      * of the repository, null is returned.

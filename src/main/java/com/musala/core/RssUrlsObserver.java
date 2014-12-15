@@ -13,51 +13,84 @@ package com.musala.core;
 
 
 import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.stereotype.Component;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class RssUrlsObserver extends SaxObserver {
+@Component
+public class RssUrlsObserver implements ArticleObserver {
 
+    //Current link which RSSReader finds from the rss. currentLink has to be followed be zero or more categories
     private String currentLink;
 
-    private Map<String, Set<String>> articles = new HashMap<>();
+    private Map<String, Set<String>> articles = articles = new HashMap<>();
 
-    GetTextFromPages getTextFromPages;
+    private ArticleInfo articleInfo;
 
-    public RssUrlsObserver(RssExtractorSubject subject, GetTextFromPages getTextFromPages) {
-        this.subject = subject;
-        subject.attach(this);
-        this.getTextFromPages = getTextFromPages;
-    }
+    private RssProcessor rssProcessor;
 
     @Override
-    public void update(String elementTag, TagContent tagContent) {
-        if (tagContent == TagContent.CATEGORY) {
-            if (elementTag != null && !elementTag.isEmpty() && currentLink != null) {
+    public void update() {
+        articleInfo = rssProcessor.getUpdate();
+
+        if (articleInfo.getTagType() == TagType.CATEGORY) {
+            if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty() && currentLink != null) {
                 Set<String> currentCategories = new HashSet<String>(articles.get(currentLink));
-                currentCategories.add(elementTag);
+                currentCategories.add(articleInfo.getCategoryName());
                 articles.put(currentLink, currentCategories);
             }
         }
-        if (tagContent == TagContent.LINK) {
+        if (articleInfo.getTagType() == TagType.LINK) {
             UrlValidator defaultValidator = new UrlValidator();
-            if (defaultValidator.isValid(elementTag)) {
-                currentLink = elementTag;
+            if (defaultValidator.isValid(articleInfo.getCategoryName())) {
+                currentLink = articleInfo.getCategoryName();
                 articles.put(currentLink, new HashSet<String>());
+            } else {
+                throw new RuntimeException(ErrorMessages.INVALID_URL_FROM_RSS + articleInfo.getCategoryName());
             }
         }
     }
 
     @Override
-    public void updateAll() {
-        System.out.println("URL observer write to db:");
-        //Fill article's data
-        getTextFromPages.readData(articles);
-        articles.clear();
+    public void setSubject(RssProcessor rssProcessor) {
+        this.rssProcessor = rssProcessor;
+
     }
+
+//GetTextFromPages getTextFromPages;
+
+//    public RssUrlsObserver(RssProcessorImpl subject, GetTextFromPages getTextFromPages) {
+//        this.subject = subject;
+//        subject.attach(this);
+//        this.getTextFromPages = getTextFromPages;
+//    }
+
+//    @Override
+//    public void update(ArticleInfo articleInfo) {
+//        if (articleInfo.getTagType() == TagType.CATEGORY) {
+//            if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty() && currentLink != null) {
+//                Set<String> currentCategories = new HashSet<String>(articles.get(currentLink));
+//                currentCategories.add(articleInfo.getCategoryName());
+//                articles.put(currentLink, currentCategories);
+//            }
+//        }
+//        if (articleInfo.getTagType() == TagType.LINK) {
+//            UrlValidator defaultValidator = new UrlValidator();
+//            if (defaultValidator.isValid(articleInfo.getCategoryName())) {
+//                currentLink = articleInfo.getCategoryName();
+//                articles.put(currentLink, new HashSet<String>());
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void updateAll() {
+//        System.out.println("URL observer write to db:");
+//        //Fill article's data
+//        getTextFromPages.readData(articles);
+//        articles.clear();
+//    }
 }

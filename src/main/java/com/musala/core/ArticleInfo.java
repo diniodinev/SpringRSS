@@ -11,6 +11,44 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component
+@Scope("prototype")
 public class ArticleInfo {
+    private String categoryName;
+    private TagType tagType;
+
+    public ArticleInfo() {
+    }
+
+    public ArticleInfo(String categoryName, TagType tagType) {
+        this.categoryName = categoryName;
+        this.tagType = tagType;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public TagType getTagType() {
+        return tagType;
+    }
+
+    public void setTagType(TagType tagType) {
+        this.tagType = tagType;
+    }
+
+    @Override
+    public String toString() {
+        return "ArticleInfo{" +
+                "categoryName='" + categoryName + '\'' +
+                ", tagType=" + tagType +
+                '}';
+    }
 }

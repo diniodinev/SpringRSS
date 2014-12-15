@@ -11,9 +11,9 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
+import com.musala.db.Site;
 import com.musala.service.SiteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -30,11 +30,17 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO rename to RssProcessor
 @Component
 @Scope("prototype")
-public class RssExtractorSubject extends DefaultHandler {
+public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
 
-    private List<SaxObserver> observers = new ArrayList<SaxObserver>();
+    private Site site;
+
+    @Autowired
+    private ArticleInfo articleInfo;
+
+    private List<ArticleObserver> observers = new ArrayList<ArticleObserver>();
 
     @Autowired
     SiteServiceImpl siteServiceImpl;
@@ -43,7 +49,7 @@ public class RssExtractorSubject extends DefaultHandler {
 
     private String siteNameKey;
 
-    private TagContent CURRENT_TAG;
+    private TagType CURRENT_TAG;
 
     public StringBuilder getText() {
         return text;
@@ -61,30 +67,30 @@ public class RssExtractorSubject extends DefaultHandler {
         this.siteNameKey = siteNameKey;
     }
 
-    /**
-     * Attach observer to this subject
-     *
-     * @param observer
-     */
-    public void attach(SaxObserver observer) {
-        observers.add(observer);
-    }
-
-    public void notifyAllObservers() {
-        for (SaxObserver observer : observers) {
-            observer.updateAll();
-        }
-    }
-
-    public void notifyAllObservers(String tagElement, TagContent tagContent) {
-        for (SaxObserver observer : observers) {
-            observer.update(tagElement, tagContent);
-        }
-    }
-
-    public void addItemsToObservers() {
-        readData();
-    }
+//    /**
+//     * Attach observer to this subject
+//     *
+//     * @param observer
+//     */
+//    public void attach(ArticleObserver observer) {
+//        observers.add(observer);
+//    }
+//
+//    public void notifyAllObservers() {
+//        for (ArticleObserver observer : observers) {
+//            observer.updateAll();
+//        }
+//    }
+//
+//    public void notifyAllObservers(ArticleInfo articleInfo) {
+//        for (ArticleObserver observer : observers) {
+//            observer.update(articleInfo);
+//        }
+//    }
+//
+//    public void addItemsToObservers() {
+//        readData();
+//    }
 
     @Override
     public void startDocument() {
@@ -92,7 +98,7 @@ public class RssExtractorSubject extends DefaultHandler {
 
     @Override
     public void endDocument() {
-        notifyAllObservers();
+        //notifyAllObservers();
     }
 
     @Override
@@ -100,19 +106,21 @@ public class RssExtractorSubject extends DefaultHandler {
                              String qName, Attributes attributes) {
         text.setLength(0);
         //TODO rename RssTag ot RssLinkTag
-        if (qName.equalsIgnoreCase(siteServiceImpl.findOne(siteNameKey).getRssTag())) {
-            CURRENT_TAG = TagContent.LINK;
+        if (qName.equalsIgnoreCase(site.getRssTag())) {
+            CURRENT_TAG = TagType.LINK;
         }
 
-        if (qName.equalsIgnoreCase(siteServiceImpl.findOne(siteNameKey).getCategoryTag())) {
-            CURRENT_TAG = TagContent.CATEGORY;
+        if (qName.equalsIgnoreCase(site.getCategoryTag())) {
+            CURRENT_TAG = TagType.CATEGORY;
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) {
         if (CURRENT_TAG != null) {
-            notifyAllObservers(text.toString(), CURRENT_TAG);
+            articleInfo.setCategoryName(text.toString());
+            articleInfo.setTagType(CURRENT_TAG);
+            notifyAllObservers();
         }
         CURRENT_TAG = null;
     }
@@ -124,14 +132,20 @@ public class RssExtractorSubject extends DefaultHandler {
         }
     }
 
+    public void processRss(Site site) {
+        this.site = site;
+        readData();
+
+    }
+
     private void readData() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = null;
 
         try {
             parser = factory.newSAXParser();
-            System.out.println(siteServiceImpl.findOne(siteNameKey).getRssLink());
-            parser.parse(new InputSource(new URL(siteServiceImpl.findOne(siteNameKey).getRssLink()).openStream()), this);
+            System.out.println(site.getRssLink());
+            parser.parse(new InputSource(new URL(site.getRssLink()).openStream()), this);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -139,5 +153,31 @@ public class RssExtractorSubject extends DefaultHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void register(ArticleObserver observer) {
+        if (observer == null) {
+            throw new RuntimeException(ErrorMessages.OBSERVER_MUST_NOT_BE_NULL);
+        }
+        observers.add(observer);
+    }
+
+    @Override
+    public void unRegister(ArticleObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyAllObservers() {
+        for (ArticleObserver articleObserver : observers) {
+            articleObserver.update();
+        }
+
+    }
+
+    @Override
+    public ArticleInfo getUpdate() {
+        return articleInfo;
     }
 }

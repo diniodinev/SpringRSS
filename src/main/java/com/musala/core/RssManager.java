@@ -37,7 +37,7 @@ public class RssManager {
     ArticleService articleService;
 
     @Autowired
-    RssExtractorSubject subject;
+    RssProcessorImpl subject;
 
     @Autowired
     GetTextFromPages getTextFromPages;
@@ -45,13 +45,17 @@ public class RssManager {
     @PostConstruct
     public void readArticles() {
         for (Site rssFeedSite : siteService.findAll()) {
-            getTextFromPages.setSiteName(rssFeedSite.getSiteName());
+            System.out.println("From rssFeed" + rssFeedSite.getSiteName());
+//            getTextFromPages.setSiteName(rssFeedSite.getSiteName());
+//
+//            subject.setSiteNameKey(rssFeedSite.getSiteName());
+//            //TODO: remove
+//            new CategoryObserver(subject, categoryService);
+//            new RssUrlsObserver(subject, getTextFromPages);
+//            subject.addItemsToObservers();
 
-            subject.setSiteNameKey(rssFeedSite.getSiteName());
-            //TODO: remove
-            new CategoryObserver(subject, categoryService);
-            new RssUrlsObserver(subject, getTextFromPages);
-            subject.addItemsToObservers();
+            subject.processRss(rssFeedSite);
+
         }
     }
 }

@@ -11,13 +11,8 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
-public enum TagContent {
+public interface ArticleObserver {
+    public void update();
 
-    LINK("link"), CATEGORY("category");
-
-    private String name;
-
-    TagContent(String name) {
-        this.name = name;
-    }
+    public void setSubject(RssProcessor rssProcessor);
 }

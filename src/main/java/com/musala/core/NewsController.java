@@ -49,6 +49,7 @@ public class NewsController {
 //        return "Tovaaa";
 //    }
 
+
     @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     @ResponseBody
     public List<SiteView> listSites() {

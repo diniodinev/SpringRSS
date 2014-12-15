@@ -1,4 +1,5 @@
 package com.musala.db;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,11 +15,15 @@ public class Category implements Serializable {
     @Column(name = "CATEGORY_ID")
     private long categoryId;
 
-    @Column(name = "CATEGORY_NAME")
+    //TODO chage to nullable=false
+    @Column(name = "CATEGORY_NAME", nullable = true, length= 64)
     private String categoryName;
 
     @ManyToMany(mappedBy = "categories")
     private List<Article> articles = new ArrayList<Article>();
+
+    public Category() {
+    }
 
     public long getCategoryId() {
         return categoryId;
@@ -46,8 +51,5 @@ public class Category implements Serializable {
 
     public Category(String categoryName) {
         this.categoryName = categoryName;
-    }
-
-    public Category() {
     }
 }

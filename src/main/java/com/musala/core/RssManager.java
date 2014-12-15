@@ -19,10 +19,13 @@ import com.musala.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+
 //TODO Change name to manager
 @Component
-@Qualifier("rssController")
-public class RssController {
+@Qualifier("rssManager")
+public class RssManager {
 
     @Autowired
     SiteService siteService;
@@ -39,8 +42,8 @@ public class RssController {
     @Autowired
     GetTextFromPages getTextFromPages;
 
-//TODO not calling in main ,postconstruct attention
-    public void initiatePopulation() {
+    @PostConstruct
+    public void readArticles() {
         for (Site rssFeedSite : siteService.findAll()) {
             getTextFromPages.setSiteName(rssFeedSite.getSiteName());
 

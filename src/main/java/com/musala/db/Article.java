@@ -26,20 +26,21 @@ public class Article implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ARTICLE_ID")
+    @Column(name = "ARTICLE_ID", nullable = false)
     private long id;
 
-    @Column(name = "FULL_LINK")
+    @Column(name = "FULL_LINK", nullable = false, length = 256)
     private String link;
 
-    @Column(name = "ARTICLE_TEXT", length = 32768)
+    @Lob
+    @Column(name = "ARTICLE_TEXT")
     private String articleText;
 
-    @Column(name = "TITLE")
+    @Column(name = "TITLE", nullable = true, length = 512)
     private String title;
 
-    @Column(name = "DATE")
-    private Date date;
+    @Column(name = "PUBLICATION_DATE", nullable = true)
+    private Date publicationDate;
 
 
     @ManyToMany(cascade = {CascadeType.ALL})
@@ -54,8 +55,16 @@ public class Article implements Serializable {
     @JoinColumn(name = "SITE_NAME")
     private Site site;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+
+    public Article() {
+    }
+
+    public Article(String link, String articleText, String title, Date publicationDate, Site site) {
+        this.link = link;
+        this.articleText = articleText;
+        this.title = title;
+        this.publicationDate = publicationDate;
+        this.site = site;
     }
 
     public long getId() {
@@ -90,12 +99,12 @@ public class Article implements Serializable {
         this.title = title;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getPublicationDate() {
+        return publicationDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
     }
 
     public Site getSite() {
@@ -121,20 +130,8 @@ public class Article implements Serializable {
                 ", link='" + link + '\'' +
                 ", articleText='" + articleText + '\'' +
                 ", title='" + title + '\'' +
-                ", date=" + date +
+                ", publicationDate=" + publicationDate +
                 ", site=" + site +
                 '}';
-    }
-
-    //TODO move const
-    public Article() {
-    }
-
-    public Article(String link, String articleText, String title, Date date, Site site) {
-        this.link = link;
-        this.articleText = articleText;
-        this.title = title;
-        this.date = date;
-        this.site = site;
     }
 }

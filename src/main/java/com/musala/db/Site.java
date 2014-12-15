@@ -23,27 +23,37 @@ public class Site implements Serializable {
     private static final long serialVersionUID = -123141221324478L;
 
     @Id
-    @Column(name = "SITE_NAME")
+    @Column(name = "SITE_NAME", nullable = false, length= 256)
     private String siteName;
 
-    @Column(name = "RSS_LINK")
+    @Column(name = "RSS_LINK", nullable = false, length= 256)
     private String rssLink;
 
-    @Column(name = "RSS_TAG")
+    @Column(name = "RSS_TAG", nullable = false, length= 64)
     private String rssTag;
 
-    @Column(name = "TITLE_TAG")
+    @Column(name = "TITLE_TAG", nullable = true, length= 64)
     private String titleTag;
 
-    @Column(name = "TEXT_CONTENT_TAG")
+    @Column(name = "TEXT_CONTENT_TAG", nullable = false, length= 64)
     private String textContentTag;
 
-    @Column(name = "CATEGORY_TAG")
+    @Column(name = "CATEGORY_TAG", nullable = true, length= 128)
     private String categoryTag;
 
-    //TODO change EAGER to LAZY
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "site")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "site")
     private List<Article> articlesFromCite = new ArrayList<Article>();
+
+    public Site() {
+    }
+
+    public Site(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, long articleId) {
+        this.siteName = siteName;
+        this.rssLink = rssLink;
+        this.rssTag = rssTag;
+        this.titleTag = titleTag;
+        this.textContentTag = textContentTag;
+    }
 
     public String getSiteName() {
         return siteName;
@@ -91,18 +101,6 @@ public class Site implements Serializable {
 
     public void setCategoryTag(String categoryTag) {
         this.categoryTag = categoryTag;
-    }
-
-    //TODO move it at the begining
-    public Site(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, long articleId) {
-        this.siteName = siteName;
-        this.rssLink = rssLink;
-        this.rssTag = rssTag;
-        this.titleTag = titleTag;
-        this.textContentTag = textContentTag;
-    }
-
-    public Site() {
     }
 
     public List<Article> getArticlesFromCite() {

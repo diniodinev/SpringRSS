@@ -43,13 +43,9 @@ public class GetTextFromPages {
 //        }
 //    }
 
-    @PreDestroy
-    public void readArticleText() {
-        System.out.println("--->In getTextFrompages");
-        for (Article article : articleService.findAll()) {
-            if (article.getArticleText().isEmpty()) {
+    public void readArticleText(Article article) {
+            if (article.getArticleText() == null) {
                 extractArticleInformation(article.getLink(), article);
-            }
         }
     }
 

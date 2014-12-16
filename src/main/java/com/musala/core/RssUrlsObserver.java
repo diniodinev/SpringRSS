@@ -19,6 +19,7 @@ import com.musala.service.CategoryService;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,6 +37,9 @@ public class RssUrlsObserver implements ArticleObserver {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private GetTextFromPages getTextFromPages;
 
     private Map<String, Set<String>> articles = articles = new HashMap<>();
 
@@ -55,6 +59,7 @@ public class RssUrlsObserver implements ArticleObserver {
                     Category category = categoryService.findByCategoryName(articleInfo.getCategoryName());
                     category.getArticles().add(article);
                     article.getCategories().add(category);
+
                 } else {
                     throw new RuntimeException("Article is nullllll");
                 }
@@ -64,12 +69,15 @@ public class RssUrlsObserver implements ArticleObserver {
             UrlValidator defaultValidator = new UrlValidator();
             if (defaultValidator.isValid(articleInfo.getCategoryName())) {
                 //TODO rename CategoryName to categoryTag
-                articleService.save(new Article(articleInfo.getCategoryName(), articleInfo.getSite()));
+                Article article = new Article(articleInfo.getCategoryName(), articleInfo.getSite());
+                articleService.save(article);
+                getTextFromPages.readArticleText(article);
                 currentLink = articleInfo.getCategoryName();
             } else {
                 throw new RuntimeException(ErrorMessages.INVALID_URL_FROM_RSS + articleInfo.getCategoryName());
             }
         }
+
     }
 
     @Override

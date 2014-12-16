@@ -78,7 +78,6 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
     @Override
     public void startElement(String uri, String localName,
                              String qName, Attributes attributes) {
-        System.out.println("Start element"+qName);
         text.setLength(0);
         //TODO rename RssTag ot RssLinkTag
         if (qName.equalsIgnoreCase(site.getRssTag())) {
@@ -96,7 +95,6 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
             articleInfo.setCategoryName(text.toString());
             articleInfo.setTagType(CURRENT_TAG);
             articleInfo.setSite(site);
-            System.out.println("Notify all observers");
             notifyAllObservers();
         }
         CURRENT_TAG = null;
@@ -106,7 +104,6 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
     public void characters(char ch[], int start, int length) {
         if (text != null) {
             text.append(ch, start, length);
-            System.out.println("Chars= "+text.toString());
         }
     }
 
@@ -120,7 +117,6 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
         SAXParser parser = null;
         try {
             parser = factory.newSAXParser();
-            System.out.println("Parser link:"+site.getRssLink());
             parser.parse(new InputSource(new URL(site.getRssLink()).openStream()), this);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();

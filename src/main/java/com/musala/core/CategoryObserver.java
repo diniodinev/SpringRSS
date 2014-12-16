@@ -37,11 +37,13 @@ public class CategoryObserver implements ArticleObserver {
 
     @Override
     public void update() {
+        System.out.println("In category observer: update:");
         ArticleInfo articleInfo;
         if (rssProcessor != null) {
             articleInfo = rssProcessor.getUpdate();
             if (articleInfo.getTagType() == TagType.CATEGORY) {
                 if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty()) {
+                    System.out.println("In category observer: update: Save category to DB:"+ articleInfo.getCategoryName());
                     categoryService.save(articleInfo.getCategoryName());
                 }
             }
@@ -55,6 +57,7 @@ public class CategoryObserver implements ArticleObserver {
         this.rssProcessor = rssProcessor;
     }
 
+    //TODO checi if it is added once
     @PostConstruct
     private void addDefaultCategory() {
         categoryService.save(new Category("none"));

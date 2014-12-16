@@ -41,7 +41,7 @@ public class Site implements Serializable {
     @Column(name = "CATEGORY_TAG", nullable = true, length= 128)
     private String categoryTag;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "site")
+    @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL, mappedBy = "site")
     private List<Article> articlesFromCite = new ArrayList<Article>();
 
     public Site() {

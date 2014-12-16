@@ -67,43 +67,18 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
         this.siteNameKey = siteNameKey;
     }
 
-//    /**
-//     * Attach observer to this subject
-//     *
-//     * @param observer
-//     */
-//    public void attach(ArticleObserver observer) {
-//        observers.add(observer);
-//    }
-//
-//    public void notifyAllObservers() {
-//        for (ArticleObserver observer : observers) {
-//            observer.updateAll();
-//        }
-//    }
-//
-//    public void notifyAllObservers(ArticleInfo articleInfo) {
-//        for (ArticleObserver observer : observers) {
-//            observer.update(articleInfo);
-//        }
-//    }
-//
-//    public void addItemsToObservers() {
-//        readData();
-//    }
-
     @Override
     public void startDocument() {
     }
 
     @Override
     public void endDocument() {
-        //notifyAllObservers();
     }
 
     @Override
     public void startElement(String uri, String localName,
                              String qName, Attributes attributes) {
+        System.out.println("Start element"+qName);
         text.setLength(0);
         //TODO rename RssTag ot RssLinkTag
         if (qName.equalsIgnoreCase(site.getRssTag())) {
@@ -120,6 +95,8 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
         if (CURRENT_TAG != null) {
             articleInfo.setCategoryName(text.toString());
             articleInfo.setTagType(CURRENT_TAG);
+            articleInfo.setSite(site);
+            System.out.println("Notify all observers");
             notifyAllObservers();
         }
         CURRENT_TAG = null;
@@ -129,22 +106,21 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
     public void characters(char ch[], int start, int length) {
         if (text != null) {
             text.append(ch, start, length);
+            System.out.println("Chars= "+text.toString());
         }
     }
 
     public void processRss(Site site) {
         this.site = site;
         readData();
-
     }
 
     private void readData() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = null;
-
         try {
             parser = factory.newSAXParser();
-            System.out.println(site.getRssLink());
+            System.out.println("Parser link:"+site.getRssLink());
             parser.parse(new InputSource(new URL(site.getRssLink()).openStream()), this);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
@@ -173,7 +149,6 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
         for (ArticleObserver articleObserver : observers) {
             articleObserver.update();
         }
-
     }
 
     @Override

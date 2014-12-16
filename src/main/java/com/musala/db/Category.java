@@ -19,7 +19,7 @@ public class Category implements Serializable {
     @Column(name = "CATEGORY_NAME", nullable = true, length= 64)
     private String categoryName;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "categories")
     private List<Article> articles = new ArrayList<Article>();
 
     public Category() {

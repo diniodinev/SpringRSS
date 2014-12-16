@@ -5,14 +5,18 @@ import com.musala.db.Category;
 import com.musala.db.Site;
 import com.musala.repository.ArticleRepository;
 import com.musala.repository.SiteRepository;
+import com.musala.service.ArticleService;
 import com.musala.service.CategoryService;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
@@ -21,42 +25,44 @@ import java.util.Set;
 @Component
 public class GetTextFromPages {
     @Autowired
-    private SiteRepository siteRepository;
-
-    @Autowired
-    private ArticleRepository articleRepository;
-
-    @Autowired
-    private CategoryService categoryService;
-
-    private String siteName;
-
-    private Map<String, Set<String>> articlesCategories;
+    private ArticleService articleService;
 
     private Document doc;
 
-    @Transactional
-    public void readData(final Map<String, Set<String>> articlesCategories) {
+//    @Transactional
+//    public void readData(final Map<String, Set<String>> articlesCategories) {
+//
+//        this.articlesCategories = articlesCategories;
+//
+//        for (String link : articlesCategories.keySet()) {
+//            try {
+//                addCategoriesToArticle(link, extractArticleText(link.toString()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-        this.articlesCategories = articlesCategories;
-
-        for (String link : articlesCategories.keySet()) {
-            try {
-                addCategoriesToArticle(link, extractArticleText(link.toString()));
-            } catch (IOException e) {
-                e.printStackTrace();
+    @PreDestroy
+    public void readArticleText() {
+        System.out.println("--->In getTextFrompages");
+        for (Article article : articleService.findAll()) {
+            if (article.getArticleText().isEmpty()) {
+                extractArticleInformation(article.getLink(), article);
             }
         }
     }
 
-    protected Article extractArticleText(final String link) throws IOException {
-        doc = getDocument(link);
-
-        Article article = createArticleWithoutCategories(link);
-        System.out.println(doc.select(siteRepository.findOne(siteName).getTextContentTag()).first().text());
-        articleRepository.save(article);
-
-        return article;
+    protected void extractArticleInformation(final String link, final Article article) {
+        try {
+            doc = getDocument(link);
+        } catch (IOException e) {
+            //TODO add runtime error
+            e.printStackTrace();
+        }
+        System.out.println(doc.select(article.getSite().getTextContentTag()).first().text());
+        article.setArticleText(doc.select(article.getSite().getTextContentTag()).first().text());
+        article.setTitle(doc.select(article.getSite().getTitleTag()).first().text());
     }
 
     /**
@@ -70,28 +76,28 @@ public class GetTextFromPages {
      * @throws MalformedURLException
      */
 
-    protected Article addCategoriesToArticle(final String link, final Article article) throws MalformedURLException {
-        if (articlesCategories.get(link).size() == 0) {
-            articlesCategories.get(link).add("none");
-        }
-        for (String categoryName : articlesCategories.get(link)) {
-            Category category = categoryService.findByCategoryName(categoryName);
-            //TODO fix bug with sites without categories items
+//    protected Article addCategoriesToArticle(final String link, final Article article) throws MalformedURLException {
+//        if (articlesCategories.get(link).size() == 0) {
+//            articlesCategories.get(link).add("none");
+//        }
+//        for (String categoryName : articlesCategories.get(link)) {
+//            Category category = categoryService.findByCategoryName(categoryName);
+//            //TODO fix bug with sites without categories items
+//
+//            category.getArticles().add(article);
+//            article.getCategories().add(category);
+//        }
+//        return article;
+//    }
 
-            category.getArticles().add(article);
-            article.getCategories().add(category);
-        }
-        return article;
-    }
-
-    private Article createArticleWithoutCategories(final String link) {
-        Site site = siteRepository.findOne(siteName);
-        String articleText = doc.select(site.getTextContentTag()).first().text();
-        String articleTitle = doc.select(site.getTitleTag()).first().text();
-
-        //Create article without categories
-        return new Article(link, articleText, articleTitle, null, site);
-    }
+//    private Article createArticleWithoutCategories(final String link) {
+//        Site site = siteRepository.findOne(siteName);
+//        String articleText = doc.select(site.getTextContentTag()).first().text();
+//        String articleTitle = doc.select(site.getTitleTag()).first().text();
+//
+//        //Create article without categories
+//        return new Article(link, articleText, articleTitle, null, site);
+//    }
 
     /**
      * Return Document for the given link which has to be URL compatible, or
@@ -108,17 +114,6 @@ public class GetTextFromPages {
         return Jsoup.connect(link).userAgent("Mozilla").get();
     }
 
-    public ArticleRepository getArticleRepository() {
-        return articleRepository;
-    }
-
-    public String getSiteName() {
-        return siteName;
-    }
-
-    public void setSiteName(final String siteName) {
-        this.siteName = siteName;
-    }
 }
 
 

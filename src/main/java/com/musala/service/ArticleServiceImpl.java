@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ArticleServiceImpl implements ArticleService{
+public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
@@ -15,11 +15,21 @@ public class ArticleServiceImpl implements ArticleService{
         return articleRepository.findAll();
     }
 
+    @Override
+    public Article findByLink(String link) {
+        return articleRepository.findByLink(link);
+    }
+
     public ArticleRepository getArticleRepository() {
         return articleRepository;
     }
 
     public void setArticleRepository(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
+    }
+
+    @Override
+    public Article save(Article article) {
+        return articleRepository.save(article);
     }
 }

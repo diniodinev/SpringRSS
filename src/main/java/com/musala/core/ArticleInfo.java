@@ -11,6 +11,7 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
+import com.musala.db.Site;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -19,13 +20,23 @@ import org.springframework.stereotype.Component;
 public class ArticleInfo {
     private String categoryName;
     private TagType tagType;
+    private Site site;
 
     public ArticleInfo() {
     }
 
-    public ArticleInfo(String categoryName, TagType tagType) {
+    public ArticleInfo(String categoryName, TagType tagType, Site site) {
         this.categoryName = categoryName;
         this.tagType = tagType;
+        this.site = site;
+    }
+
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
     }
 
     public String getCategoryName() {
@@ -49,6 +60,7 @@ public class ArticleInfo {
         return "ArticleInfo{" +
                 "categoryName='" + categoryName + '\'' +
                 ", tagType=" + tagType +
+                ", site=" + site +
                 '}';
     }
 }

@@ -35,7 +35,6 @@ public interface RssProcessor {
     /**
      * Get update from given <br>observer<br/>
      *
-     * @param observer
      * @return
      */
     public ArticleInfo getUpdate();

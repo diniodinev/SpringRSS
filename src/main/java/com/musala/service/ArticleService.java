@@ -16,4 +16,8 @@ import com.musala.db.Article;
 
 public interface ArticleService {
     public Iterable<Article> findAll();
+
+    public Article save(Article article);
+
+    public Article findByLink(String link);
 }

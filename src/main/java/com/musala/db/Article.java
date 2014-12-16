@@ -43,7 +43,7 @@ public class Article implements Serializable {
     private Date publicationDate;
 
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "ARTICLE_CATEGORY",
             joinColumns = {@JoinColumn(name = "ART_ID", referencedColumnName = "ARTICLE_ID")},
@@ -57,6 +57,11 @@ public class Article implements Serializable {
 
 
     public Article() {
+    }
+
+    public Article(String link, Site site) {
+        this.link = link;
+        this.site = site;
     }
 
     public Article(String link, String articleText, String title, Date publicationDate, Site site) {

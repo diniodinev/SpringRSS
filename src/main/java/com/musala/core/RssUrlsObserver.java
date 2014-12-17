@@ -48,6 +48,7 @@ public class RssUrlsObserver implements ArticleObserver {
     private RssProcessor rssProcessor;
 
     @Override
+    @Transactional
     public void update() {
         articleInfo = rssProcessor.getUpdate();
 

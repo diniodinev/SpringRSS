@@ -15,24 +15,18 @@ import com.musala.db.Site;
 import com.musala.service.SiteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import org.springframework.context.annotation.Scope;
-
-import javax.annotation.PostConstruct;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
-//TODO rename to RssProcessor
 @Component
 public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
 
@@ -43,9 +37,6 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
 
     @Autowired
     private ArticleInfo articleInfo;
-
-    @Autowired
-    SiteServiceImpl siteServiceImpl;
 
     private StringBuilder text = new StringBuilder();
 

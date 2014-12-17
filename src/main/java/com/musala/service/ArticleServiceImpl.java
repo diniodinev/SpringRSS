@@ -32,4 +32,9 @@ public class ArticleServiceImpl implements ArticleService {
     public Article save(Article article) {
         return articleRepository.save(article);
     }
+
+    @Override
+    public void delete(Article article) {
+        articleRepository.delete(article);
+    }
 }

@@ -1,4 +1,4 @@
-package com.musala.core;
+package com.musala.core; 
  /*
  * Copyright 2013 the original author or authors.
  *
@@ -11,6 +11,18 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
-public interface ArticleObserver {
-    public void update();
+
+public enum Categories {
+    NONE("none");
+
+    private String categoryName;
+
+    Categories(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    @Override
+    public String toString() {
+        return categoryName;
+    }
 }

@@ -35,27 +35,13 @@ public class RssManager {
     SiteService siteService;
 
     @Autowired
-    CategoryService categoryService;
-
-    @Autowired
-    ArticleService articleService;
-
-    @Autowired
     RssProcessor subject;
-
-    @Autowired
-    GetTextFromPages getTextFromPages;
-
-    @Autowired
-    List<ArticleObserver> observers;
 
     @PostConstruct
     public void readArticles() {
         for (Site rssFeedSite : siteService.findAll()) {
             System.out.println("From rssManger site: " + rssFeedSite.getRssLink());
             subject.processRss(rssFeedSite);
-
-
         }
 
         //TODO For testing purposes only, to be deletes

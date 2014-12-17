@@ -70,11 +70,36 @@ public class RssUrlsObserver implements ArticleObserver {
             if (defaultValidator.isValid(articleInfo.getCategoryName())) {
                 //TODO rename CategoryName to categoryTag
                 Article article = new Article(articleInfo.getCategoryName(), articleInfo.getSite());
-                articleService.save(article);
+                //articleService.save(article);
                 getTextFromPages.readArticleText(article);
+                //Check for null category
+                checkForArticleWithoutCategories();
+
+                //Search if there is article with the current link. This is done because
+                //If there are link with invalid information, they will not be persisted
+
                 currentLink = articleInfo.getCategoryName();
+
+                if (articleService.findByLink(articleInfo.getCategoryName()) == null) {
+                    currentLink = null;
+                }
+
             } else {
                 throw new RuntimeException(ErrorMessages.INVALID_URL_FROM_RSS + articleInfo.getCategoryName());
+            }
+        }
+    }
+
+    /**
+     * Check if previous Article has no associated categories. If so add default category
+     */
+    private void checkForArticleWithoutCategories() {
+        if (currentLink != null) {
+            Article previousArticle = articleService.findByLink(currentLink);
+            if (previousArticle.getCategories().size() == 0) {
+                Category category = categoryService.findByCategoryName(Categories.NONE.toString());
+                previousArticle.getCategories().add(category);
+                category.getArticles().add(previousArticle);
             }
         }
     }
@@ -87,37 +112,4 @@ public class RssUrlsObserver implements ArticleObserver {
         this.rssProcessor = rssProcessor;
     }
 
-    //GetTextFromPages getTextFromPages;
-
-//    public RssUrlsObserver(RssProcessorImpl subject, GetTextFromPages getTextFromPages) {
-//        this.subject = subject;
-//        subject.attach(this);
-//        this.getTextFromPages = getTextFromPages;
-//    }
-
-//    @Override
-//    public void update(ArticleInfo articleInfo) {
-//        if (articleInfo.getTagType() == TagType.CATEGORY) {
-//            if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty() && currentLink != null) {
-//                Set<String> currentCategories = new HashSet<String>(articles.get(currentLink));
-//                currentCategories.add(articleInfo.getCategoryName());
-//                articles.put(currentLink, currentCategories);
-//            }
-//        }
-//        if (articleInfo.getTagType() == TagType.LINK) {
-//            UrlValidator defaultValidator = new UrlValidator();
-//            if (defaultValidator.isValid(articleInfo.getCategoryName())) {
-//                currentLink = articleInfo.getCategoryName();
-//                articles.put(currentLink, new HashSet<String>());
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void updateAll() {
-//        System.out.println("URL observer write to db:");
-//        //Fill article's data
-//        getTextFromPages.readData(articles);
-//        articles.clear();
-//    }
 }

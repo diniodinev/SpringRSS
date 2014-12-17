@@ -44,8 +44,8 @@ public class GetTextFromPages {
 //    }
 
     public void readArticleText(Article article) {
-            if (article.getArticleText() == null) {
-                extractArticleInformation(article.getLink(), article);
+        if (article.getArticleText() == null) {
+            extractArticleInformation(article.getLink(), article);
         }
     }
 
@@ -56,9 +56,17 @@ public class GetTextFromPages {
             //TODO add runtime error
             e.printStackTrace();
         }
-        System.out.println(doc.select(article.getSite().getTextContentTag()).first().text());
-        article.setArticleText(doc.select(article.getSite().getTextContentTag()).first().text());
-        article.setTitle(doc.select(article.getSite().getTitleTag()).first().text());
+
+        System.out.println("link=" + link);
+        if (doc.select(article.getSite().getTextContentTag()).first() != null) {
+            System.out.println(doc.select(article.getSite().getTextContentTag()).first().text());
+            article.setArticleText(doc.select(article.getSite().getTextContentTag()).first().text());
+            article.setTitle(doc.select(article.getSite().getTitleTag()).first().text());
+            articleService.save(article);
+        } else {
+            //articleService.delete(article);
+            //TODO add some logging message that the current article has incorrect information
+        }
     }
 
     /**

@@ -13,13 +13,10 @@ package com.musala.core;
 
 import com.musala.db.Category;
 import com.musala.service.CategoryService;
-import com.musala.service.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 public class CategoryObserver implements ArticleObserver {
@@ -36,15 +33,11 @@ public class CategoryObserver implements ArticleObserver {
     @Override
     public void update() {
         ArticleInfo articleInfo;
-        if (rssProcessor != null) {
-            articleInfo = rssProcessor.getUpdate();
-            if (articleInfo.getTagType() == TagType.CATEGORY) {
-                if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty()) {
-                    categoryService.save(articleInfo.getCategoryName());
-                }
+        articleInfo = rssProcessor.getUpdate();
+        if (articleInfo.getTagType() == TagType.CATEGORY) {
+            if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty()) {
+                categoryService.save(articleInfo.getCategoryName());
             }
-        } else {
-            new RuntimeException(ErrorMessages.UPDATE_ON_NULL_OBSERVER_NOT_ALLOW);
         }
     }
 

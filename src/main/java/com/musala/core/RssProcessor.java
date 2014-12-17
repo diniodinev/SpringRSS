@@ -41,5 +41,9 @@ public interface RssProcessor {
      */
     public ArticleInfo getUpdate();
 
-    public void processRss(Site site) ;
+    /**
+     * Process given rss url site
+     * @param site which has to ve processed
+     */
+    public void processRss(Site site);
 }

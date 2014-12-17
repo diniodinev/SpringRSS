@@ -29,7 +29,7 @@ public class Article implements Serializable {
     @Column(name = "ARTICLE_ID", nullable = false)
     private long id;
 
-    @Column(name = "FULL_LINK", nullable = false, length = 256)
+    @Column(name = "FULL_LINK", nullable = false, length = 4096)
     private String link;
 
     @Lob

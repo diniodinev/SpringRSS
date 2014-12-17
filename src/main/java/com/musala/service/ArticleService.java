@@ -20,4 +20,6 @@ public interface ArticleService {
     public Article save(Article article);
 
     public Article findByLink(String link);
+
+    public void delete(Article article);
 }

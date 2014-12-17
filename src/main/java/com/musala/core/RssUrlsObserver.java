@@ -41,10 +41,9 @@ public class RssUrlsObserver implements ArticleObserver {
     @Autowired
     private GetTextFromPages getTextFromPages;
 
-    private Map<String, Set<String>> articles = articles = new HashMap<>();
-
     private ArticleInfo articleInfo;
 
+    @Autowired
     private RssProcessor rssProcessor;
 
     @Override
@@ -78,16 +77,17 @@ public class RssUrlsObserver implements ArticleObserver {
                 throw new RuntimeException(ErrorMessages.INVALID_URL_FROM_RSS + articleInfo.getCategoryName());
             }
         }
-
     }
 
-    @Override
-    public void setSubject(RssProcessor rssProcessor) {
+    public RssProcessor getRssProcessor() {
+        return rssProcessor;
+    }
+
+    public void setRssProcessor(RssProcessor rssProcessor) {
         this.rssProcessor = rssProcessor;
-
     }
 
-//GetTextFromPages getTextFromPages;
+    //GetTextFromPages getTextFromPages;
 
 //    public RssUrlsObserver(RssProcessorImpl subject, GetTextFromPages getTextFromPages) {
 //        this.subject = subject;

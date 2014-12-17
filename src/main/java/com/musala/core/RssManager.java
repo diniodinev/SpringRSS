@@ -46,41 +46,27 @@ public class RssManager {
     @Autowired
     GetTextFromPages getTextFromPages;
 
-    //    @Autowired
-//    CategoryObserver categoryObserver;
-//
-//    @Autowired
-//    RssUrlsObserver rssUrlsObserver;
     @Autowired
     List<ArticleObserver> observers;
 
     @PostConstruct
     public void readArticles() {
         for (Site rssFeedSite : siteService.findAll()) {
-            System.out.println("From rssFeed " + rssFeedSite.getRssLink());
-//            getTextFromPages.setSiteName(rssFeedSite.getSiteName());
-//
-//            subject.setSiteNameKey(rssFeedSite.getSiteName());
-//            //TODO: remove
-//            new CategoryObserver(subject, categoryService);
-//            new RssUrlsObserver(subject, getTextFromPages);
-//            subject.addItemsToObservers();
-            for (ArticleObserver articleObserver : observers) {
-                subject.register(articleObserver);
-                articleObserver.setSubject(subject);
-                //rssUrlsObserver.setSubject(subject);
-                subject.processRss(rssFeedSite);
-            }
-            //TODO For testing purposes only, to be deletes
-            Server server = null;
-            try {
-                server = Server.createTcpServer().start();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Server started and connection is open.");
-            System.out.println("URL: jdbc:h2:" + server.getURL() + "/mem:test");
+            System.out.println("From rssManger site: " + rssFeedSite.getRssLink());
+            subject.processRss(rssFeedSite);
+
 
         }
+
+        //TODO For testing purposes only, to be deletes
+        Server server = null;
+        try {
+            server = Server.createTcpServer().start();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Server started and connection is open.");
+        System.out.println("URL: jdbc:h2:" + server.getURL() + "/mem:test");
+
     }
 }

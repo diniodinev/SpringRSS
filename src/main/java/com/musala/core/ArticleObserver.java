@@ -15,6 +15,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface ArticleObserver {
     public void update();
-
-    public void setSubject(RssProcessor rssProcessor);
 }

@@ -23,6 +23,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import org.springframework.context.annotation.Scope;
 
+import javax.annotation.PostConstruct;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -33,15 +34,15 @@ import java.util.List;
 
 //TODO rename to RssProcessor
 @Component
-@Scope("prototype")
 public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
+
+    @Autowired
+    List<ArticleObserver> observers;
 
     private Site site;
 
     @Autowired
     private ArticleInfo articleInfo;
-
-    private List<ArticleObserver> observers = new ArrayList<ArticleObserver>();
 
     @Autowired
     SiteServiceImpl siteServiceImpl;
@@ -151,5 +152,13 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
     @Override
     public ArticleInfo getUpdate() {
         return articleInfo;
+    }
+
+    public List<ArticleObserver> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(List<ArticleObserver> observers) {
+        this.observers = observers;
     }
 }

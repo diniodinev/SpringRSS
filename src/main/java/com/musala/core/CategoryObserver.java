@@ -21,13 +21,11 @@ import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.Set;
 
-//TODO: use autowire
 @Component
 public class CategoryObserver implements ArticleObserver {
 
+    @Autowired
     private RssProcessor rssProcessor;
-
-    //private Set<String> categories = new HashSet<String>();
 
     @Autowired
     private CategoryService categoryService;
@@ -50,45 +48,24 @@ public class CategoryObserver implements ArticleObserver {
         }
     }
 
-    @Override
-    public void setSubject(RssProcessor rssProcessor) {
-        this.rssProcessor = rssProcessor;
-    }
-
-    //TODO checi if it is added once
     @PostConstruct
     private void addDefaultCategory() {
         categoryService.save(new Category("none"));
     }
-    //    public CategoryObserver(final RssProcessorImpl subject, final CategoryService categoryService) {
-//        this.subject = subject;
-//        subject.attach(this);
-//        this.categoryService = categoryService;
-//        categories.add("none");
-//    }
 
-//    @Override
-//    public void updateAll() {
-//        for (String category : categories) {
-//            categoryService.save(new Category(category));//TODO check if catefory exists
-//        }
-//    }
-//
-//    @Override
-//    public void update(final ArticleInfo articleInfo) {
-//        if (articleInfo.getTagType() == TagType.CATEGORY) {
-//            if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty()) {
-//                categories.add(articleInfo.getCategoryName());
-//            }
-//        }
-//    }
+    public RssProcessor getRssProcessor() {
+        return rssProcessor;
+    }
 
+    public void setRssProcessor(RssProcessor rssProcessor) {
+        this.rssProcessor = rssProcessor;
+    }
 
     public CategoryService getCategoryService() {
         return categoryService;
     }
 
-    public void setCategoryServiceImpl(final CategoryServiceImpl categoryService) {
+    public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 }

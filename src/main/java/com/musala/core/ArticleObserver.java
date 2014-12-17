@@ -11,6 +11,8 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
+import org.springframework.transaction.annotation.Transactional;
+
 public interface ArticleObserver {
     public void update();
 

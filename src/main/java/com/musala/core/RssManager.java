@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.sql.SQLException;
+import java.util.List;
 
 //TODO Change name to manager
 @Component
@@ -40,16 +41,18 @@ public class RssManager {
     ArticleService articleService;
 
     @Autowired
-    RssProcessorImpl subject;
+    RssProcessor subject;
 
     @Autowired
     GetTextFromPages getTextFromPages;
 
+    //    @Autowired
+//    CategoryObserver categoryObserver;
+//
+//    @Autowired
+//    RssUrlsObserver rssUrlsObserver;
     @Autowired
-    CategoryObserver categoryObserver;
-
-    @Autowired
-    RssUrlsObserver rssUrlsObserver;
+    List<ArticleObserver> observers;
 
     @PostConstruct
     public void readArticles() {
@@ -62,12 +65,12 @@ public class RssManager {
 //            new CategoryObserver(subject, categoryService);
 //            new RssUrlsObserver(subject, getTextFromPages);
 //            subject.addItemsToObservers();
-            subject.register(categoryObserver);
-            subject.register(rssUrlsObserver);
-            categoryObserver.setSubject(subject);
-            rssUrlsObserver.setSubject(subject);
-            subject.processRss(rssFeedSite);
-
+            for (ArticleObserver articleObserver : observers) {
+                subject.register(articleObserver);
+                articleObserver.setSubject(subject);
+                //rssUrlsObserver.setSubject(subject);
+                subject.processRss(rssFeedSite);
+            }
             //TODO For testing purposes only, to be deletes
             Server server = null;
             try {

@@ -11,6 +11,8 @@ package com.musala.core;
   * Created by dinyo.dinev on 2014.
  */
 
+import com.musala.db.Site;
+
 //Subject in Observer Pattern
 public interface RssProcessor {
     /**
@@ -38,4 +40,6 @@ public interface RssProcessor {
      * @return
      */
     public ArticleInfo getUpdate();
+
+    public void processRss(Site site) ;
 }

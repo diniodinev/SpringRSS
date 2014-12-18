@@ -12,42 +12,22 @@ package com.musala.view;
  */
 
 
-public class SiteView {
-
-    private String siteName;
+public class SiteUpdateView {
     private String rssLink;
     private String rssTag;
     private String titleTag;
     private String textContentTag;
     private String categoryTag;
 
-    public SiteView() {
+    public SiteUpdateView() {
     }
 
-    public SiteView(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag) {
-        this.siteName = siteName;
+    public SiteUpdateView(String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag) {
         this.rssLink = rssLink;
         this.rssTag = rssTag;
         this.titleTag = titleTag;
         this.textContentTag = textContentTag;
         this.categoryTag = categoryTag;
-    }
-
-    public SiteView(String siteName, SiteUpdateView siteUpdateView) {
-        this.siteName = siteName;
-        this.categoryTag = siteUpdateView.getCategoryTag();
-        this.rssLink = siteUpdateView.getRssLink();
-        this.rssTag = siteUpdateView.getRssTag();
-        this.titleTag = siteUpdateView.getTitleTag();
-        this.textContentTag = siteUpdateView.getTextContentTag();
-    }
-
-    public String getSiteName() {
-        return siteName;
-    }
-
-    public void setSiteName(String siteName) {
-        this.siteName = siteName;
     }
 
     public String getRssLink() {
@@ -89,5 +69,4 @@ public class SiteView {
     public void setCategoryTag(String categoryTag) {
         this.categoryTag = categoryTag;
     }
-
 }

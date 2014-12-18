@@ -1,4 +1,4 @@
-package com.musala.service;
+package com.musala.controller; 
  /*
  * Copyright 2013 the original author or authors.
  *
@@ -12,16 +12,11 @@ package com.musala.service;
  */
 
 
-import com.musala.db.Article;
+public class RestURIConstants {
 
-public interface ArticleService {
-    public Iterable<Article> findAll();
+    private RestURIConstants() {
+    }
 
-    public Article save(Article article);
-
-    public Article findByLink(String link);
-
-    public void delete(Article article);
-
-    public Article findOne(long id);
+    public static final String SITE_DELETE = "/delete/{deleteSite}/";
+    public static final String SITE_GET_BY_SITENAME = "/{siteName}/";
 }

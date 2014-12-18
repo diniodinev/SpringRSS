@@ -10,6 +10,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
+    public ArticleRepository getArticleRepository() {
+        return articleRepository;
+    }
+
+    public void setArticleRepository(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
+    }
+
     @Override
     public Iterable<Article> findAll() {
         return articleRepository.findAll();
@@ -20,14 +28,6 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findByLink(link);
     }
 
-    public ArticleRepository getArticleRepository() {
-        return articleRepository;
-    }
-
-    public void setArticleRepository(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
-
     @Override
     public Article save(Article article) {
         return articleRepository.save(article);
@@ -36,5 +36,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void delete(Article article) {
         articleRepository.delete(article);
+    }
+
+    @Override
+    public Article findOne(long id) {
+        return articleRepository.findOne(id);
     }
 }

@@ -12,10 +12,16 @@ package com.musala.converter;
  */
 
 
+import com.musala.db.Article;
 import com.musala.db.Site;
 import com.musala.view.SiteView;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class SiteViewConverter implements Converter<Site, SiteView> {

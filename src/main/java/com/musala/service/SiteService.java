@@ -25,4 +25,8 @@ public interface SiteService {
 
     public Site save(SiteView category);
 
+    public void delete(String deleteName);
+
+    public void update(SiteView newSiteView);
+
 }

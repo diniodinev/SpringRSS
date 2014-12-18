@@ -26,9 +26,7 @@ import javax.annotation.PostConstruct;
 import java.sql.SQLException;
 import java.util.List;
 
-//TODO Change name to manager
 @Component
-@Qualifier("rssManager")
 public class RssManager {
 
     @Autowired

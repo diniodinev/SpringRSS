@@ -13,12 +13,13 @@ package com.musala.service;
 
 
 import com.musala.db.Site;
-import com.musala.repository.SiteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
-public interface SiteService{
+public interface SiteService {
 
     public Iterable<Site> findAll();
 
     public Site findOne(String id);
+
+    public Site save(Site category);
+
 }

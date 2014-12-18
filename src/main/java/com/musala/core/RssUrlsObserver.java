@@ -54,15 +54,9 @@ public class RssUrlsObserver implements ArticleObserver {
         if (articleInfo.getTagType() == TagType.CATEGORY) {
             if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty() && articleInfo.getCategoryName() != null) {
                 Article article = articleService.findByLink(currentLink);
-                if (article != null) {
-                    //TODO be sure that hte category is not null
-                    Category category = categoryService.findByCategoryName(articleInfo.getCategoryName());
-                    category.getArticles().add(article);
-                    article.getCategories().add(category);
-
-                } else {
-                    throw new RuntimeException("Article is nullllll");
-                }
+                Category category = categoryService.findByCategoryName(articleInfo.getCategoryName());
+                category.getArticles().add(article);
+                article.getCategories().add(category);
             }
         }
         if (articleInfo.getTagType() == TagType.LINK) {
@@ -75,11 +69,11 @@ public class RssUrlsObserver implements ArticleObserver {
                 //Check for null category
                 checkForArticleWithoutCategories();
 
-                //Search if there is article with the current link. This is done because
-                //If there are link with invalid information, they will not be persisted
 
                 currentLink = articleInfo.getCategoryName();
 
+                //Search if there is article with the current link. This is done because
+                //If there are link with invalid information, they will not be persisted
                 if (articleService.findByLink(articleInfo.getCategoryName()) == null) {
                     currentLink = null;
                 }

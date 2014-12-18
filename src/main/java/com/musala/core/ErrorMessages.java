@@ -14,10 +14,10 @@ package com.musala.core;
 
 public class ErrorMessages {
 
-    private ErrorMessages(){
+    private ErrorMessages() {
     }
 
     public static final String OBSERVER_MUST_NOT_BE_NULL = "The attached observer must not be null";
-    public static final String UPDATE_ON_NULL_OBSERVER_NOT_ALLOW = "Update ca not be executed on null "+RssProcessor.class;
+    public static final String UPDATE_ON_NULL_OBSERVER_NOT_ALLOW = "Update ca not be executed on null " + RssProcessor.class;
     public static final String INVALID_URL_FROM_RSS = "Invalid URL from the RSS:";
 }

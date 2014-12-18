@@ -1,26 +1,15 @@
 package com.musala.core;
 
 import com.musala.db.Article;
-import com.musala.db.Category;
-import com.musala.db.Site;
-import com.musala.repository.ArticleRepository;
-import com.musala.repository.SiteRepository;
 import com.musala.service.ArticleService;
-import com.musala.service.CategoryService;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Map;
-import java.util.Set;
 
 @Component
 public class GetTextFromPages {
@@ -57,15 +46,13 @@ public class GetTextFromPages {
             e.printStackTrace();
         }
 
-        System.out.println("link=" + link);
         if (doc.select(article.getSite().getTextContentTag()).first() != null) {
-            System.out.println(doc.select(article.getSite().getTextContentTag()).first().text());
+            //System.out.println(doc.select(article.getSite().getTextContentTag()).first().text());
             article.setArticleText(doc.select(article.getSite().getTextContentTag()).first().text());
             article.setTitle(doc.select(article.getSite().getTitleTag()).first().text());
             articleService.save(article);
         } else {
-            //articleService.delete(article);
-            //TODO add some logging message that the current article has incorrect information
+            // TODO add some logging message that the current article has incorrect information
         }
     }
 

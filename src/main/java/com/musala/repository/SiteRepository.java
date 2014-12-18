@@ -18,5 +18,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SiteRepository extends CrudRepository<Site, String> {
-
 }

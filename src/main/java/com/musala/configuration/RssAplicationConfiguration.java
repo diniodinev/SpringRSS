@@ -44,7 +44,7 @@ import java.util.Set;
 @EnableTransactionManagement
 @EnableWebMvc
 @EnableJpaRepositories(basePackages = "com.musala.repository")
-@ComponentScan(basePackages = {"com.musala.service","com.musala.core", "com.musala.converter"})
+@ComponentScan(basePackages = {"com.musala.service", "com.musala.core", "com.musala.converter", "com.musala.controller"})
 @PropertySource({"classpath:persistence-h2.properties"})
 public class RssAplicationConfiguration {
 
@@ -86,7 +86,7 @@ public class RssAplicationConfiguration {
         factory.setPackagesToScan("com.musala.db");
 
 
-        factory.setPersistenceUnitName("persistenceUnit");//TODO check why use it
+        //factory.setPersistenceUnitName("persistenceUnit"); //TODO check why use it
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setJpaProperties(additionalProperties());
         factory.afterPropertiesSet();

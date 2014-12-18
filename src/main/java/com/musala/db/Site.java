@@ -11,10 +11,17 @@ package com.musala.db;
   * Created by dinyo.dinev on 2014.
  */
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 //TODO add size(all information) ,take it form the ddl
 @Entity
 @Table(name = "SITE")
@@ -23,25 +30,26 @@ public class Site implements Serializable {
     private static final long serialVersionUID = -123141221324478L;
 
     @Id
-    @Column(name = "SITE_NAME", nullable = false, length= 256)
+    @Column(name = "SITE_NAME", nullable = false, length = 256)
     private String siteName;
 
-    @Column(name = "RSS_LINK", nullable = false, length= 256)
+    @Column(name = "RSS_LINK", nullable = false, length = 256)
     private String rssLink;
 
-    @Column(name = "RSS_TAG", nullable = false, length= 64)
+    @Column(name = "RSS_TAG", nullable = false, length = 64)
     private String rssTag;
 
-    @Column(name = "TITLE_TAG", nullable = true, length= 64)
+    @Column(name = "TITLE_TAG", nullable = true, length = 64)
     private String titleTag;
 
-    @Column(name = "TEXT_CONTENT_TAG", nullable = false, length= 64)
+    @Column(name = "TEXT_CONTENT_TAG", nullable = false, length = 64)
     private String textContentTag;
 
-    @Column(name = "CATEGORY_TAG", nullable = true, length= 128)
+    @Column(name = "CATEGORY_TAG", nullable = true, length = 128)
     private String categoryTag;
 
-    @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL, mappedBy = "site")
+    //TODO fetch = FetchType.Lazy
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "site")
     private List<Article> articlesFromCite = new ArrayList<Article>();
 
     public Site() {

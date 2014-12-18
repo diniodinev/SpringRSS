@@ -22,6 +22,11 @@ public class SiteServiceImpl implements SiteService {
         return siteRepository.findOne(id);
     }
 
+    @Override
+    public Site save(Site site) {
+        return siteRepository.save(site);
+    }
+
     public SiteRepository getSiteRepository() {
         return siteRepository;
     }

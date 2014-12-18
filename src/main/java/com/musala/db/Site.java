@@ -55,12 +55,13 @@ public class Site implements Serializable {
     public Site() {
     }
 
-    public Site(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, long articleId) {
+    public Site(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag) {
         this.siteName = siteName;
         this.rssLink = rssLink;
         this.rssTag = rssTag;
         this.titleTag = titleTag;
         this.textContentTag = textContentTag;
+        this.categoryTag = categoryTag;
     }
 
     public String getSiteName() {

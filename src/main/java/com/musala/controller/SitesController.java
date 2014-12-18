@@ -52,11 +52,15 @@ public class SitesController {
 //        return "Tovaaa";
 //    }
 
+    //    @RequestMapping(value = { "/", "" }, method = RequestMethod.POST)
+//    @ResponseBody
+//    public MovieView create(@Valid @RequestBody MovieCreateForm form) {
+//        return conversionService.convert(movieService.create(form), MovieView.class);
+//    }
     @RequestMapping(value = {"/", ""}, method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<Site> create(@PathVariable Object site) {
-        System.out.println("In");
-        return new ResponseEntity<Site>((Site)site, HttpStatus.OK);
+    public SiteView create(@RequestBody SiteView site) {
+        return conversionService.convert(siteService.save(site), SiteView.class);
     }
 
     //Slash is used because of the "." in the siteName

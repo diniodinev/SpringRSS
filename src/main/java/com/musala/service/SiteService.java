@@ -13,6 +13,7 @@ package com.musala.service;
 
 
 import com.musala.db.Site;
+import com.musala.view.SiteView;
 
 public interface SiteService {
 
@@ -21,5 +22,7 @@ public interface SiteService {
     public Site findOne(String id);
 
     public Site save(Site category);
+
+    public Site save(SiteView category);
 
 }

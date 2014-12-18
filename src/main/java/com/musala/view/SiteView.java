@@ -21,6 +21,9 @@ public class SiteView {
     private String textContentTag;
     private String categoryTag;
 
+    public SiteView() {
+    }
+
     public SiteView(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag) {
         this.siteName = siteName;
         this.rssLink = rssLink;

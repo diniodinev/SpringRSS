@@ -5,6 +5,8 @@ import com.musala.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ArticleServiceImpl implements ArticleService {
     @Autowired
@@ -41,5 +43,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Article findOne(long id) {
         return articleRepository.findOne(id);
+    }
+
+    @Override
+    public List<Article> findByKeyWord(String keyWord) {
+        return articleRepository.findByKeyWord(keyWord);
     }
 }

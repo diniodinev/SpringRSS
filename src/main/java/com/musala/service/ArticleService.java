@@ -14,6 +14,8 @@ package com.musala.service;
 
 import com.musala.db.Article;
 
+import java.util.List;
+
 public interface ArticleService {
     public Iterable<Article> findAll();
 
@@ -24,4 +26,6 @@ public interface ArticleService {
     public void delete(Article article);
 
     public Article findOne(long id);
+
+    public List<Article> findByKeyWord(String keyWord);
 }

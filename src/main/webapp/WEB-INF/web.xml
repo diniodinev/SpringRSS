@@ -35,4 +35,20 @@
 		<url-pattern>/rss/*</url-pattern>
 	</servlet-mapping>
 
+	<!--CharsetFilter start-->
+
+	<filter>
+		<filter-name>CharsetFilter</filter-name>
+		<filter-class>com.musala.filters.CharsetFilter</filter-class>
+		<init-param>
+			<param-name>requestEncoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>CharsetFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 </web-app>

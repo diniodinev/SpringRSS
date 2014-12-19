@@ -16,10 +16,14 @@ import com.musala.view.ArticleView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/article")
@@ -34,6 +38,18 @@ public class ArticleController {
     @ResponseBody
     public ArticleView getById(@PathVariable long articleID) {
         return conversionService.convert(articleService.findOne(articleID), ArticleView.class);
+    }
+
+    @RequestMapping(value = {"/search/{keyword}"}, method = RequestMethod.GET)
+    @ResponseBody
+    public List<ArticleView> getByKeyword(@PathVariable String keyword) {
+        return Arrays.asList(conversionService.convert(articleService.findByKeyWord(keyword), ArticleView[].class));
+    }
+
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
+    @ResponseBody
+    public List<ArticleView> getAllArticles(@RequestBody String keyword) {
+        return Arrays.asList(conversionService.convert(articleService.findAll(), ArticleView[].class));
     }
 
 }

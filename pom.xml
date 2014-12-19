@@ -461,6 +461,7 @@
                 <configuration>
                     <port>9090</port>
                     <path>/</path>
+                    <charset>utf-8</charset>
                 </configuration>
             </plugin>
 

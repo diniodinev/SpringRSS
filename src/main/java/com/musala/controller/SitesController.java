@@ -72,7 +72,6 @@ public class SitesController {
     @RequestMapping(value = {SITE_GET_BY_SITENAME}, method = RequestMethod.PUT)
     @ResponseBody
     public void update(@PathVariable String siteName, @RequestBody SiteUpdateView siteUpdateView) {
-        System.out.println(siteUpdateView.getRssLink());
         siteService.update(new SiteView(siteName, siteUpdateView));
     }
 }

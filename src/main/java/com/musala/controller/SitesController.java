@@ -45,12 +45,14 @@ public class SitesController {
 
     @RequestMapping(value = {SITE_DELETE}, method = RequestMethod.DELETE)
     @ResponseBody
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String deleteSite) {
         siteService.delete(deleteSite);
     }
 
+
     @RequestMapping(value = {"/", ""}, method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
     @ResponseBody
     public SiteView create(@RequestBody SiteView site) {
         return conversionService.convert(siteService.save(site), SiteView.class);

@@ -64,7 +64,6 @@ public class RssUrlsObserver implements ArticleObserver {
             if (defaultValidator.isValid(articleInfo.getCategoryName())) {
                 //TODO rename CategoryName to categoryTag
                 Article article = new Article(articleInfo.getCategoryName(), articleInfo.getSite());
-                //articleService.save(article);
                 getTextFromPages.readArticleText(article);
                 //Check for null category
                 checkForArticleWithoutCategories();

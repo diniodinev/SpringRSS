@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
@@ -41,10 +42,11 @@ import java.util.Properties;
 import java.util.Set;
 
 @Configuration
+@EnableAspectJAutoProxy
 @EnableTransactionManagement
 @EnableWebMvc
 @EnableJpaRepositories(basePackages = "com.musala.repository")
-@ComponentScan(basePackages = {"com.musala.service", "com.musala.core", "com.musala.converter", "com.musala.controller"})
+@ComponentScan(basePackages = {"com.musala.service", "com.musala.core", "com.musala.converter", "com.musala.controller", "com.musala.aspects"})
 @PropertySource({"classpath:persistence-h2.properties"})
 public class RssAplicationConfiguration {
 

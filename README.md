@@ -1,4 +1,4 @@
 SpringRSS
 =========
 
-RSS using Spring
+RSS Project using Spring

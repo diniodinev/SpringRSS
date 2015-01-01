@@ -13,19 +13,19 @@ package com.musala.aspects;
  */
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class MethodsIOAspect {
+public class RestExecutionLoggingAspect {
 
-    private static final Logger logger = LoggerFactory.getLogger(MethodsIOAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestExecutionLoggingAspect.class);
 
     @Before("execution(* com.musala.controller.*Controller.*(..))")
     public void loggingBeforeAllMethods(JoinPoint point) {
@@ -33,7 +33,7 @@ public class MethodsIOAspect {
     }
 
     @After("execution(* com.musala.controller.*Controller.*(..))")
-    public void lsoggingBeforeAllMethods(JoinPoint point) {
+    public void loggingAfterAllMethods(JoinPoint point) {
         if (point.getArgs().length >= 1) {
             logger.info("\n ---------------->Arguments of method: " + point.getStaticPart().getSignature().toString());
             for (Object obj : point.getArgs()) {
@@ -42,4 +42,8 @@ public class MethodsIOAspect {
         }
         logger.info("\n ---------------->Exit from: " + point.getStaticPart().getSignature().toString());
     }
+
+    
+    
+
 }

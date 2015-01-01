@@ -90,4 +90,12 @@ public class SiteView {
         this.categoryTag = categoryTag;
     }
 
+    @Override
+    public String toString() {
+        return "SiteView [siteName=" + siteName + ", rssLink=" + rssLink + ", rssTag=" + rssTag + ", titleTag="
+            + titleTag + ", textContentTag=" + textContentTag + ", categoryTag=" + categoryTag + "]";
+    }
+    
+    
+
 }

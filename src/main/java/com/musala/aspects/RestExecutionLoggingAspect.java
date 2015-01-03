@@ -43,7 +43,5 @@ public class RestExecutionLoggingAspect {
         logger.info("\n ---------------->Exit from: " + point.getStaticPart().getSignature().toString());
     }
 
-    
-    
 
 }

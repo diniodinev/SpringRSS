@@ -16,9 +16,9 @@ public class SaveToDBLoggingAspect {
 
     @AfterReturning(pointcut = "com.musala.aspects.RssSystemArchitecture.service()")
     public void afterSaveToDbLogging(JoinPoint point) {
-        logger.info("\n ---------------->Saving from method: " + point.getStaticPart().getSignature().toString());
+        logger.info("\n ---------------->Service method: " + point.getStaticPart().getSignature().toString());
         for (Object obj : point.getArgs()) {
-            logger.info("\n --------> Save object=" + obj.toString());
+            logger.info("\n --------> Service Arguments: " + obj.toString());
         }
     }
 }

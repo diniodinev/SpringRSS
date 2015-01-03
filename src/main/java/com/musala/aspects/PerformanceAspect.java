@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 @Component
-@Aspect
+//@Aspect
 public class PerformanceAspect {
 
     Logger logger = LoggerFactory.getLogger(PerformanceAspect.class);
 
-    @Around("com.musala.aspects.RssSystemArchitecture.repository()")
+    @Around("execution(* com.musala.controller.*Controller.*(..))")
     public void trace(ProceedingJoinPoint proceedingJP) throws Throwable {
         String methodInformation = proceedingJP.getStaticPart().getSignature().toString();
         StopWatch stopWatch = new StopWatch(methodInformation);
@@ -23,7 +23,7 @@ public class PerformanceAspect {
             proceedingJP.proceed();
         } finally {
             stopWatch.stop();
-            logger.trace(stopWatch.shortSummary());
+            logger.info(stopWatch.prettyPrint());
         }
     }
 }

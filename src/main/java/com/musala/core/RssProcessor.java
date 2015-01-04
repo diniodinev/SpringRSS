@@ -43,7 +43,7 @@ public interface RssProcessor {
 
     /**
      * Process given rss url site
-     * @param site which has to ve processed
+     * @param site which has to be processed
      */
     public void processRss(Site site);
 }

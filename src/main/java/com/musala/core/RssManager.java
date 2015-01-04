@@ -38,11 +38,10 @@ public class RssManager {
     @PostConstruct
     public void readArticles() {
         for (Site rssFeedSite : siteService.findAll()) {
-            System.out.println("From rssManger site: " + rssFeedSite.getRssLink());
             subject.processRss(rssFeedSite);
         }
 
-        //TODO For testing purposes only, to be deletes
+        //TODO For testing purposes only, to be deleted
         Server server = null;
         try {
             server = Server.createTcpServer().start();

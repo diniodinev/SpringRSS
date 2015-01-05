@@ -51,10 +51,11 @@ message:<br />
     "textContentTag": "div.desc",
     "categoryTag": "category"
 }
-```<br />
+``` <br />
 8. Delete site - DELETE request
-*URL:*
+URL: <br />
 [http://localhost:8080/RSSRead/rss/site/delete/lentata.com/](http://localhost:8080/RSSRead/rss/site/delete/lentata.com/) <br />
+
 
 
 

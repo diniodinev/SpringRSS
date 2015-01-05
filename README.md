@@ -1,14 +1,18 @@
-SpringRSS
-=========
+# SpringRSS
 
-RSS Project using Spring
+*RSS Project using Spring*
 
-Deploy without tests:
+##### Deploy without tests:
 
+ ```maven
 mvn package tomcat7:run -Dmaven.test.skip=true
+ ```
 
-1. Get all Articles GET
-http://localhost:9090/rss/article/
+##### POSTAMN requests
+1. Get all Articles GET 
+
+[http://localhost:9090/rss/article/](http://localhost:9090/rss/article/)
+
 
 2. Get All Sites
 http://localhost:8080/RSSRead/rss/site/
@@ -23,16 +27,18 @@ http://localhost:8080/RSSRead/rss/site/technews.bg/
 
 http://localhost:8080/RSSRead/rss/article/search/до
 
-6.Update site - PUT request
+6. Update site - PUT request
 Headers for POSTMAN 
 
 Content-Type  application/json
 URL:
+
 http://localhost:8080/RSSRead/rss/site/lentata.com/
 
 message:
 
  for example
+ ```JSON
  {
  		"rssLink": "http://lentata.com/other/rss_dirbg.xml2",
         "rssTag": "lin2k",
@@ -40,8 +46,9 @@ message:
         "textContentTag": "div.desc2",
         "categoryTag": "category2"
   }
+  ```
   
-7.  Post new site - POST request
+7. Post new site - POST request
 Headers for POSTMAN 
 
 Content-Type  application/json
@@ -50,7 +57,7 @@ URL:
 http://localhost:8080/RSSRead/rss/site/
 
 message:
-
+```JSON
 {
     "siteName": "lentata.com",
     "rssLink": "http://lentata.com/other/rss_dirbg.xml",
@@ -59,6 +66,7 @@ message:
     "textContentTag": "div.desc",
     "categoryTag": "category"
 }
+```
 
 8. Delete site - DELETE request
 

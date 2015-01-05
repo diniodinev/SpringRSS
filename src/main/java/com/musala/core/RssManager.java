@@ -18,6 +18,8 @@ import com.musala.service.ArticleService;
 import com.musala.service.CategoryService;
 import com.musala.service.SiteService;
 import org.h2.tools.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -28,6 +30,7 @@ import java.util.List;
 
 @Component
 public class RssManager {
+    private static final Logger logger = LoggerFactory.getLogger(RssManager.class);
 
     @Autowired
     SiteService siteService;
@@ -48,8 +51,8 @@ public class RssManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Server started and connection is open.");
-        System.out.println("URL: jdbc:h2:" + server.getURL() + "/mem:test");
 
+        logger.info("Server started and connection is open.");
+        logger.info("URL: jdbc:h2:" + server.getURL() + "/mem:test");
     }
 }

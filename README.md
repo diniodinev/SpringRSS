@@ -8,6 +8,9 @@
 mvn package tomcat7:run -Dmaven.test.skip=true
  ```
 
+###### DB connection 
+jdbc:h2:tcp://10.0.7.26:9092/mem:test
+
 ##### POSTAMN requests
 1. Get all Articles GET <br />
 [http://localhost:9090/rss/article/](http://localhost:9090/rss/article/) <br />

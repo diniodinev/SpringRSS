@@ -14,7 +14,7 @@ package com.musala.view;
 
 import com.musala.db.Category;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public class ArticleView {

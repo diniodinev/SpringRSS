@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
 
 @Component
 public class GetTextFromPages {
@@ -21,7 +23,7 @@ public class GetTextFromPages {
 
     private Document doc;
 
-    public void readArticleText(Article article) throws  IOException{
+    public void readArticleText(Article article) throws IOException {
         if (article.getArticleText() == null) {
             extractArticleInformation(article.getLink(), article);
         }
@@ -45,6 +47,7 @@ public class GetTextFromPages {
             //System.out.println(doc.select(article.getSite().getTextContentTag()).first().text());
             article.setArticleText(doc.select(article.getSite().getTextContentTag()).first().text());
             article.setTitle(doc.select(article.getSite().getTitleTag()).first().text());
+            article.setPublicationDate(Calendar.getInstance().getTime());
             articleService.save(article);
         } else {
             logger.warn("For the article with URL %s there is no matched text in tag %s", article.getLink(), article.getSite().getTextContentTag());

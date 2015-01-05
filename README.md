@@ -16,16 +16,17 @@ mvn package tomcat7:run -Dmaven.test.skip=true
 3. Get Article by ID<br />
 [http://localhost:8080/RSSRead/rss/article/2](http://localhost:8080/RSSRead/rss/article/2) <br />
 4. Get specific site (technews.bg)<br />
-http://localhost:8080/RSSRead/rss/site/technews.bg/
+[http://localhost:8080/RSSRead/rss/site/technews.bg/](http://localhost:8080/RSSRead/rss/site/technews.bg/) <br />
 5. Search in Article titles by keyword (до key word)<br />
-http://localhost:8080/RSSRead/rss/article/search/до
+[http://localhost:8080/RSSRead/rss/article/search/до](http://localhost:8080/RSSRead/rss/article/search/до) <br />
 6. Update site - PUT request<br />
 Headers for POSTMAN <br />
-Content-Type  application/json<br />
+*Content-Type  application/json*<br />
 URL:<br />
-http://localhost:8080/RSSRead/rss/site/lentata.com/
-message:
+[http://localhost:8080/RSSRead/rss/site/lentata.com/](http://localhost:8080/RSSRead/rss/site/lentata.com/) <br />
+message:<br />
 for example<br />
+
  ```JSON
  {
  		"rssLink": "http://lentata.com/other/rss_dirbg.xml2",
@@ -34,12 +35,12 @@ for example<br />
         "textContentTag": "div.desc2",
         "categoryTag": "category2"
   }
-  ```<br />
+  ```
 7. Post new site - POST request<br />
-Headers for POSTMAN 
-Content-Type  application/json
+Headers for POSTMAN <br />
+Content-Type  application/json<br />
 URL:
-http://localhost:8080/RSSRead/rss/site/
+[http://localhost:8080/RSSRead/rss/site/](http://localhost:8080/RSSRead/rss/site/) <br />
 message:<br />
 ```JSON
 {
@@ -52,8 +53,9 @@ message:<br />
 }
 ```<br />
 8. Delete site - DELETE request
-URL:<br />
-http://localhost:8080/RSSRead/rss/site/delete/lentata.com/
+*URL:*
+[http://localhost:8080/RSSRead/rss/site/delete/lentata.com/](http://localhost:8080/RSSRead/rss/site/delete/lentata.com/) <br />
+
 
 
 

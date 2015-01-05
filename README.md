@@ -10,11 +10,11 @@ mvn package tomcat7:run -Dmaven.test.skip=true
 
 ##### POSTAMN requests
 1. Get all Articles GET <br />
-[http://localhost:9090/rss/article/](http://localhost:9090/rss/article/)<br />
+[http://localhost:9090/rss/article/](http://localhost:9090/rss/article/) <br />
 2. Get All Sites<br />
-http://localhost:8080/RSSRead/rss/site/
+[http://localhost:8080/RSSRead/rss/site/](http://localhost:8080/RSSRead/rss/site/) <br />
 3. Get Article by ID<br />
-http://localhost:8080/RSSRead/rss/article/2
+[http://localhost:8080/RSSRead/rss/article/2](http://localhost:8080/RSSRead/rss/article/2) <br />
 4. Get specific site (technews.bg)<br />
 http://localhost:8080/RSSRead/rss/site/technews.bg/
 5. Search in Article titles by keyword (до key word)<br />
@@ -35,7 +35,7 @@ for example<br />
         "categoryTag": "category2"
   }
   ```<br />
- 7. Post new site - POST request<br />
+7. Post new site - POST request<br />
 Headers for POSTMAN 
 Content-Type  application/json
 URL:
@@ -50,8 +50,8 @@ message:<br />
     "textContentTag": "div.desc",
     "categoryTag": "category"
 }
-```
-8. Delete site - DELETE request<br />
+```<br />
+8. Delete site - DELETE request
 URL:<br />
 http://localhost:8080/RSSRead/rss/site/delete/lentata.com/
 

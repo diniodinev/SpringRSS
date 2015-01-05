@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO add size(all information) ,take it form the ddl
 @Entity
 @Table(name = "SITE")
 public class Site implements Serializable {

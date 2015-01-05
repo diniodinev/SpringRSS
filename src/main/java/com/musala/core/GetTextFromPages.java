@@ -5,6 +5,8 @@ import com.musala.service.ArticleService;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,23 +14,31 @@ import java.io.IOException;
 
 @Component
 public class GetTextFromPages {
+    private static final Logger logger = LoggerFactory.getLogger(GetTextFromPages.class);
+
     @Autowired
     private ArticleService articleService;
 
     private Document doc;
 
-    public void readArticleText(Article article) {
+    public void readArticleText(Article article) throws  IOException{
         if (article.getArticleText() == null) {
             extractArticleInformation(article.getLink(), article);
         }
     }
 
-    protected void extractArticleInformation(final String link, final Article article) {
+    /**
+     * Extract information for the given article
+     *
+     * @param link    from where to construct Document object for the given Web Page
+     * @param article object associated with the given link
+     * @throws IOException
+     */
+    protected void extractArticleInformation(final String link, final Article article) throws IOException {
         try {
             doc = getDocument(link);
         } catch (IOException e) {
-            //TODO add runtime error
-            e.printStackTrace();
+            throw e;
         }
 
         if (doc.select(article.getSite().getTextContentTag()).first() != null) {
@@ -37,7 +47,7 @@ public class GetTextFromPages {
             article.setTitle(doc.select(article.getSite().getTitleTag()).first().text());
             articleService.save(article);
         } else {
-            // TODO add some logging message that the current article has incorrect information
+            logger.warn("For the article with URL %s there is no matched text in tag %s", article.getLink(), article.getSite().getTextContentTag());
         }
     }
 

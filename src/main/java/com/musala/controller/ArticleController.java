@@ -13,6 +13,8 @@ package com.musala.controller;
 
 import com.musala.service.ArticleService;
 import com.musala.view.ArticleView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
+    private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
+
     @Autowired
     ArticleService articleService;
 
@@ -37,6 +41,7 @@ public class ArticleController {
     @RequestMapping(value = {"/{articleID}"}, method = RequestMethod.GET)
     @ResponseBody
     public ArticleView getById(@PathVariable long articleID) {
+        logger.debug("Getting article byID:", articleID);
         return conversionService.convert(articleService.findOne(articleID), ArticleView.class);
     }
 

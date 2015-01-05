@@ -17,10 +17,13 @@ import com.musala.db.Category;
 import com.musala.service.ArticleService;
 import com.musala.service.CategoryService;
 import org.apache.commons.validator.routines.UrlValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -28,6 +31,7 @@ import java.util.Set;
 
 @Component
 public class RssUrlsObserver implements ArticleObserver {
+    private static final Logger logger = LoggerFactory.getLogger(RssUrlsObserver.class);
 
     //Current link which RSSReader finds from the rss. currentLink has to be followed by zero or more categories
     private String currentLink;
@@ -64,7 +68,12 @@ public class RssUrlsObserver implements ArticleObserver {
             if (defaultValidator.isValid(articleInfo.getCategoryName())) {
                 //TODO rename CategoryName to categoryTag
                 Article article = new Article(articleInfo.getCategoryName(), articleInfo.getSite());
-                getTextFromPages.readArticleText(article);
+                try {
+                    getTextFromPages.readArticleText(article);
+                } catch (IOException e) {
+                    articleService.delete(article);
+                    logger.warn("For the article %s following error occurs.", e);
+                }
                 //Check for null category
                 checkForArticleWithoutCategories();
 

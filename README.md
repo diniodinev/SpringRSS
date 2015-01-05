@@ -24,7 +24,7 @@ Headers for POSTMAN <br />
 *Content-Type  application/json*<br />
 URL:<br />
 [http://localhost:8080/RSSRead/rss/site/lentata.com/](http://localhost:8080/RSSRead/rss/site/lentata.com/) <br />
-message:<br />
+message:
 for example<br />
 
  ```JSON
@@ -36,6 +36,7 @@ for example<br />
         "categoryTag": "category2"
   }
   ```
+  
 7. Post new site - POST request<br />
 Headers for POSTMAN <br />
 Content-Type  application/json<br />
@@ -51,7 +52,8 @@ message:<br />
     "textContentTag": "div.desc",
     "categoryTag": "category"
 }
-``` <br />
+``` 
+<br />
 8. Delete site - DELETE request
 URL: <br />
 [http://localhost:8080/RSSRead/rss/site/delete/lentata.com/](http://localhost:8080/RSSRead/rss/site/delete/lentata.com/) <br />

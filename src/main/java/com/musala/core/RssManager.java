@@ -12,21 +12,16 @@ package com.musala.core;
  */
 
 
-import com.musala.db.Category;
 import com.musala.db.Site;
-import com.musala.service.ArticleService;
-import com.musala.service.CategoryService;
 import com.musala.service.SiteService;
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.sql.SQLException;
-import java.util.List;
 
 @Component
 public class RssManager {

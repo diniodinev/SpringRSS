@@ -46,7 +46,7 @@ import java.util.Set;
 @EnableTransactionManagement
 @EnableWebMvc
 @EnableJpaRepositories(basePackages = "com.musala.repository")
-@ComponentScan(basePackages = {"com.musala.service", "com.musala.core", "com.musala.converter", "com.musala.controller", "com.musala.aspects"})
+@ComponentScan(basePackages = {"com.musala.service", "com.musala.core", "com.musala.converter", "com.musala.controller", "com.musala.aspects","com.musala.cron"})
 @PropertySource({"classpath:persistence-h2.properties"})
 public class RssAplicationConfiguration {
 

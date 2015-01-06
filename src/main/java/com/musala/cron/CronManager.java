@@ -11,6 +11,7 @@ package com.musala.cron;
   * Created by dinyo.dinev on 2015.
  */
 
+import org.quartz.CronExpression;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -19,30 +20,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.quartz.CronTriggerBean;
 import org.springframework.scheduling.quartz.JobDetailBean;
 import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 public class CronManager {
     private static final Logger logger = LoggerFactory.getLogger(CronManager.class);
 
     @Autowired
     RefreshDbTask refreshDbTask;
-
-    @Bean
-    public Scheduler scheduler() {
-        Scheduler scheduler = null;
-        try {
-            return new StdSchedulerFactory().getScheduler();
-        } catch (SchedulerException e) {
-            logger.warn("There is a problem with the underlying Scheduler.", e);
-        }
-        return scheduler;
-    }
 
     @Bean
     public JobDetail jobDetailBean() {
@@ -54,5 +46,23 @@ public class CronManager {
         return jobDetailBean;
     }
 
+    @Bean
+    public CronTriggerBean cronTriggerBean() {
+        CronTriggerBean cronTriggerBean = new CronTriggerBean();
+        cronTriggerBean.setJobDetail(jobDetailBean());
+        try {
+            cronTriggerBean.setCronExpression(new CronExpression("0/5 * * * * ?"));
+        } catch (ParseException e) {
+            logger.warn("Cron expression is invalid", e);
+        }
+        return cronTriggerBean;
+    }
 
+    @Bean
+    public SchedulerFactoryBean scheduler() {
+        SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
+        schedulerFactoryBean.setJobDetails(new JobDetail("jobDetails", jobDetailBean().getClass()));
+        schedulerFactoryBean.setTriggers(cronTriggerBean());
+        return schedulerFactoryBean;
+    }
 }

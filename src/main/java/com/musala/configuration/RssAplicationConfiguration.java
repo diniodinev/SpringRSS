@@ -12,6 +12,7 @@ package com.musala.configuration;
  */
 
 import com.google.common.base.Preconditions;
+import com.musala.cron.RefreshDbTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,6 +32,7 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -48,6 +50,7 @@ import java.util.Set;
 @EnableJpaRepositories(basePackages = "com.musala.repository")
 @ComponentScan(basePackages = {"com.musala.service", "com.musala.core", "com.musala.converter", "com.musala.controller", "com.musala.aspects","com.musala.cron"})
 @PropertySource({"classpath:persistence-h2.properties"})
+@EnableScheduling
 public class RssAplicationConfiguration {
 
     @Autowired

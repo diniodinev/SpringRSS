@@ -11,17 +11,23 @@ package com.musala.cron;
   * Created by dinyo.dinev on 2015.
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @Qualifier("refreshDbTask")
 public class RefreshDbTask {
+    private static final Logger logger = LoggerFactory.getLogger(RefreshDbTask.class);
+
     public RefreshDbTask() {
     }
 
+    @Scheduled(fixedRate = 100000)
     public void printMe() {
-        System.out.println("Spring 4 + Quartz 1.8.6 ~");
+        logger.info("Spring 4 + Quartz 1.8.6 ~");
     }
 
 }

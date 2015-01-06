@@ -1,21 +1,19 @@
 package com.musala.service;
 
 
-import com.musala.db.Article;
 import com.musala.db.Site;
 import com.musala.repository.ArticleRepository;
 import com.musala.repository.SiteRepository;
 import com.musala.view.SiteView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 @Service
 public class SiteServiceImpl implements SiteService {
+    private static final Logger logger = LoggerFactory.getLogger(SiteServiceImpl.class);
 
     @Autowired
     private SiteRepository siteRepository;
@@ -40,7 +38,7 @@ public class SiteServiceImpl implements SiteService {
 
     @Override
     public Site save(SiteView siteView) {
-        return siteRepository.save(new Site(siteView.getSiteName(), siteView.getRssLink(), siteView.getRssTag(), siteView.getTitleTag(), siteView.getTextContentTag(), siteView.getCategoryTag()));
+        return siteRepository.save(new Site(siteView.getSiteName(), siteView.getRssLink(), siteView.getRssTag(), siteView.getTitleTag(), siteView.getTextContentTag(), siteView.getCategoryTag(), siteView.getLastVisitDateTag(), siteView.getLastVisitDate()));
     }
 
     @Override
@@ -51,8 +49,8 @@ public class SiteServiceImpl implements SiteService {
     @Override
     @Transactional
     public void update(SiteView newSiteView) {
-        System.out.println("In update Site.");
         if (newSiteView.getSiteName() == null) {
+            logger.info("Trying to update Site with null SiteView :" + newSiteView);
             return;
         }
         if (!siteRepository.exists(newSiteView.getSiteName())) {
@@ -65,6 +63,24 @@ public class SiteServiceImpl implements SiteService {
             oldEntity.setRssTag(newSiteView.getRssTag());
             oldEntity.setTitleTag(newSiteView.getTitleTag());
         }
+    }
+
+    @Override
+    @Transactional
+    public void updateLastVisitDate(Site site, String lastVisit) {
+        if (lastVisit == null && lastVisit.isEmpty()) {
+            logger.info("Trying to update lastVisitDate with not meaningful String :" + lastVisit);
+            return;
+        }
+        if (!siteRepository.exists(site.getSiteName())) {
+            logger.info("Create new site object in the DB instead of only update lastVisitDate");
+            site.setLastVisitDate(lastVisit);
+            save(site);
+        } else {
+            Site oldEntity = siteRepository.findOne(site.getSiteName());
+            oldEntity.setLastVisitDate(lastVisit);
+        }
+
     }
 
     public SiteRepository getSiteRepository() {

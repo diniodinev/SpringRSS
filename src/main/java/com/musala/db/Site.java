@@ -20,13 +20,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "SITE")
 public class Site implements Serializable {
 
-    private static final long serialVersionUID = -123141221324478L;
+    private static final long serialVersionUID = -123141221324479L;
 
     @Id
     @Column(name = "SITE_NAME", nullable = false, length = 256)
@@ -47,6 +48,12 @@ public class Site implements Serializable {
     @Column(name = "CATEGORY_TAG", nullable = true, length = 128)
     private String categoryTag;
 
+    @Column(name = "LAST_VISIT_DATE_TAG", nullable = true, length = 128)
+    private String lastVisitDateTag;
+
+    @Column(name = "LAST_VISIT_DATE", nullable = true)
+    private String lastVisitDate;
+
     //TODO fetch = FetchType.Lazy
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "site")
     private List<Article> articlesFromCite = new ArrayList<Article>();
@@ -54,13 +61,15 @@ public class Site implements Serializable {
     public Site() {
     }
 
-    public Site(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag) {
+    public Site(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag, String lastVisitDateTag, String lastVisitDate) {
         this.siteName = siteName;
         this.rssLink = rssLink;
         this.rssTag = rssTag;
         this.titleTag = titleTag;
         this.textContentTag = textContentTag;
         this.categoryTag = categoryTag;
+        this.lastVisitDateTag = lastVisitDateTag;
+        this.lastVisitDate = lastVisitDate;
     }
 
     public String getSiteName() {
@@ -119,4 +128,19 @@ public class Site implements Serializable {
         this.articlesFromCite = articlesFromCite;
     }
 
+    public String getLastVisitDateTag() {
+        return lastVisitDateTag;
+    }
+
+    public void setLastVisitDateTag(String lastVisitDateTag) {
+        this.lastVisitDateTag = lastVisitDateTag;
+    }
+
+    public String getLastVisitDate() {
+        return lastVisitDate;
+    }
+
+    public void setLastVisitDate(String lastVisitDate) {
+        this.lastVisitDate = lastVisitDate;
+    }
 }

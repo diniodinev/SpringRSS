@@ -13,6 +13,8 @@ package com.musala.core;
 
 import com.musala.db.Site;
 import com.musala.service.SiteServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
@@ -29,6 +31,7 @@ import java.util.List;
 
 @Component
 public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
+    private static final Logger logger = LoggerFactory.getLogger(RssProcessorImpl.class);
 
     @Autowired
     List<ArticleObserver> observers;
@@ -80,16 +83,28 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
         if (qName.equalsIgnoreCase(site.getCategoryTag())) {
             CURRENT_TAG = TagType.CATEGORY;
         }
+
+        if (qName.equalsIgnoreCase(site.getLastVisitDateTag())) {
+            CURRENT_TAG = TagType.LAST_VISIT;
+        }
+
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) {
+
+        if (CURRENT_TAG == TagType.LAST_VISIT) {
+            logger.info("---------------------> Last rss change form the rss feed=" + CURRENT_TAG + " " + text.toString());
+            site.setLastVisitDate(text.toString());
+        }
+
         if (CURRENT_TAG != null) {
             articleInfo.setCategoryName(text.toString());
             articleInfo.setTagType(CURRENT_TAG);
             articleInfo.setSite(site);
             notifyAllObservers();
         }
+
         CURRENT_TAG = null;
     }
 

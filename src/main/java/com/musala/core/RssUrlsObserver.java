@@ -65,7 +65,7 @@ public class RssUrlsObserver implements ArticleObserver {
         }
         if (articleInfo.getTagType() == TagType.LINK) {
             UrlValidator defaultValidator = new UrlValidator();
-            if (defaultValidator.isValid(articleInfo.getCategoryName())) {
+            if (defaultValidator.isValid(articleInfo.getCategoryName())) {//getCategoryName() have URL information
                 //TODO rename CategoryName to categoryTag
                 Article article = new Article(articleInfo.getCategoryName(), articleInfo.getSite());
                 try {

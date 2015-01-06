@@ -29,4 +29,6 @@ public interface SiteService {
 
     public void update(SiteView newSiteView);
 
+    public  void updateLastVisitDate(Site site, String lastVisit);
+
 }

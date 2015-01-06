@@ -1,5 +1,5 @@
 --insert into SITE(SITE_NAME,RSS_LINK,RSS_TAG,TITLE_TAG,TEXT_CONTENT_TAG, CATEGORY_TAG) values('lentata.com', 'http://lentata.com/other/rss_dirbg.xml', 'link','title', 'div.desc', 'category');
-insert into SITE(SITE_NAME,RSS_LINK,RSS_TAG,TITLE_TAG,TEXT_CONTENT_TAG, CATEGORY_TAG) values('technews.bg','http://technews.bg/feed','link', 'h1', 'div.entry-content', 'category');
+insert into SITE(SITE_NAME,RSS_LINK,RSS_TAG,TITLE_TAG,TEXT_CONTENT_TAG, CATEGORY_TAG, LAST_VISIT_DATE_TAG) values('technews.bg','http://technews.bg/feed','link', 'h1', 'div.entry-content', 'category','lastBuildDate');
 --insert into SITE(SITE_NAME,RSS_LINK,RSS_TAG,TITLE_TAG,TEXT_CONTENT_TAG) values('computerworld.bg', 'http://feeds.feedburner.com/computerworldbgnews?format=xml', 'feedburner:origLink', 'h1', 'div.article_text');
 
 

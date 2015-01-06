@@ -12,6 +12,8 @@ package com.musala.view;
  */
 
 
+import java.util.Date;
+
 public class SiteView {
 
     private String siteName;
@@ -20,17 +22,21 @@ public class SiteView {
     private String titleTag;
     private String textContentTag;
     private String categoryTag;
+    private String lastVisitDateTag;
+    private String lastVisitDate;
 
     public SiteView() {
     }
 
-    public SiteView(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag) {
+    public SiteView(String siteName, String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag, String lastVisitDateTag, String lastVisitDate) {
         this.siteName = siteName;
         this.rssLink = rssLink;
         this.rssTag = rssTag;
         this.titleTag = titleTag;
         this.textContentTag = textContentTag;
         this.categoryTag = categoryTag;
+        this.lastVisitDateTag = lastVisitDateTag;
+        this.lastVisitDate = lastVisitDate;
     }
 
     public SiteView(String siteName, SiteUpdateView siteUpdateView) {
@@ -40,6 +46,8 @@ public class SiteView {
         this.rssTag = siteUpdateView.getRssTag();
         this.titleTag = siteUpdateView.getTitleTag();
         this.textContentTag = siteUpdateView.getTextContentTag();
+        this.lastVisitDateTag = siteUpdateView.getLastVisitDateTag();
+        this.lastVisitDate = siteUpdateView.getLastVisitDate();
     }
 
     public String getSiteName() {
@@ -90,12 +98,33 @@ public class SiteView {
         this.categoryTag = categoryTag;
     }
 
+    public String getLastVisitDateTag() {
+        return lastVisitDateTag;
+    }
+
+    public void setLastVisitDateTag(String lastVisitDateTag) {
+        this.lastVisitDateTag = lastVisitDateTag;
+    }
+
+    public String getLastVisitDate() {
+        return lastVisitDate;
+    }
+
+    public void setLastVisitDate(String lastVisitDate) {
+        this.lastVisitDate = lastVisitDate;
+    }
+
     @Override
     public String toString() {
-        return "SiteView [siteName=" + siteName + ", rssLink=" + rssLink + ", rssTag=" + rssTag + ", titleTag="
-            + titleTag + ", textContentTag=" + textContentTag + ", categoryTag=" + categoryTag + "]";
+        return "SiteView{" +
+                "siteName='" + siteName + '\'' +
+                ", rssLink='" + rssLink + '\'' +
+                ", rssTag='" + rssTag + '\'' +
+                ", titleTag='" + titleTag + '\'' +
+                ", textContentTag='" + textContentTag + '\'' +
+                ", categoryTag='" + categoryTag + '\'' +
+                ", lastVisitDateTag='" + lastVisitDateTag + '\'' +
+                ", lastVisitDate=" + lastVisitDate +
+                '}';
     }
-    
-    
-
 }

@@ -13,7 +13,7 @@ package com.musala.core;
 
 public enum TagType {
 
-    LINK("link"), CATEGORY("category");
+    LINK("link"), CATEGORY("category"),LAST_VISIT("lastVisit");
 
     private String name;
 

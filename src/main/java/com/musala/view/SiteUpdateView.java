@@ -12,22 +12,28 @@ package com.musala.view;
  */
 
 
+import java.util.Date;
+
 public class SiteUpdateView {
     private String rssLink;
     private String rssTag;
     private String titleTag;
     private String textContentTag;
     private String categoryTag;
+    private String lastVisitDateTag;
+    private String lastVisitDate;
 
     public SiteUpdateView() {
     }
 
-    public SiteUpdateView(String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag) {
+    public SiteUpdateView(String rssLink, String rssTag, String titleTag, String textContentTag, String categoryTag, String lastVisitDateTag, String lastVisitDate) {
         this.rssLink = rssLink;
         this.rssTag = rssTag;
         this.titleTag = titleTag;
         this.textContentTag = textContentTag;
         this.categoryTag = categoryTag;
+        this.lastVisitDateTag = lastVisitDateTag;
+        this.lastVisitDate = lastVisitDate;
     }
 
     public String getRssLink() {
@@ -68,5 +74,21 @@ public class SiteUpdateView {
 
     public void setCategoryTag(String categoryTag) {
         this.categoryTag = categoryTag;
+    }
+
+    public String getLastVisitDateTag() {
+        return lastVisitDateTag;
+    }
+
+    public void setLastVisitDateTag(String lastVisitDateTag) {
+        this.lastVisitDateTag = lastVisitDateTag;
+    }
+
+    public String getLastVisitDate() {
+        return lastVisitDate;
+    }
+
+    public void setLastVisitDate(String lastVisitDate) {
+        this.lastVisitDate = lastVisitDate;
     }
 }

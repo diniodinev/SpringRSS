@@ -384,6 +384,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18</version>
                 <configuration>
                     <useFile>false</useFile>
                     <includes>
@@ -468,6 +469,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -481,16 +483,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <port>9090</port>
-                    <path>/</path>
-                </configuration>
             </plugin>
 
             <plugin>

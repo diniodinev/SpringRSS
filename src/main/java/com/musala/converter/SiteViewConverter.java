@@ -28,6 +28,6 @@ public class SiteViewConverter implements Converter<Site, SiteView> {
 
     @Override
     public SiteView convert(Site site) {
-        return new SiteView(site.getSiteName(), site.getRssLink(), site.getRssTag(), site.getTitleTag(), site.getTextContentTag(), site.getCategoryTag());
+        return new SiteView(site.getSiteName(), site.getRssLink(), site.getRssTag(), site.getTitleTag(), site.getTextContentTag(), site.getCategoryTag(),site.getLastVisitDateTag(), site.getLastVisitDate());
     }
 }

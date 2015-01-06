@@ -39,6 +39,11 @@ public class RssManager {
             subject.processRss(rssFeedSite);
         }
 
+
+    }
+
+    @PostConstruct
+    public void startServer() {
         //TODO For testing purposes only, to be deleted
         Server server = null;
         try {

@@ -20,6 +20,8 @@
         <commons-dbcp.commons-dbcp.version>1.4</commons-dbcp.commons-dbcp.version>
         <spock.spring.version>0.7-groovy-2.0</spock.spring.version>
         <groovyVersion>2.3.6</groovyVersion>
+        <slf4j.version>1.7.7</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
         <jackson.version>2.4.2</jackson.version>
         <javax.servlet.api.version>3.0.1</javax.servlet.api.version>
         <checkstyle.config.location>${basedir}/src/main/resources/checkstyle/checkstyle.xml</checkstyle.config.location>
@@ -131,12 +133,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>1.1.7.RELEASE</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator.version}</version>
@@ -222,6 +218,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>1.1.5.RELEASE</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>log4j-over-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Spring MVC -->

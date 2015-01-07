@@ -64,7 +64,8 @@ public class GetTextFromPages {
      */
     private Document getDocument(final String link) throws IOException {
         if (!new UrlValidator().isValid(link)) {
-            return Jsoup.parse(link);
+            logger.warn("Link {} is not a valid URL", link);
+            return null;
         }
         return Jsoup.connect(link).userAgent("Mozilla").get();
     }

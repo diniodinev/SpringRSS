@@ -27,6 +27,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article findByLink(String link) {
+
         return articleRepository.findByLink(link);
     }
 
@@ -49,4 +50,5 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> findByKeyWord(String keyWord) {
         return articleRepository.findByKeyWord(keyWord);
     }
+
 }

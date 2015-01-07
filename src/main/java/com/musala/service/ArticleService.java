@@ -28,4 +28,5 @@ public interface ArticleService {
     public Article findOne(long id);
 
     public List<Article> findByKeyWord(String keyWord);
+
 }

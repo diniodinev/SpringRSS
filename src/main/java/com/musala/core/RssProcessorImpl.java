@@ -12,6 +12,7 @@ package com.musala.core;
  */
 
 import com.musala.db.Site;
+import com.musala.service.ArticleService;
 import com.musala.service.SiteServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,9 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
 
     @Autowired
     private ArticleInfo articleInfo;
+
+    @Autowired
+    private ArticleService articleService;
 
     private StringBuilder text = new StringBuilder();
 
@@ -97,8 +101,19 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
             logger.info("---------------------> Last rss change form the rss feed=" + CURRENT_TAG + " " + text.toString());
             site.setLastVisitDate(text.toString());
         }
+        if (CURRENT_TAG == TagType.LINK) {
+            if (articleService.findByLink(text.toString()) == null) {
+                logger.info("---------------------> Article {} will be saved in the DB", text.toString());
+                articleInfo.setCategoryName(text.toString());
+                articleInfo.setTagType(CURRENT_TAG);
+                articleInfo.setSite(site);
+                notifyAllObservers();
+            } else {
+                logger.warn("Article {} is will not be saved in the DB, because it already exists.", text.toString());
+            }
+        }
 
-        if (CURRENT_TAG != null) {
+        if (CURRENT_TAG == TagType.CATEGORY) {
             articleInfo.setCategoryName(text.toString());
             articleInfo.setTagType(CURRENT_TAG);
             articleInfo.setSite(site);

@@ -12,5 +12,5 @@ package com.musala.core;
  */
 
 public interface ArticleObserver {
-    public void update();
+    public void update(ArticleInfo articleInfo);
 }

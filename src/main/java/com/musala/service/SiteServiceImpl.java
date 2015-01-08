@@ -90,4 +90,12 @@ public class SiteServiceImpl implements SiteService {
     public void setSiteRepository(SiteRepository siteRepository) {
         this.siteRepository = siteRepository;
     }
+
+    public ArticleRepository getArticleRepository() {
+        return articleRepository;
+    }
+
+    public void setArticleRepository(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
+    }
 }

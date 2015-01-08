@@ -18,8 +18,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LastVisitDateObserver implements ArticleObserver {
-    @Autowired
-    private RssProcessor rssProcessor;
 
     @Autowired
     private SiteService siteService;
@@ -28,23 +26,13 @@ public class LastVisitDateObserver implements ArticleObserver {
     }
 
     @Override
-    public void update() {
-        ArticleInfo articleInfo;
-        articleInfo = rssProcessor.getUpdate();
+    public void update( ArticleInfo articleInfo) {
         if (articleInfo.getTagType() == TagType.LAST_VISIT) {
             if (articleInfo.getSite().getLastVisitDateTag() != null && !articleInfo.getCategoryName().isEmpty()) {
                 // categoryService.save(articleInfo.getCategoryName());
                 siteService.updateLastVisitDate(articleInfo.getSite(), articleInfo.getSite().getLastVisitDate());
             }
         }
-    }
-
-    public RssProcessor getRssProcessor() {
-        return rssProcessor;
-    }
-
-    public void setRssProcessor(RssProcessor rssProcessor) {
-        this.rssProcessor = rssProcessor;
     }
 
     public SiteService getSiteService() {
@@ -58,8 +46,7 @@ public class LastVisitDateObserver implements ArticleObserver {
     @Override
     public String toString() {
         return "LastVisitDateObserver{" +
-                "rssProcessor=" + rssProcessor +
-                ", siteService=" + siteService +
+                "siteService=" + siteService +
                 '}';
     }
 }

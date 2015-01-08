@@ -22,18 +22,13 @@ import javax.annotation.PostConstruct;
 public class CategoryObserver implements ArticleObserver {
 
     @Autowired
-    private RssProcessor rssProcessor;
-
-    @Autowired
     private CategoryService categoryService;
 
     public CategoryObserver() {
     }
 
     @Override
-    public void update() {
-        ArticleInfo articleInfo;
-        articleInfo = rssProcessor.getUpdate();
+    public void update(ArticleInfo articleInfo) {
         if (articleInfo.getTagType() == TagType.CATEGORY) {
             if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty()) {
                 categoryService.save(articleInfo.getCategoryName());
@@ -44,14 +39,6 @@ public class CategoryObserver implements ArticleObserver {
     @PostConstruct
     private void addDefaultCategory() {
         categoryService.save(new Category("none"));
-    }
-
-    public RssProcessor getRssProcessor() {
-        return rssProcessor;
-    }
-
-    public void setRssProcessor(RssProcessor rssProcessor) {
-        this.rssProcessor = rssProcessor;
     }
 
     public CategoryService getCategoryService() {

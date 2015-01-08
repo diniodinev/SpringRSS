@@ -47,13 +47,33 @@ public class RssUrlsObserver implements ArticleObserver {
 
     private ArticleInfo articleInfo;
 
-    @Autowired
-    private RssProcessor rssProcessor;
+    public ArticleService getArticleService() {
+        return articleService;
+    }
+
+    public void setArticleService(ArticleService articleService) {
+        this.articleService = articleService;
+    }
+
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    public GetTextFromPages getGetTextFromPages() {
+        return getTextFromPages;
+    }
+
+    public void setGetTextFromPages(GetTextFromPages getTextFromPages) {
+        this.getTextFromPages = getTextFromPages;
+    }
 
     @Override
     @Transactional
-    public void update() {
-        articleInfo = rssProcessor.getUpdate();
+    public void update(ArticleInfo articleInfo) {
 
         if (articleInfo.getTagType() == TagType.CATEGORY) {
             if (articleInfo.getCategoryName() != null && !articleInfo.getCategoryName().isEmpty() && articleInfo.getCategoryName() != null) {
@@ -104,13 +124,4 @@ public class RssUrlsObserver implements ArticleObserver {
             }
         }
     }
-
-    public RssProcessor getRssProcessor() {
-        return rssProcessor;
-    }
-
-    public void setRssProcessor(RssProcessor rssProcessor) {
-        this.rssProcessor = rssProcessor;
-    }
-
 }

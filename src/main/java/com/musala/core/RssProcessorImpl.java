@@ -35,7 +35,7 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
     private static final Logger logger = LoggerFactory.getLogger(RssProcessorImpl.class);
 
     @Autowired
-    List<ArticleObserver> observers;
+    private List<ArticleObserver> observers;
 
     private Site site;
 
@@ -65,6 +65,22 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
 
     public void setSiteNameKey(String siteNameKey) {
         this.siteNameKey = siteNameKey;
+    }
+
+    public ArticleInfo getArticleInfo() {
+        return articleInfo;
+    }
+
+    public void setArticleInfo(ArticleInfo articleInfo) {
+        this.articleInfo = articleInfo;
+    }
+
+    public ArticleService getArticleService() {
+        return articleService;
+    }
+
+    public void setArticleService(ArticleService articleService) {
+        this.articleService = articleService;
     }
 
     @Override
@@ -166,7 +182,7 @@ public class RssProcessorImpl extends DefaultHandler implements RssProcessor {
     @Override
     public void notifyAllObservers() {
         for (ArticleObserver articleObserver : observers) {
-            articleObserver.update();
+            articleObserver.update(getArticleInfo());
         }
     }
 

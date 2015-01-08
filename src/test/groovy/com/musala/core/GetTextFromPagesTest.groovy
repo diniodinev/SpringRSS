@@ -5,15 +5,22 @@ import com.musala.db.Category
 import com.musala.db.Site
 import com.musala.repository.ArticleRepository
 import com.musala.repository.SiteRepository
+import com.musala.service.ArticleService
 import com.musala.service.CategoryServiceImpl
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.test.annotation.Rollback
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.transaction.annotation.Transactional
 import spock.lang.Ignore
 import spock.lang.Specification
 import com.musala.testutils.DatabaseTestConfiguration
+import com.musala.testutils.GetTextFromPagesTestConfiguration
+import spock.lang.*
 
 //import com.musala.testutils.GetTextFromPagesConfiguration
 
@@ -28,13 +35,12 @@ import com.musala.testutils.DatabaseTestConfiguration
  *
   * Created by dinyo.dinev on 2014.
  */
-//@ContextConfiguration(classes = [GetTextFromPagesConfiguration.class, DatabaseTestConfiguration.class])
+@ContextConfiguration(classes = [DatabaseTestConfiguration.class,GetTextFromPagesTestConfiguration.class])
 @EnableJpaRepositories(basePackages = "com.musala.repository")
-@ComponentScan(basePackages = "com.musala.core")
+@Transactional
 class GetTextFromPagesTest extends Specification {
 
-    @Autowired
-    GetTextFromPages getTextUnderTest
+    GetTextFromPages getTextUnderTest = new GetTextFromPages()
 
     SiteRepository siteRepository
     ArticleRepository articleRepository
@@ -45,17 +51,44 @@ class GetTextFromPagesTest extends Specification {
 
     def setup() {
         getTextUnderTest = new GetTextFromPages()
-        siteRepository = Mock(SiteRepository)
-        articleRepository = Mock(ArticleRepository)
-        categoryServiceImpl = Mock(CategoryServiceImpl)
+        def articleService = Mock(ArticleService)
 
-//        getTextUnderTest.siteRepository = siteRepository
-//        getTextUnderTest.articleRepository = articleRepository
-//        getTextUnderTest.categoryService = categoryServiceImpl
-//        getTextUnderTest.articlesCategories = articlesCategories
+        getTextUnderTest.articleService = articleService
     }
 
-    def "test add Document()"() {
+    @Rollback
+    def 'check extractArticleInformation() is working properly '() {
+        given:
+        def document = Mock(Document)
+        def elements = Mock(Elements)
+        def element = Mock(Element)
+        def article = new Article()
+
+        Site site = new Site('technews.bg','http://technews.bg/feed','link', 'h1', 'div.entry-content', 'category','lastBuildDate','1.1.2015')
+
+        when:
+
+        article.setSite(site)
+        elements.first() >> element
+        element.text() >> "some text"
+        document.select(_ as String) >> elements
+        getTextUnderTest.extractArticleInformation(document, article)
+        then:
+        article.getPublicationDate() !=null
+
+    }
+
+    def 'check if  readArticleText() is called properly'() {
+        given:
+        def article = Mock(Article)
+        def getTextFromPages = Mock(GetTextFromPages)
+        when:
+        getTextFromPages.readArticleText(article)
+        then:
+        0 * getTextFromPages.extractArticleInformation(_)
+    }
+
+    def "test getDocument() with correct/incorrect URL"() {
         when:
         def wrong = "2.41.32.324"
         then:
@@ -65,7 +98,6 @@ class GetTextFromPagesTest extends Specification {
         def right = "http://www.foo.boo.com"
         then:
         getTextUnderTest.getDocument(right) instanceof Document
-
     }
 
     @Ignore

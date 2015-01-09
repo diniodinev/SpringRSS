@@ -32,29 +32,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 @ComponentScan(basePackages = {"com.musala.core", "com.musala.repository"})
+@EnableJpaRepositories
 public class GetTextFromPagesTestConfiguration {
     //TODO not do it right must return direct Repository implementation but it is only interface
     //For next 3 methods
-    @Bean
-    public SiteRepository siteRepository() {
-        return new SiteServiceImpl().getSiteRepository();
-    }
-
-    @Bean
-    public CategoryRepository categoryRepository() {
-        return new CategoryServiceImpl().getCategoryRepository();
-    }
-
-    @Bean
-    public ArticleRepository articleRepository() {
-        return new ArticleServiceImpl().getArticleRepository();
-    }
+//    @Bean
+//    public SiteRepository siteRepository() {
+//        return new SiteServiceImpl().getSiteRepository();
+//    }
+//
+//    @Bean
+//    public CategoryRepository categoryRepository() {
+//        return new CategoryServiceImpl().getCategoryRepository();
+//    }
+//
+//    @Bean
+//    public ArticleRepository articleRepository() {
+//        return new ArticleServiceImpl().getArticleRepository();
+//    }
 
     @Bean
     public ArticleService articleService() {
@@ -79,22 +81,22 @@ public class GetTextFromPagesTestConfiguration {
     @Bean
     public SiteServiceImpl siteServiceImpl(){
         SiteServiceImpl siteServiceImpl = new SiteServiceImpl();
-        siteServiceImpl.setSiteRepository(siteRepository());
-        siteServiceImpl.setArticleRepository(articleRepository());
+        //siteServiceImpl.setSiteRepository(siteRepository());
+        //siteServiceImpl.setArticleRepository(articleRepository());
         return siteServiceImpl;
     }
 
     @Bean
     public CategoryServiceImpl categoryServiceImpl(){
         CategoryServiceImpl categoryServiceImpl = new CategoryServiceImpl();
-        categoryServiceImpl.setCategoryRepository(categoryRepository());
+        //categoryServiceImpl.setCategoryRepository(categoryRepository());
         return categoryServiceImpl;
     }
 
     @Bean
     public ArticleServiceImpl articleServiceImpl() {
         ArticleServiceImpl articleServiceImpl = new ArticleServiceImpl();
-        articleServiceImpl.setArticleRepository(articleRepository());
+        //articleServiceImpl.setArticleRepository(articleRepository());
         return articleServiceImpl;
     }
 
